@@ -1,4 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Internet permisson for Android -->
+    <uses-permission android:name="android.permission.INTERNET"/>  
+    
     <application
         android:label="wildx_frontend"
         android:name="${applicationName}"
