@@ -101,7 +101,7 @@ final UserProfile sampleUser = UserProfile(
     ),
   ],
 );
-
+   // User Profile Screen UI
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({super.key});
 
