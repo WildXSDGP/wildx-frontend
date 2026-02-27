@@ -487,7 +487,7 @@ class _UserProfileScreenState extends State<UserProfileScreen>
     );
   }
 }
-
+  // Badge Grid and XP Bar
 class _BadgeCard extends StatefulWidget {
   final BadgeItem badge;
   const _BadgeCard({required this.badge});
