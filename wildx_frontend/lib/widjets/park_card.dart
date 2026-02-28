@@ -96,3 +96,26 @@ class _ParkInfo extends StatelessWidget {
     );
   }
 }
+
+class _IconRow extends StatelessWidget {
+  final IconData icon;
+  final String text;
+
+  const _IconRow({required this.icon, required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Icon(icon, size: 16, color: Colors.grey),
+        const SizedBox(width: 4),
+        Expanded(
+          child: Text(
+            text,
+            style: TextStyle(color: Colors.grey[600], fontSize: 14),
+          ),
+        ),
+      ],
+    );
+  }
+}
