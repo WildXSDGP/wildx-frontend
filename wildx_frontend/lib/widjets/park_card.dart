@@ -33,3 +33,32 @@ class ParkCard extends StatelessWidget {
     );
   }
 }
+
+class _ParkImage extends StatelessWidget {
+  final String imageUrl;
+
+  const _ParkImage({required this.imageUrl});
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: const BorderRadius.only(
+        topLeft: Radius.circular(16),
+        topRight: Radius.circular(16),
+      ),
+      child: Image.network(
+        imageUrl,
+        height: 200,
+        width: double.infinity,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          return Container(
+            height: 200,
+            color: Colors.grey[300],
+            child: const Icon(Icons.park, size: 64, color: Colors.grey),
+          );
+        },
+      ),
+    );
+  }
+}
