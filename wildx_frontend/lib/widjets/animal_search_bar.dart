@@ -49,3 +49,36 @@ class AnimalSearchBar extends StatelessWidget {
     );
   }
 }
+
+class _AnimalDropdown extends StatelessWidget {
+  final String? selectedAnimal;
+  final List<String> animalTypes;
+  final ValueChanged<String?> onChanged;
+
+  const _AnimalDropdown({
+    required this.selectedAnimal,
+    required this.animalTypes,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: DropdownButton<String>(
+        isExpanded: true,
+        value: selectedAnimal,
+        hint: const Text('Select an animal'),
+        underline: const SizedBox(),
+        items: animalTypes.map((animal) {
+          return DropdownMenuItem(value: animal, child: Text(animal));
+        }).toList(),
+        onChanged: onChanged,
+      ),
+    );
+  }
+}
