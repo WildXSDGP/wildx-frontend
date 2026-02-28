@@ -62,3 +62,37 @@ class _ParkImage extends StatelessWidget {
     );
   }
 }
+
+class _ParkInfo extends StatelessWidget {
+  final NationalPark park;
+
+  const _ParkInfo({required this.park});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            park.name,
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 8),
+          _IconRow(icon: Icons.location_on, text: park.location),
+          const SizedBox(height: 8),
+          _IconRow(
+            icon: Icons.access_time,
+            text: '${park.openingTime} - ${park.closingTime}',
+          ),
+          const SizedBox(height: 8),
+          _IconRow(
+            icon: Icons.monetization_on,
+            text: 'LKR ${park.entryFee.toStringAsFixed(2)}',
+          ),
+        ],
+      ),
+    );
+  }
+}
