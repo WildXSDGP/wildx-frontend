@@ -68,6 +68,17 @@ class ParkDetailsScreen extends StatelessWidget {
                   const _SectionTitle(title: 'Wildlife'),
                   const SizedBox(height: 8),
                   _AnimalChips(animals: park.animalTypes),
+
+                  const SizedBox(height: 24),
+
+                  // Rules
+                  const _SectionTitle(title: 'Rules & Regulations'),
+                  const SizedBox(height: 8),
+                  ...park.rulesAndRegulations
+                      .map((rule) => RuleItem(rule: rule))
+                      .toList(),
+
+                  const SizedBox(height: 24),
                 ],
               ),
             ),
