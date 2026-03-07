@@ -26,6 +26,15 @@ class _ParkSearchScreenState extends State<ParkSearchScreen> {
   bool _loadingParks = false;
   String? _parkLoadError;
 
+  void _onAnimalChanged(String? value) {
+    setState(() {
+      _selectedAnimal = value;
+      _hasSearched = false;
+      _parks = [];
+      _parkLoadError = null;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
