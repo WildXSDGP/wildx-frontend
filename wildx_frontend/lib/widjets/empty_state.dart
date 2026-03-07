@@ -27,6 +27,18 @@ class ResultNotFoundState extends StatelessWidget {
     : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Center();
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.park_outlined, size: 64, color: Colors.grey[400]),
+          const SizedBox(height: 16),
+          Text(
+            'No parks found for "$animalName"',
+            style: TextStyle(color: Colors.grey[600], fontSize: 16),
+          ),
+        ],
+      ),
+    );
   }
 }
