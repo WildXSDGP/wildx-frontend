@@ -54,3 +54,13 @@ class _SectionTitle extends StatelessWidget {
     );
   }
 }
+
+class _AnimalChips extends StatelessWidget {
+  final List<String> animals;
+  const _AnimalChips({required this.animals});
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
+  }
+}
