@@ -49,6 +49,19 @@ class _ParkSearchScreenState extends State<ParkSearchScreen> {
       _parkLoadError = null;
       _parks = [];
     });
+
+    try {
+      final parks = await _parkService.searchParkByAnumal(_selectedAnimal!);
+      setState(() {
+        _parks = parks;
+        _loadingParks = false;
+      });
+    } catch (e) {
+      setState(() {
+        _parkLoadError = 'Failed to load parks. Please try again.';
+        _loadingParks = false;
+      });
+    }
   }
 
   @override
