@@ -20,6 +20,7 @@ class EmptySearchState extends StatelessWidget {
 }
 
 class ResultNotFoundState extends StatelessWidget {
+  final String animal;
   @override
   Widget build(BuildContext context) {
     return Center();
