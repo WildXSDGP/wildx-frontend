@@ -9,8 +9,27 @@ class ParkDetailsScreen extends StatelessWidget {
   const ParkDetailsScreen({Key? key, required this.park}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          _ParkSliverAppBar(park: park),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  // About
+                  const _SectionTitle(title: 'About'),
+                  const SizedBox(height: 8),
+                  Text(park.description),
+                  const SizedBox(height: 24),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 
