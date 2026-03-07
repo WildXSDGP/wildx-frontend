@@ -23,6 +23,31 @@ class ParkDetailsScreen extends StatelessWidget {
                   const SizedBox(height: 8),
                   Text(park.description),
                   const SizedBox(height: 24),
+
+                  // Info Cards
+                  InfoCard(
+                    icon: Icons.location_on,
+                    label: 'Location',
+                    value: park.location,
+                  ),
+
+                  InfoCard(
+                    icon: Icons.access_time,
+                    label: 'Timing',
+                    value: '${park.openingTime} - ${park.closingTime}',
+                  ),
+
+                  InfoCard(
+                    icon: Icons.monetization_on,
+                    label: 'Entry Fee',
+                    value: 'LKR ${park.entryFee.toStringAsFixed(2)}',
+                  ),
+
+                  InfoCard(
+                    icon: Icons.straighten,
+                    label: 'Park Size',
+                    value: '${park.sizeInHectares.toStringAsFixed(0)} hectares',
+                  ),
                 ],
               ),
             ),
