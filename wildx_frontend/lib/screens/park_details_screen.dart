@@ -63,6 +63,11 @@ class ParkDetailsScreen extends StatelessWidget {
                     label: 'Email',
                     value: park.email,
                   ),
+                  const SizedBox(height: 24),
+                  // Wildlife
+                  const _SectionTitle(title: 'Wildlife'),
+                  const SizedBox(height: 8),
+                  _AnimalChips(animals: park.animalTypes),
                 ],
               ),
             ),
