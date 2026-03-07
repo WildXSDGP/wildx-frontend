@@ -35,6 +35,15 @@ class _ParkSearchScreenState extends State<ParkSearchScreen> {
     });
   }
 
+  Future<void> _searchParks() async {
+    if (_selectedAnimal == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please select an animal first')),
+      );
+      return;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
