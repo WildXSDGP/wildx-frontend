@@ -13,3 +13,14 @@ class ParkDetailsScreen extends StatelessWidget {
     throw UnimplementedError();
   }
 }
+
+class _ParkSliverAppBar extends StatelessWidget {
+  final NationalPark park;
+
+  const _ParkSliverAppBar({required this.park});
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
+  }
+}
