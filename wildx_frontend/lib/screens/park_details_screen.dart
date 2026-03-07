@@ -48,6 +48,21 @@ class ParkDetailsScreen extends StatelessWidget {
                     label: 'Park Size',
                     value: '${park.sizeInHectares.toStringAsFixed(0)} hectares',
                   ),
+                  InfoCard(
+                    icon: Icons.wb_sunny,
+                    label: 'Best Visiting Season',
+                    value: park.bestVisitingSeason,
+                  ),
+                  InfoCard(
+                    icon: Icons.phone,
+                    label: 'Contact',
+                    value: park.contactNumber,
+                  ),
+                  InfoCard(
+                    icon: Icons.email,
+                    label: 'Email',
+                    value: park.email,
+                  ),
                 ],
               ),
             ),
