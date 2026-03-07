@@ -40,3 +40,17 @@ class _ParkSliverAppBar extends StatelessWidget {
     );
   }
 }
+
+class _SectionTitle extends StatelessWidget {
+  final String title;
+
+  const _SectionTitle({required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      title,
+      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+    );
+  }
+}
