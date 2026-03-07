@@ -60,7 +60,12 @@ class _AnimalChips extends StatelessWidget {
   const _AnimalChips({required this.animals});
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: animals.map((animal) {
+        return Chip(label: Text(animal), backgroundColor: Colors.green[100]);
+      }).toList(),
+    );
   }
 }
