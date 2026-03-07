@@ -18,3 +18,10 @@ class EmptySearchState extends StatelessWidget {
     );
   }
 }
+
+class ResultNotFoundState extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center();
+  }
+}
