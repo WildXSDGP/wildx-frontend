@@ -18,9 +18,25 @@ class _ParkSliverAppBar extends StatelessWidget {
   final NationalPark park;
 
   const _ParkSliverAppBar({required this.park});
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return SliverAppBar(
+      expandedHeight: 300,
+      pinned: true,
+      flexibleSpace: FlexibleSpaceBar(
+        title: Text(park.name),
+        background: Image.network(
+          park.imageUrl,
+          fit: BoxFit.cover,
+          errorBuilder: (context, error, stackTrace) {
+            return Container(
+              color: Colors.grey[300],
+              child: const Icon(Icons.park, size: 100),
+            );
+          },
+        ),
+      ),
+    );
   }
 }
