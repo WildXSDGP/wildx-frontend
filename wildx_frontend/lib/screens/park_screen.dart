@@ -42,13 +42,14 @@ class _ParkSearchScreenState extends State<ParkSearchScreen> {
       );
       return;
     }
-  
+
     setState(() {
       _loadingParks = true;
       _hasSearched = true;
       _parkLoadError = null;
       _parks = [];
     });
+  }
 
   @override
   Widget build(BuildContext context) {
