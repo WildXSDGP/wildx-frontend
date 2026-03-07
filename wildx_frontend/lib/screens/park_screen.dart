@@ -10,8 +10,13 @@ class ParkSearchScreen extends StatefulWidget {
   const ParkSearchScreen({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
+  State<ParkSearchScreen> createState() => _ParkSearchScreenState();
+}
+
+class _ParkSearchScreenState extends State<ParkSearchScreen> {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
     throw UnimplementedError();
   }
 }
