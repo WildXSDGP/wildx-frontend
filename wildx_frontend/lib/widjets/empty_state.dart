@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class EmptySearchState extends StatelessWidget {
+  const EmptySearchState({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -20,7 +21,10 @@ class EmptySearchState extends StatelessWidget {
 }
 
 class ResultNotFoundState extends StatelessWidget {
-  final String animal;
+  final String animalName;
+
+  const ResultNotFoundState({Key? key, required this.animalName})
+    : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Center();
