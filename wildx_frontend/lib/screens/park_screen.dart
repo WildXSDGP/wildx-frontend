@@ -14,6 +14,10 @@ class ParkSearchScreen extends StatefulWidget {
 }
 
 class _ParkSearchScreenState extends State<ParkSearchScreen> {
+  final NationalParkService _parkService = NationalParkService();
+
+  final List<String> _animalTypes = NationalParkData.animalTypes;
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
