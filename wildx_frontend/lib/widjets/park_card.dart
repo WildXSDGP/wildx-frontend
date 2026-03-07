@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/national_park_model.dart';
+import '../screens//park_details_screen.dart';
 
 class ParkCard extends StatelessWidget {
   final NationalPark park;
