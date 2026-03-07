@@ -18,6 +18,14 @@ class _ParkSearchScreenState extends State<ParkSearchScreen> {
 
   final List<String> _animalTypes = NationalParkData.animalTypes;
 
+  String? _selectedAnimal;
+  bool _hasSearched = false;
+
+  // Parks result state
+  List<NationalPark> _parks = [];
+  bool _loadingParks = false;
+  String? _parkLoadError;
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
