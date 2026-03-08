@@ -1,5 +1,5 @@
 
-// Commit 7: Mobile Login Section - Error Handling
+// Commit 8: Mobile Login Section - OTP Send Function
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -33,12 +33,29 @@ class _MobileLoginSectionState extends State<MobileLoginSection> {
     });
   }
 
-  void _onContinue() {
+  // OTP Send Function
+  Future<void> _sendOTP() async {
     if (!_isValid) return;
+
+    final fullNumber = '$_countryCode${_phoneController.text.trim()}';
+
+    // TODO (YALUWA): Connect Firebase here
+    // FirebaseAuth.instance.verifyPhoneNumber(
+    //   phoneNumber: fullNumber,
+    //   verificationCompleted: ...,
+    //   verificationFailed: ...,
+    //   codeSent: (verificationId, resendToken) {
+    //     Navigator.push(context, MaterialPageRoute(
+    //       builder: (_) => OtpVerifyPage(verificationId: verificationId),
+    //     ));
+    //   },
+    //   codeAutoRetrievalTimeout: ...,
+    // );
+
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('📲 OTP Sent! (Connect backend here)'),
-        backgroundColor: Color(0xFF4CAF50),
+      SnackBar(
+        content: Text('📲 OTP sent to $fullNumber'),
+        backgroundColor: const Color(0xFF4CAF50),
       ),
     );
   }
@@ -129,7 +146,6 @@ class _MobileLoginSectionState extends State<MobileLoginSection> {
                   ],
                 ),
               ),
-              // Error message
               if (_phoneError != null)
                 Padding(
                   padding: const EdgeInsets.only(top: 4, left: 4),
@@ -147,7 +163,7 @@ class _MobileLoginSectionState extends State<MobileLoginSection> {
         SizedBox(
           width: double.infinity,
           child: ElevatedButton(
-            onPressed: _isValid ? _onContinue : null,
+            onPressed: _isValid ? _sendOTP : null,
             style: ElevatedButton.styleFrom(
               backgroundColor: _isValid ? const Color(0xFF4CAF50) : const Color(0xFFE0E0E0),
               padding: const EdgeInsets.symmetric(vertical: 16),
@@ -167,7 +183,7 @@ class _MobileLoginSectionState extends State<MobileLoginSection> {
                 ),
                 const SizedBox(width: 8),
                 Icon(Icons.arrow_forward, size: 18,
-                  color: _isValid ? Colors.white : Colors.grey.shade500),
+                    color: _isValid ? Colors.white : Colors.grey.shade500),
               ],
             ),
           ),
