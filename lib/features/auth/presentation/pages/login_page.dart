@@ -1,8 +1,3 @@
-// ============================================================
-// Commit 4: Login Page - OR Divider + Biometric Button
-// Author: Savith29
-// ============================================================
-
 import 'package:flutter/material.dart';
 import '../widgets/phone_login_section.dart';
 import '../widgets/email_login_section.dart';
@@ -16,7 +11,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  int _selectedTab = 0;
+  int _selectedTab = 0; // 0 = Phone, 1 = Email
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               const SizedBox(height: 24),
 
-              // App Icon
+              // ── App Icon ──
               Container(
                 width: 80,
                 height: 80,
@@ -41,6 +36,13 @@ class _LoginPageState extends State<LoginPage> {
                     end: Alignment.bottomRight,
                     colors: [Color(0xFF6DB33F), Color(0xFFE07B1A)],
                   ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFF6DB33F).withOpacity(0.35),
+                      blurRadius: 16,
+                      offset: const Offset(0, 6),
+                    ),
+                  ],
                 ),
                 child: const Center(
                   child: Text('🦁', style: TextStyle(fontSize: 40)),
@@ -49,54 +51,112 @@ class _LoginPageState extends State<LoginPage> {
 
               const SizedBox(height: 20),
 
+              // ── Title ──
               const Text(
                 'Welcome to WildX',
                 style: TextStyle(
                   fontSize: 26,
                   fontWeight: FontWeight.w700,
                   color: Color(0xFF1A1A1A),
+                  letterSpacing: -0.5,
                 ),
               ),
               const SizedBox(height: 6),
               const Text(
                 'Login to explore wildlife',
-                style: TextStyle(fontSize: 14, color: Color(0xFF888888)),
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Color(0xFF888888),
+                  fontWeight: FontWeight.w400,
+                ),
               ),
 
               const SizedBox(height: 36),
 
-              // Tab Switcher
+              // ── Tab Switcher ──
               Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.06),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
                 ),
                 child: Row(
                   children: [
-                    _buildTab(index: 0, icon: Icons.phone_outlined, label: 'Phone'),
-                    _buildTab(index: 1, icon: Icons.email_outlined, label: 'Email'),
+                    _buildTab(
+                      index: 0,
+                      icon: Icons.phone_outlined,
+                      label: 'Phone',
+                    ),
+                    _buildTab(
+                      index: 1,
+                      icon: Icons.email_outlined,
+                      label: 'Email',
+                    ),
                   ],
                 ),
               ),
 
+              const SizedBox(height: 24),
+
+              // ── Tab Content ──
+              AnimatedSwitcher(
+                duration: const Duration(milliseconds: 250),
+                child: _selectedTab == 0
+                    ? PhoneLoginSection(key: ValueKey('phone'))
+                    : EmailLoginSection(key: ValueKey('email')),
+              ),
+
               const SizedBox(height: 28),
 
-              // OR Divider
+              // ── OR Divider ──
               Row(
                 children: [
-                  Expanded(child: Divider(color: Colors.grey.shade300)),
+                  Expanded(
+                    child: Divider(color: Colors.grey.shade300, thickness: 1),
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: Text('OR', style: TextStyle(fontSize: 12, color: Colors.grey.shade500)),
+                    child: Text(
+                      'OR',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey.shade500,
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: 1,
+                      ),
+                    ),
                   ),
-                  Expanded(child: Divider(color: Colors.grey.shade300)),
+                  Expanded(
+                    child: Divider(color: Colors.grey.shade300, thickness: 1),
+                  ),
                 ],
               ),
 
               const SizedBox(height: 20),
 
-              // Biometric Button
+              // ── Biometric Button ──
               const BiometricLoginButton(),
+
+              const SizedBox(height: 28),
+
+              // ── Terms ──
+              Text(
+                "By continuing, you agree to WildX's Terms of Service\nand Privacy Policy",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 11,
+                  color: Colors.grey.shade500,
+                  height: 1.6,
+                ),
+              ),
+
+              const SizedBox(height: 16),
             ],
           ),
         ),
@@ -104,7 +164,11 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _buildTab({required int index, required IconData icon, required String label}) {
+  Widget _buildTab({
+    required int index,
+    required IconData icon,
+    required String label,
+  }) {
     final isActive = _selectedTab == index;
     return Expanded(
       child: GestureDetector(
@@ -120,7 +184,11 @@ class _LoginPageState extends State<LoginPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(icon, size: 18, color: isActive ? Colors.white : const Color(0xFF666666)),
+              Icon(
+                icon,
+                size: 18,
+                color: isActive ? Colors.white : const Color(0xFF666666),
+              ),
               const SizedBox(width: 6),
               Text(
                 label,
