@@ -1,5 +1,5 @@
 // ============================================================
-// Commit 2: Email Login Section - Email Input Field
+// Commit 3: Email Login Section - Password Input Field
 // Author: Savith29
 // ============================================================
 
@@ -14,6 +14,7 @@ class EmailLoginSection extends StatefulWidget {
 
 class _EmailLoginSectionState extends State<EmailLoginSection> {
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -29,13 +30,9 @@ class _EmailLoginSectionState extends State<EmailLoginSection> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Email Address',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: Color(0xFF444444),
-                ),
+              // Email Field
+              const Text('Email Address',
+                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF444444)),
               ),
               const SizedBox(height: 10),
               Container(
@@ -55,6 +52,38 @@ class _EmailLoginSectionState extends State<EmailLoginSection> {
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration.collapsed(
                           hintText: 'you@example.com',
+                          hintStyle: TextStyle(color: Colors.grey.shade400),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 16),
+
+              // Password Field
+              const Text('Password',
+                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF444444)),
+              ),
+              const SizedBox(height: 10),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF8F8F8),
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: Colors.grey.shade200),
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.lock_outline, color: Colors.grey.shade400, size: 18),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: TextField(
+                        controller: _passwordController,
+                        obscureText: true,
+                        decoration: InputDecoration.collapsed(
+                          hintText: '••••••••',
                           hintStyle: TextStyle(color: Colors.grey.shade400),
                         ),
                       ),
