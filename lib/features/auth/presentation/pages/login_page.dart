@@ -1,5 +1,5 @@
 // ============================================================
-// Commit 3: Login Page - Tab Switcher (Phone/Email)
+// Commit 4: Login Page - OR Divider + Biometric Button
 // Author: Savith29
 // ============================================================
 
@@ -78,6 +78,25 @@ class _LoginPageState extends State<LoginPage> {
                   ],
                 ),
               ),
+
+              const SizedBox(height: 28),
+
+              // OR Divider
+              Row(
+                children: [
+                  Expanded(child: Divider(color: Colors.grey.shade300)),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Text('OR', style: TextStyle(fontSize: 12, color: Colors.grey.shade500)),
+                  ),
+                  Expanded(child: Divider(color: Colors.grey.shade300)),
+                ],
+              ),
+
+              const SizedBox(height: 20),
+
+              // Biometric Button
+              const BiometricLoginButton(),
             ],
           ),
         ),
