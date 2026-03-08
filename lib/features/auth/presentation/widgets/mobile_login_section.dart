@@ -1,3 +1,4 @@
+// Commit 10: Mobile Login Section - Complete with Animations
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -29,7 +30,6 @@ class _PhoneLoginSectionState extends State<PhoneLoginSection> {
   void _onContinue() {
     if (!_isValid) return;
 
-  
     // Example with Firebase:
     // FirebaseAuth.instance.verifyPhoneNumber(
     //   phoneNumber: '+94${_phoneController.text.trim()}',
