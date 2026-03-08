@@ -76,6 +76,11 @@ class _ParkSearchScreenState extends State<ParkSearchScreen> {
     if (_parkLoadError != null) {
       return _ErrorState(message: _parkLoadError!, onRetry: _searchParks);
     }
+
+    // No results
+    if (_parks.isEmpty) {
+      return ResultNotFoundState(animalName: _selectedAnimal!);
+    }
   }
 
   @override
