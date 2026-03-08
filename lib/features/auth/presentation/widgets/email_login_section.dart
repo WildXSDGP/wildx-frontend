@@ -1,5 +1,5 @@
 // ============================================================
-// Commit 5: Email Login Section - Forgot Password Link
+// Commit 6: Email Login Section - Validation Logic
 // Author: Savith29
 // ============================================================
 
@@ -16,6 +16,30 @@ class _EmailLoginSectionState extends State<EmailLoginSection> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _obscurePassword = true;
+  bool _isValid = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _emailController.addListener(_validate);
+    _passwordController.addListener(_validate);
+  }
+
+  // Email + Password validation
+  void _validate() {
+    final emailValid = RegExp(
+      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+    ).hasMatch(_emailController.text.trim());
+    final passValid = _passwordController.text.length >= 6;
+    setState(() => _isValid = emailValid && passValid);
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -103,20 +127,14 @@ class _EmailLoginSectionState extends State<EmailLoginSection> {
 
               const SizedBox(height: 8),
 
-              // Forgot Password Link
+              // Forgot Password
               Align(
                 alignment: Alignment.centerRight,
                 child: GestureDetector(
-                  onTap: () {
-                    // TODO: Navigate to forgot password screen
-                  },
+                  onTap: () {},
                   child: const Text(
                     'Forgot password?',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Color(0xFF4CAF50),
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: TextStyle(fontSize: 12, color: Color(0xFF4CAF50), fontWeight: FontWeight.w600),
                   ),
                 ),
               ),
