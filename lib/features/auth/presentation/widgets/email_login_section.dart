@@ -1,5 +1,5 @@
 // ============================================================
-// Commit 6: Email Login Section - Validation Logic
+// Commit 7: Email Login Section - Continue Button
 // Author: Savith29
 // ============================================================
 
@@ -25,13 +25,23 @@ class _EmailLoginSectionState extends State<EmailLoginSection> {
     _passwordController.addListener(_validate);
   }
 
-  // Email + Password validation
   void _validate() {
     final emailValid = RegExp(
       r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
     ).hasMatch(_emailController.text.trim());
     final passValid = _passwordController.text.length >= 6;
     setState(() => _isValid = emailValid && passValid);
+  }
+
+  void _onContinue() {
+    if (!_isValid) return;
+    // TODO: Connect Firebase
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('✅ Email login — Connect backend here!'),
+        backgroundColor: Color(0xFF4CAF50),
+      ),
+    );
   }
 
   @override
@@ -139,6 +149,37 @@ class _EmailLoginSectionState extends State<EmailLoginSection> {
                 ),
               ),
             ],
+          ),
+        ),
+
+        const SizedBox(height: 16),
+
+        // Continue Button
+        SizedBox(
+          width: double.infinity,
+          child: ElevatedButton(
+            onPressed: _isValid ? _onContinue : null,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: _isValid ? const Color(0xFF4CAF50) : const Color(0xFFE0E0E0),
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Continue',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: _isValid ? Colors.white : Colors.grey.shade500,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Icon(Icons.arrow_forward, size: 18,
+                  color: _isValid ? Colors.white : Colors.grey.shade500),
+              ],
+            ),
           ),
         ),
       ],
