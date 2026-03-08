@@ -91,7 +91,12 @@ class _ParkSearchScreenState extends State<ParkSearchScreen> {
   }
 
   Widget _buildSearchBar() {
-    return AnimalSearchBar();
+    return AnimalSearchBar(
+      selectedAnimal: _selectedAnimal,
+      animalTypes: _animalTypes,
+      onAnimalChanged: _onAnimalChanged,
+      onSearchPressed: _searchParks,
+    );
   }
 
   @override
