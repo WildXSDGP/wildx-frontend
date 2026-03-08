@@ -90,6 +90,10 @@ class _ParkSearchScreenState extends State<ParkSearchScreen> {
     );
   }
 
+  Widget _buildSearchBar() {
+    return AnimalSearchBar();
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
