@@ -1,4 +1,5 @@
-// Commit 3: Mobile Login Section - Country Code Selector
+
+// Commit 4: Mobile Login Section - Phone Validation Logic
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,6 +14,26 @@ class MobileLoginSection extends StatefulWidget {
 class _MobileLoginSectionState extends State<MobileLoginSection> {
   final TextEditingController _phoneController = TextEditingController();
   String _countryCode = '+94';
+  bool _isValid = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _phoneController.addListener(_validate);
+  }
+
+  // Phone validation logic
+  void _validate() {
+    setState(() {
+      _isValid = _phoneController.text.trim().length >= 9;
+    });
+  }
+
+  @override
+  void dispose() {
+    _phoneController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,13 +63,15 @@ class _MobileLoginSectionState extends State<MobileLoginSection> {
                 decoration: BoxDecoration(
                   color: const Color(0xFFF8F8F8),
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Colors.grey.shade200),
+                  border: Border.all(
+                    color: _isValid ? const Color(0xFF4CAF50) : Colors.grey.shade200,
+                    width: 1.5,
+                  ),
                 ),
                 child: Row(
                   children: [
                     Icon(Icons.phone_outlined, color: Colors.grey.shade400, size: 18),
                     const SizedBox(width: 6),
-                    // Country Code Selector
                     DropdownButtonHideUnderline(
                       child: DropdownButton<String>(
                         value: _countryCode,
