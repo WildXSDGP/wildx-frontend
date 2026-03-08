@@ -1,5 +1,4 @@
-
-// Commit 2: Mobile Login Section - Phone Number Input Field
+// Commit 3: Mobile Login Section - Country Code Selector
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,6 +12,7 @@ class MobileLoginSection extends StatefulWidget {
 
 class _MobileLoginSectionState extends State<MobileLoginSection> {
   final TextEditingController _phoneController = TextEditingController();
+  String _countryCode = '+94';
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,23 @@ class _MobileLoginSectionState extends State<MobileLoginSection> {
                 child: Row(
                   children: [
                     Icon(Icons.phone_outlined, color: Colors.grey.shade400, size: 18),
-                    const SizedBox(width: 10),
+                    const SizedBox(width: 6),
+                    // Country Code Selector
+                    DropdownButtonHideUnderline(
+                      child: DropdownButton<String>(
+                        value: _countryCode,
+                        items: ['+94', '+1', '+44', '+91'].map((code) {
+                          return DropdownMenuItem(value: code, child: Text(code));
+                        }).toList(),
+                        onChanged: (val) => setState(() => _countryCode = val!),
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Color(0xFF222222),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 6),
                     Expanded(
                       child: TextField(
                         controller: _phoneController,
