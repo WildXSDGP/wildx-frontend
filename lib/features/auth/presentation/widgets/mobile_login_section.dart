@@ -1,5 +1,5 @@
 
-// Commit 6: Mobile Login Section - Input Styling
+// Commit 7: Mobile Login Section - Error Handling
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,6 +15,7 @@ class _MobileLoginSectionState extends State<MobileLoginSection> {
   final TextEditingController _phoneController = TextEditingController();
   String _countryCode = '+94';
   bool _isValid = false;
+  String? _phoneError;
 
   @override
   void initState() {
@@ -23,8 +24,12 @@ class _MobileLoginSectionState extends State<MobileLoginSection> {
   }
 
   void _validate() {
+    final phone = _phoneController.text.trim();
     setState(() {
-      _isValid = _phoneController.text.trim().length >= 9;
+      _isValid = phone.length >= 9;
+      _phoneError = phone.isNotEmpty && !_isValid
+          ? 'Please enter a valid phone number'
+          : null;
     });
   }
 
@@ -80,16 +85,13 @@ class _MobileLoginSectionState extends State<MobileLoginSection> {
                   color: const Color(0xFFF8F8F8),
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(
-                    color: _isValid ? const Color(0xFF4CAF50) : Colors.grey.shade200,
+                    color: _phoneError != null
+                        ? Colors.red.shade300
+                        : _isValid
+                            ? const Color(0xFF4CAF50)
+                            : Colors.grey.shade200,
                     width: 1.5,
                   ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.03),
-                      blurRadius: 6,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
                 ),
                 child: Row(
                   children: [
@@ -120,21 +122,22 @@ class _MobileLoginSectionState extends State<MobileLoginSection> {
                         ],
                         decoration: InputDecoration.collapsed(
                           hintText: '77 123 4567',
-                          hintStyle: TextStyle(
-                            color: Colors.grey.shade400,
-                            fontSize: 15,
-                          ),
-                        ),
-                        style: const TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xFF222222),
+                          hintStyle: TextStyle(color: Colors.grey.shade400),
                         ),
                       ),
                     ),
                   ],
                 ),
               ),
+              // Error message
+              if (_phoneError != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 4, left: 4),
+                  child: Text(
+                    _phoneError!,
+                    style: const TextStyle(fontSize: 11, color: Colors.red),
+                  ),
+                ),
             ],
           ),
         ),
@@ -150,7 +153,6 @@ class _MobileLoginSectionState extends State<MobileLoginSection> {
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               elevation: _isValid ? 4 : 0,
-              shadowColor: const Color(0xFF4CAF50).withOpacity(0.4),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
