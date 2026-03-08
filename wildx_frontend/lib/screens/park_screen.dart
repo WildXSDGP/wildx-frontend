@@ -66,6 +66,11 @@ class _ParkSearchScreenState extends State<ParkSearchScreen> {
 
   Widget _buildResults() {
     if (!_hasSearched) return const EmptySearchState();
+
+    // Loading parks
+    if (_loadingParks) {
+      return const Center(child: CircularProgressIndicator());
+    }
   }
 
   @override
