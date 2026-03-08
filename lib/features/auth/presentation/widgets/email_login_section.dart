@@ -1,5 +1,5 @@
 // ============================================================
-// Commit 3: Email Login Section - Password Input Field
+// Commit 4: Email Login Section - Show/Hide Password Toggle
 // Author: Savith29
 // ============================================================
 
@@ -15,6 +15,7 @@ class EmailLoginSection extends StatefulWidget {
 class _EmailLoginSectionState extends State<EmailLoginSection> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _obscurePassword = true;
 
   @override
   Widget build(BuildContext context) {
@@ -81,11 +82,20 @@ class _EmailLoginSectionState extends State<EmailLoginSection> {
                     Expanded(
                       child: TextField(
                         controller: _passwordController,
-                        obscureText: true,
+                        obscureText: _obscurePassword,
                         decoration: InputDecoration.collapsed(
                           hintText: '••••••••',
                           hintStyle: TextStyle(color: Colors.grey.shade400),
                         ),
+                      ),
+                    ),
+                    // Show/Hide Toggle
+                    GestureDetector(
+                      onTap: () => setState(() => _obscurePassword = !_obscurePassword),
+                      child: Icon(
+                        _obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                        color: Colors.grey.shade400,
+                        size: 18,
                       ),
                     ),
                   ],
