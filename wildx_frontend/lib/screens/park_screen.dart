@@ -81,6 +81,13 @@ class _ParkSearchScreenState extends State<ParkSearchScreen> {
     if (_parks.isEmpty) {
       return ResultNotFoundState(animalName: _selectedAnimal!);
     }
+
+    // Results list
+    return ListView.builder(
+      padding: const EdgeInsets.all(16),
+      itemCount: _parks.length,
+      itemBuilder: (context, index) => ParkCard(park: _parks[index]),
+    );
   }
 
   @override
