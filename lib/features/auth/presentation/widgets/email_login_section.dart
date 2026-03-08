@@ -1,5 +1,5 @@
 // ============================================================
-// Commit 7: Email Login Section - Continue Button
+// Commit 8: Email Login Section - Input Styling
 // Author: Savith29
 // ============================================================
 
@@ -35,7 +35,6 @@ class _EmailLoginSectionState extends State<EmailLoginSection> {
 
   void _onContinue() {
     if (!_isValid) return;
-    // TODO: Connect Firebase
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('✅ Email login — Connect backend here!'),
@@ -51,6 +50,58 @@ class _EmailLoginSectionState extends State<EmailLoginSection> {
     super.dispose();
   }
 
+  Widget _inputField({
+    required TextEditingController controller,
+    required String hint,
+    required IconData icon,
+    TextInputType keyboardType = TextInputType.text,
+    bool obscureText = false,
+    Widget? suffixIcon,
+  }) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF8F8F8),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+          // Green border when valid
+          color: _isValid ? const Color(0xFF4CAF50) : Colors.grey.shade200,
+          width: 1.5,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.03),
+            blurRadius: 6,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Icon(icon, color: Colors.grey.shade400, size: 18),
+          const SizedBox(width: 10),
+          Expanded(
+            child: TextField(
+              controller: controller,
+              keyboardType: keyboardType,
+              obscureText: obscureText,
+              decoration: InputDecoration.collapsed(
+                hintText: hint,
+                hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
+              ),
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: Color(0xFF222222),
+              ),
+            ),
+          ),
+          if (suffixIcon != null) suffixIcon,
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -61,83 +112,51 @@ class _EmailLoginSectionState extends State<EmailLoginSection> {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 10,
+                offset: const Offset(0, 3),
+              ),
+            ],
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Email Field
               const Text('Email Address',
                 style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF444444)),
               ),
               const SizedBox(height: 10),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF8F8F8),
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Colors.grey.shade200),
-                ),
-                child: Row(
-                  children: [
-                    Icon(Icons.email_outlined, color: Colors.grey.shade400, size: 18),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: TextField(
-                        controller: _emailController,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: InputDecoration.collapsed(
-                          hintText: 'you@example.com',
-                          hintStyle: TextStyle(color: Colors.grey.shade400),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+              _inputField(
+                controller: _emailController,
+                hint: 'you@example.com',
+                icon: Icons.email_outlined,
+                keyboardType: TextInputType.emailAddress,
               ),
 
               const SizedBox(height: 16),
 
-              // Password Field
               const Text('Password',
                 style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF444444)),
               ),
               const SizedBox(height: 10),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF8F8F8),
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Colors.grey.shade200),
-                ),
-                child: Row(
-                  children: [
-                    Icon(Icons.lock_outline, color: Colors.grey.shade400, size: 18),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: TextField(
-                        controller: _passwordController,
-                        obscureText: _obscurePassword,
-                        decoration: InputDecoration.collapsed(
-                          hintText: '••••••••',
-                          hintStyle: TextStyle(color: Colors.grey.shade400),
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () => setState(() => _obscurePassword = !_obscurePassword),
-                      child: Icon(
-                        _obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
-                        color: Colors.grey.shade400,
-                        size: 18,
-                      ),
-                    ),
-                  ],
+              _inputField(
+                controller: _passwordController,
+                hint: '••••••••',
+                icon: Icons.lock_outline,
+                obscureText: _obscurePassword,
+                suffixIcon: GestureDetector(
+                  onTap: () => setState(() => _obscurePassword = !_obscurePassword),
+                  child: Icon(
+                    _obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                    color: Colors.grey.shade400,
+                    size: 18,
+                  ),
                 ),
               ),
 
               const SizedBox(height: 8),
 
-              // Forgot Password
               Align(
                 alignment: Alignment.centerRight,
                 child: GestureDetector(
@@ -154,7 +173,6 @@ class _EmailLoginSectionState extends State<EmailLoginSection> {
 
         const SizedBox(height: 16),
 
-        // Continue Button
         SizedBox(
           width: double.infinity,
           child: ElevatedButton(
@@ -163,12 +181,12 @@ class _EmailLoginSectionState extends State<EmailLoginSection> {
               backgroundColor: _isValid ? const Color(0xFF4CAF50) : const Color(0xFFE0E0E0),
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              elevation: _isValid ? 4 : 0,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  'Continue',
+                Text('Continue',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
