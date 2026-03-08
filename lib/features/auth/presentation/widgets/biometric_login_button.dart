@@ -1,5 +1,5 @@
 // ============================================================
-// Commit 1: Biometric Login Button - Base Scaffold
+// Commit 2: Biometric Login Button - Fingerprint Button UI
 // Author: Savith29
 // ============================================================
 
@@ -19,7 +19,40 @@ class _BiometricLoginButtonState extends State<BiometricLoginButton> {
       width: double.infinity,
       child: OutlinedButton(
         onPressed: () {},
-        child: const Text('Login with Biometrics'),
+        style: OutlinedButton.styleFrom(
+          side: const BorderSide(color: Color(0xFF4CAF50), width: 1.8),
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          backgroundColor: Colors.white,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                color: const Color(0xFF4CAF50).withOpacity(0.1),
+                borderRadius: BorderRadius.circular(6),
+              ),
+              child: const Icon(
+                Icons.fingerprint,
+                color: Color(0xFF4CAF50),
+                size: 22,
+              ),
+            ),
+            const SizedBox(width: 10),
+            const Text(
+              'Login with Biometrics',
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w600,
+                color: Color(0xFF4CAF50),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
