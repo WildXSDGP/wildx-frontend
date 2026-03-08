@@ -1,5 +1,5 @@
 
-// Commit 8: Mobile Login Section - OTP Send Function
+// Commit 9: Mobile Login Section - Loading State
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,6 +16,7 @@ class _MobileLoginSectionState extends State<MobileLoginSection> {
   String _countryCode = '+94';
   bool _isValid = false;
   String? _phoneError;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -33,31 +34,26 @@ class _MobileLoginSectionState extends State<MobileLoginSection> {
     });
   }
 
-  // OTP Send Function
   Future<void> _sendOTP() async {
     if (!_isValid) return;
+    setState(() => _isLoading = true);
 
-    final fullNumber = '$_countryCode${_phoneController.text.trim()}';
+    try {
+      final fullNumber = '$_countryCode${_phoneController.text.trim()}';
+      // Simulating API call
+      await Future.delayed(const Duration(seconds: 1));
 
-    // TODO (YALUWA): Connect Firebase here
-    // FirebaseAuth.instance.verifyPhoneNumber(
-    //   phoneNumber: fullNumber,
-    //   verificationCompleted: ...,
-    //   verificationFailed: ...,
-    //   codeSent: (verificationId, resendToken) {
-    //     Navigator.push(context, MaterialPageRoute(
-    //       builder: (_) => OtpVerifyPage(verificationId: verificationId),
-    //     ));
-    //   },
-    //   codeAutoRetrievalTimeout: ...,
-    // );
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('📲 OTP sent to $fullNumber'),
-        backgroundColor: const Color(0xFF4CAF50),
-      ),
-    );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('📲 OTP sent to $fullNumber'),
+            backgroundColor: const Color(0xFF4CAF50),
+          ),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
   }
 
   @override
@@ -163,29 +159,38 @@ class _MobileLoginSectionState extends State<MobileLoginSection> {
         SizedBox(
           width: double.infinity,
           child: ElevatedButton(
-            onPressed: _isValid ? _sendOTP : null,
+            onPressed: _isValid && !_isLoading ? _sendOTP : null,
             style: ElevatedButton.styleFrom(
               backgroundColor: _isValid ? const Color(0xFF4CAF50) : const Color(0xFFE0E0E0),
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               elevation: _isValid ? 4 : 0,
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Continue',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: _isValid ? Colors.white : Colors.grey.shade500,
+            child: _isLoading
+                ? const SizedBox(
+                    height: 20,
+                    width: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: Colors.white,
+                    ),
+                  )
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Continue',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: _isValid ? Colors.white : Colors.grey.shade500,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Icon(Icons.arrow_forward, size: 18,
+                          color: _isValid ? Colors.white : Colors.grey.shade500),
+                    ],
                   ),
-                ),
-                const SizedBox(width: 8),
-                Icon(Icons.arrow_forward, size: 18,
-                    color: _isValid ? Colors.white : Colors.grey.shade500),
-              ],
-            ),
           ),
         ),
       ],
