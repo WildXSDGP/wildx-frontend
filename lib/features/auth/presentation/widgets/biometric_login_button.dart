@@ -1,5 +1,5 @@
 // ============================================================
-// Commit 4: Biometric Login Button - Loading State
+// Commit 5: Biometric Login Button - Biometric Check
 // Author: Savith29
 // ============================================================
 
@@ -17,6 +17,7 @@ class _BiometricLoginButtonState extends State<BiometricLoginButton>
   late AnimationController _pulseController;
   late Animation<double> _pulseAnimation;
   bool _isAuthenticating = false;
+  bool _biometricAvailable = true;
 
   @override
   void initState() {
@@ -29,6 +30,18 @@ class _BiometricLoginButtonState extends State<BiometricLoginButton>
     _pulseAnimation = Tween<double>(begin: 1.0, end: 1.05).animate(
       CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
     );
+
+    _checkBiometricAvailability();
+  }
+
+  // Check if biometrics available on device
+  Future<void> _checkBiometricAvailability() async {
+    // TODO (MAMA): Use local_auth to check
+    // final LocalAuthentication auth = LocalAuthentication();
+    // final bool canAuth = await auth.canCheckBiometrics;
+    // setState(() => _biometricAvailable = canAuth);
+
+    setState(() => _biometricAvailable = true);
   }
 
   @override
@@ -39,6 +52,10 @@ class _BiometricLoginButtonState extends State<BiometricLoginButton>
 
   @override
   Widget build(BuildContext context) {
+    if (!_biometricAvailable) {
+      return const SizedBox.shrink();
+    }
+
     return AnimatedBuilder(
       animation: _pulseAnimation,
       builder: (context, child) {
