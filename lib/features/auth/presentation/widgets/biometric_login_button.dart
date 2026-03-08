@@ -1,5 +1,5 @@
 // ============================================================
-// Commit 8: Biometric Login Button - Error Handling
+// Commit 9: Biometric Login Button - Button Styling
 // Author: Savith29
 // ============================================================
 
@@ -59,7 +59,6 @@ class _BiometricLoginButtonState extends State<BiometricLoginButton>
         );
       }
     } catch (e) {
-      // Error handling
       if (mounted) {
         setState(() => _errorMessage = 'Authentication failed. Try again.');
         ScaffoldMessenger.of(context).showSnackBar(
@@ -91,66 +90,81 @@ class _BiometricLoginButtonState extends State<BiometricLoginButton>
           builder: (context, child) {
             return Transform.scale(
               scale: _isAuthenticating ? _pulseAnimation.value : 1.0,
-              child: SizedBox(
-                width: double.infinity,
-                child: OutlinedButton(
-                  onPressed: _isAuthenticating ? null : _authenticate,
-                  style: OutlinedButton.styleFrom(
-                    side: BorderSide(
-                      color: _errorMessage != null
-                          ? Colors.red
-                          : _isSuccess
-                              ? const Color(0xFF2E7D32)
-                              : const Color(0xFF4CAF50),
-                      width: 1.8,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFF4CAF50).withOpacity(0.2),
+                      blurRadius: 12,
+                      offset: const Offset(0, 4),
                     ),
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                  ],
+                ),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton(
+                    onPressed: _isAuthenticating ? null : _authenticate,
+                    style: OutlinedButton.styleFrom(
+                      side: BorderSide(
+                        color: _errorMessage != null
+                            ? Colors.red
+                            : _isSuccess
+                                ? const Color(0xFF2E7D32)
+                                : const Color(0xFF4CAF50),
+                        width: 1.8,
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      backgroundColor: Colors.white,
                     ),
-                    backgroundColor: Colors.white,
-                  ),
-                  child: _isAuthenticating
-                      ? const SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: Color(0xFF4CAF50),
+                    child: _isAuthenticating
+                        ? const SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: Color(0xFF4CAF50),
+                            ),
+                          )
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(4),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFF4CAF50).withOpacity(0.1),
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                                child: Icon(
+                                  _isSuccess
+                                      ? Icons.check_circle
+                                      : Icons.fingerprint,
+                                  color: const Color(0xFF4CAF50),
+                                  size: 22,
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              Text(
+                                _isSuccess
+                                    ? 'Authenticated!'
+                                    : 'Login with Biometrics',
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF4CAF50),
+                                ),
+                              ),
+                            ],
                           ),
-                        )
-                      : Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(4),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFF4CAF50).withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(6),
-                              ),
-                              child: Icon(
-                                _isSuccess ? Icons.check_circle : Icons.fingerprint,
-                                color: const Color(0xFF4CAF50),
-                                size: 22,
-                              ),
-                            ),
-                            const SizedBox(width: 10),
-                            Text(
-                              _isSuccess ? 'Authenticated!' : 'Login with Biometrics',
-                              style: const TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xFF4CAF50),
-                              ),
-                            ),
-                          ],
-                        ),
+                  ),
                 ),
               ),
             );
           },
         ),
-        // Error message
         if (_errorMessage != null)
           Padding(
             padding: const EdgeInsets.only(top: 6),
