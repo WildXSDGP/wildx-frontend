@@ -1,5 +1,5 @@
 // ============================================================
-// Commit 8: Email Login Section - Input Styling
+// Commit 9: Email Login Section - Error Handling
 // Author: Savith29
 // ============================================================
 
@@ -17,6 +17,8 @@ class _EmailLoginSectionState extends State<EmailLoginSection> {
   final TextEditingController _passwordController = TextEditingController();
   bool _obscurePassword = true;
   bool _isValid = false;
+  String? _emailError;
+  String? _passwordError;
 
   @override
   void initState() {
@@ -30,7 +32,15 @@ class _EmailLoginSectionState extends State<EmailLoginSection> {
       r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
     ).hasMatch(_emailController.text.trim());
     final passValid = _passwordController.text.length >= 6;
-    setState(() => _isValid = emailValid && passValid);
+
+    setState(() {
+      _isValid = emailValid && passValid;
+      // Show errors only if user has typed something
+      _emailError = _emailController.text.isNotEmpty && !emailValid
+          ? 'Please enter a valid email' : null;
+      _passwordError = _passwordController.text.isNotEmpty && !passValid
+          ? 'Password must be at least 6 characters' : null;
+    });
   }
 
   void _onContinue() {
@@ -57,48 +67,55 @@ class _EmailLoginSectionState extends State<EmailLoginSection> {
     TextInputType keyboardType = TextInputType.text,
     bool obscureText = false,
     Widget? suffixIcon,
+    String? errorText,
   }) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
-      decoration: BoxDecoration(
-        color: const Color(0xFFF8F8F8),
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          // Green border when valid
-          color: _isValid ? const Color(0xFF4CAF50) : Colors.grey.shade200,
-          width: 1.5,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.03),
-            blurRadius: 6,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Icon(icon, color: Colors.grey.shade400, size: 18),
-          const SizedBox(width: 10),
-          Expanded(
-            child: TextField(
-              controller: controller,
-              keyboardType: keyboardType,
-              obscureText: obscureText,
-              decoration: InputDecoration.collapsed(
-                hintText: hint,
-                hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
-              ),
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: Color(0xFF222222),
-              ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+          decoration: BoxDecoration(
+            color: const Color(0xFFF8F8F8),
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: errorText != null
+                  ? Colors.red.shade300
+                  : _isValid
+                      ? const Color(0xFF4CAF50)
+                      : Colors.grey.shade200,
+              width: 1.5,
             ),
           ),
-          if (suffixIcon != null) suffixIcon,
-        ],
-      ),
+          child: Row(
+            children: [
+              Icon(icon, color: Colors.grey.shade400, size: 18),
+              const SizedBox(width: 10),
+              Expanded(
+                child: TextField(
+                  controller: controller,
+                  keyboardType: keyboardType,
+                  obscureText: obscureText,
+                  decoration: InputDecoration.collapsed(
+                    hintText: hint,
+                    hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
+                  ),
+                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                ),
+              ),
+              if (suffixIcon != null) suffixIcon,
+            ],
+          ),
+        ),
+        // Error message
+        if (errorText != null)
+          Padding(
+            padding: const EdgeInsets.only(top: 4, left: 4),
+            child: Text(
+              errorText,
+              style: const TextStyle(fontSize: 11, color: Colors.red),
+            ),
+          ),
+      ],
     );
   }
 
@@ -132,6 +149,7 @@ class _EmailLoginSectionState extends State<EmailLoginSection> {
                 hint: 'you@example.com',
                 icon: Icons.email_outlined,
                 keyboardType: TextInputType.emailAddress,
+                errorText: _emailError,
               ),
 
               const SizedBox(height: 16),
@@ -145,6 +163,7 @@ class _EmailLoginSectionState extends State<EmailLoginSection> {
                 hint: '••••••••',
                 icon: Icons.lock_outline,
                 obscureText: _obscurePassword,
+                errorText: _passwordError,
                 suffixIcon: GestureDetector(
                   onTap: () => setState(() => _obscurePassword = !_obscurePassword),
                   child: Icon(
