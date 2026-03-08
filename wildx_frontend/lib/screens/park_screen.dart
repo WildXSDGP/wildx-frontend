@@ -71,8 +71,25 @@ class _ParkSearchScreenState extends State<ParkSearchScreen> {
     if (_loadingParks) {
       return const Center(child: CircularProgressIndicator());
     }
+
+    // Error loading parks
+    if (_parkLoadError != null) {
+      return _ErrorState(message: _parkLoadError!, onRetry: _searchParks);
+    }
   }
 
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
+  }
+}
+
+class _ErrorState extends StatelessWidget {
+  final String message;
+  final VoidCallback onRetry;
+
+  const _ErrorState({required this.message, required this.onRetry});
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
