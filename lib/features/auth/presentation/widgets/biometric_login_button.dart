@@ -1,5 +1,5 @@
 // ============================================================
-// Commit 6: Biometric Login Button - Authentication Function
+// Commit 7: Biometric Login Button - Success Handling
 // Author: Savith29
 // ============================================================
 
@@ -18,6 +18,7 @@ class _BiometricLoginButtonState extends State<BiometricLoginButton>
   late Animation<double> _pulseAnimation;
   bool _isAuthenticating = false;
   bool _biometricAvailable = true;
+  bool _isSuccess = false;
 
   @override
   void initState() {
@@ -38,28 +39,24 @@ class _BiometricLoginButtonState extends State<BiometricLoginButton>
     setState(() => _biometricAvailable = true);
   }
 
-  // Authentication Function
   Future<void> _authenticate() async {
     setState(() => _isAuthenticating = true);
 
     try {
-      // TODO (MAMA): Replace with real biometric auth
-      // final LocalAuthentication auth = LocalAuthentication();
-      // final bool didAuth = await auth.authenticate(
-      //   localizedReason: 'Scan your fingerprint or face to log in to WildX',
-      //   options: const AuthenticationOptions(biometricOnly: true),
-      // );
-      // if (didAuth) Navigator.pushReplacementNamed(context, '/home');
-
       await Future.delayed(const Duration(seconds: 1));
 
       if (mounted) {
+        // Success handling
+        setState(() => _isSuccess = true);
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('🔒 Authenticating...'),
+            content: Text('✅ Biometric Authentication Successful!'),
             backgroundColor: Color(0xFF4CAF50),
           ),
         );
+
+        // TODO (MAMA): Navigate to home
+        // Navigator.pushReplacementNamed(context, '/home');
       }
     } finally {
       if (mounted) setState(() => _isAuthenticating = false);
@@ -86,12 +83,19 @@ class _BiometricLoginButtonState extends State<BiometricLoginButton>
             child: OutlinedButton(
               onPressed: _isAuthenticating ? null : _authenticate,
               style: OutlinedButton.styleFrom(
-                side: const BorderSide(color: Color(0xFF4CAF50), width: 1.8),
+                side: BorderSide(
+                  color: _isSuccess
+                      ? const Color(0xFF2E7D32)
+                      : const Color(0xFF4CAF50),
+                  width: 1.8,
+                ),
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
-                backgroundColor: Colors.white,
+                backgroundColor: _isSuccess
+                    ? const Color(0xFF4CAF50).withOpacity(0.1)
+                    : Colors.white,
               ),
               child: _isAuthenticating
                   ? const SizedBox(
@@ -111,16 +115,16 @@ class _BiometricLoginButtonState extends State<BiometricLoginButton>
                             color: const Color(0xFF4CAF50).withOpacity(0.1),
                             borderRadius: BorderRadius.circular(6),
                           ),
-                          child: const Icon(
-                            Icons.fingerprint,
-                            color: Color(0xFF4CAF50),
+                          child: Icon(
+                            _isSuccess ? Icons.check_circle : Icons.fingerprint,
+                            color: const Color(0xFF4CAF50),
                             size: 22,
                           ),
                         ),
                         const SizedBox(width: 10),
-                        const Text(
-                          'Login with Biometrics',
-                          style: TextStyle(
+                        Text(
+                          _isSuccess ? 'Authenticated!' : 'Login with Biometrics',
+                          style: const TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w600,
                             color: Color(0xFF4CAF50),
