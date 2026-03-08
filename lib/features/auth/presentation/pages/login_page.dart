@@ -1,5 +1,5 @@
 // ============================================================
-// Commit 2: Login Page - App Icon + Title
+// Commit 3: Login Page - Tab Switcher (Phone/Email)
 // Author: Savith29
 // ============================================================
 
@@ -49,7 +49,6 @@ class _LoginPageState extends State<LoginPage> {
 
               const SizedBox(height: 20),
 
-              // Title
               const Text(
                 'Welcome to WildX',
                 style: TextStyle(
@@ -61,9 +60,55 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 6),
               const Text(
                 'Login to explore wildlife',
+                style: TextStyle(fontSize: 14, color: Color(0xFF888888)),
+              ),
+
+              const SizedBox(height: 36),
+
+              // Tab Switcher
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Row(
+                  children: [
+                    _buildTab(index: 0, icon: Icons.phone_outlined, label: 'Phone'),
+                    _buildTab(index: 1, icon: Icons.email_outlined, label: 'Email'),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTab({required int index, required IconData icon, required String label}) {
+    final isActive = _selectedTab == index;
+    return Expanded(
+      child: GestureDetector(
+        onTap: () => setState(() => _selectedTab = index),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          margin: const EdgeInsets.all(4),
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          decoration: BoxDecoration(
+            color: isActive ? const Color(0xFF4CAF50) : Colors.transparent,
+            borderRadius: BorderRadius.circular(9),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, size: 18, color: isActive ? Colors.white : const Color(0xFF666666)),
+              const SizedBox(width: 6),
+              Text(
+                label,
                 style: TextStyle(
                   fontSize: 14,
-                  color: Color(0xFF888888),
+                  fontWeight: FontWeight.w600,
+                  color: isActive ? Colors.white : const Color(0xFF666666),
                 ),
               ),
             ],
