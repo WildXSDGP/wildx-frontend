@@ -64,7 +64,9 @@ class _ParkSearchScreenState extends State<ParkSearchScreen> {
     }
   }
 
-  Widget _buildResults() {}
+  Widget _buildResults() {
+    if (!_hasSearched) return const EmptySearchState();
+  }
 
   @override
   Widget build(BuildContext context) {
