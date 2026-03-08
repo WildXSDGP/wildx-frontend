@@ -101,8 +101,19 @@ class _ParkSearchScreenState extends State<ParkSearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Find National Parks'),
+        backgroundColor: Colors.green[700],
+        elevation: 0,
+      ),
+      body: Column(
+        children: [
+          _buildSearchBar(),
+          Expanded(child: _buildResults()),
+        ],
+      ),
+    );
   }
 }
 
@@ -111,9 +122,7 @@ class _ErrorState extends StatelessWidget {
   final VoidCallback onRetry;
 
   const _ErrorState({required this.message, required this.onRetry});
+
   @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
-  }
+  Widget build(BuildContext context) {}
 }
