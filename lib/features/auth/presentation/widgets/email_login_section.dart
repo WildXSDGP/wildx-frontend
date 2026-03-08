@@ -1,5 +1,5 @@
 // ============================================================
-// Commit 4: Email Login Section - Show/Hide Password Toggle
+// Commit 5: Email Login Section - Forgot Password Link
 // Author: Savith29
 // ============================================================
 
@@ -89,7 +89,6 @@ class _EmailLoginSectionState extends State<EmailLoginSection> {
                         ),
                       ),
                     ),
-                    // Show/Hide Toggle
                     GestureDetector(
                       onTap: () => setState(() => _obscurePassword = !_obscurePassword),
                       child: Icon(
@@ -99,6 +98,26 @@ class _EmailLoginSectionState extends State<EmailLoginSection> {
                       ),
                     ),
                   ],
+                ),
+              ),
+
+              const SizedBox(height: 8),
+
+              // Forgot Password Link
+              Align(
+                alignment: Alignment.centerRight,
+                child: GestureDetector(
+                  onTap: () {
+                    // TODO: Navigate to forgot password screen
+                  },
+                  child: const Text(
+                    'Forgot password?',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Color(0xFF4CAF50),
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ),
               ),
             ],
