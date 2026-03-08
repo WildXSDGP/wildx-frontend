@@ -1,6 +1,5 @@
 
-// Commit 4: Mobile Login Section - Phone Validation Logic
-
+// Commit 5: Mobile Login Section - Continue Button
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -22,11 +21,21 @@ class _MobileLoginSectionState extends State<MobileLoginSection> {
     _phoneController.addListener(_validate);
   }
 
-  // Phone validation logic
   void _validate() {
     setState(() {
       _isValid = _phoneController.text.trim().length >= 9;
     });
+  }
+
+  void _onContinue() {
+    if (!_isValid) return;
+    // TODO: Send OTP
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('📲 OTP Sent! (Connect backend here)'),
+        backgroundColor: Color(0xFF4CAF50),
+      ),
+    );
   }
 
   @override
@@ -105,6 +114,37 @@ class _MobileLoginSectionState extends State<MobileLoginSection> {
                 ),
               ),
             ],
+          ),
+        ),
+
+        const SizedBox(height: 16),
+
+        // Continue Button
+        SizedBox(
+          width: double.infinity,
+          child: ElevatedButton(
+            onPressed: _isValid ? _onContinue : null,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: _isValid ? const Color(0xFF4CAF50) : const Color(0xFFE0E0E0),
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Continue',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: _isValid ? Colors.white : Colors.grey.shade500,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Icon(Icons.arrow_forward, size: 18,
+                  color: _isValid ? Colors.white : Colors.grey.shade500),
+              ],
+            ),
           ),
         ),
       ],
