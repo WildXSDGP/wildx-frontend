@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/phone_login_section.dart';
+import '../widgets/mobile_login_section.dart';
 import '../widgets/email_login_section.dart';
 import '../widgets/biometric_login_button.dart';
 

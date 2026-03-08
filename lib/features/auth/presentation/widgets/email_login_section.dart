@@ -1,11 +1,7 @@
-// ============================================================
-//  📧 EmailLoginSection — ඔයාගේ PART (MAMA)
-//  කරන්න තිබෙන දේවල්:
-//    1. Email + Password validation ✅ (done)
-//    2. Connect to Firebase Auth / backend API
-//    3. Navigate after successful login
-// ============================================================
 
+// EmailLoginSection — Email & Biometric Authentication
+// Author: Savith29
+// Feature: WildX Login Page
 import 'package:flutter/material.dart';
 
 class EmailLoginSection extends StatefulWidget {
@@ -39,7 +35,7 @@ class _EmailLoginSectionState extends State<EmailLoginSection> {
   void _onContinue() {
     if (!_isValid) return;
 
-    // TODO (MAMA): Connect to Firebase or your backend here
+    
     // Example Firebase:
     // await FirebaseAuth.instance.signInWithEmailAndPassword(
     //   email: _emailController.text.trim(),
@@ -137,7 +133,7 @@ class _EmailLoginSectionState extends State<EmailLoginSection> {
                 alignment: Alignment.centerRight,
                 child: GestureDetector(
                   onTap: () {
-                    // TODO (MAMA): Navigate to forgot password screen
+                    // Navigate to forgot password screen
                   },
                   child: const Text(
                     'Forgot password?',
