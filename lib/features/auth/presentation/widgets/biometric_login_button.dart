@@ -1,5 +1,5 @@
 // ============================================================
-// Commit 5: Biometric Login Button - Biometric Check
+// Commit 6: Biometric Login Button - Authentication Function
 // Author: Savith29
 // ============================================================
 
@@ -34,14 +34,36 @@ class _BiometricLoginButtonState extends State<BiometricLoginButton>
     _checkBiometricAvailability();
   }
 
-  // Check if biometrics available on device
   Future<void> _checkBiometricAvailability() async {
-    // TODO (MAMA): Use local_auth to check
-    // final LocalAuthentication auth = LocalAuthentication();
-    // final bool canAuth = await auth.canCheckBiometrics;
-    // setState(() => _biometricAvailable = canAuth);
-
     setState(() => _biometricAvailable = true);
+  }
+
+  // Authentication Function
+  Future<void> _authenticate() async {
+    setState(() => _isAuthenticating = true);
+
+    try {
+      // TODO (MAMA): Replace with real biometric auth
+      // final LocalAuthentication auth = LocalAuthentication();
+      // final bool didAuth = await auth.authenticate(
+      //   localizedReason: 'Scan your fingerprint or face to log in to WildX',
+      //   options: const AuthenticationOptions(biometricOnly: true),
+      // );
+      // if (didAuth) Navigator.pushReplacementNamed(context, '/home');
+
+      await Future.delayed(const Duration(seconds: 1));
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('🔒 Authenticating...'),
+            backgroundColor: Color(0xFF4CAF50),
+          ),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _isAuthenticating = false);
+    }
   }
 
   @override
@@ -52,9 +74,7 @@ class _BiometricLoginButtonState extends State<BiometricLoginButton>
 
   @override
   Widget build(BuildContext context) {
-    if (!_biometricAvailable) {
-      return const SizedBox.shrink();
-    }
+    if (!_biometricAvailable) return const SizedBox.shrink();
 
     return AnimatedBuilder(
       animation: _pulseAnimation,
@@ -64,7 +84,7 @@ class _BiometricLoginButtonState extends State<BiometricLoginButton>
           child: SizedBox(
             width: double.infinity,
             child: OutlinedButton(
-              onPressed: _isAuthenticating ? null : () {},
+              onPressed: _isAuthenticating ? null : _authenticate,
               style: OutlinedButton.styleFrom(
                 side: const BorderSide(color: Color(0xFF4CAF50), width: 1.8),
                 padding: const EdgeInsets.symmetric(vertical: 16),
