@@ -64,6 +64,8 @@ class _ParkSearchScreenState extends State<ParkSearchScreen> {
     }
   }
 
+  Widget _buildResults() {}
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
