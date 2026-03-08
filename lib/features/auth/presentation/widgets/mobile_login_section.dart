@@ -1,5 +1,6 @@
 
-// Commit 5: Mobile Login Section - Continue Button
+// Commit 6: Mobile Login Section - Input Styling
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -29,7 +30,6 @@ class _MobileLoginSectionState extends State<MobileLoginSection> {
 
   void _onContinue() {
     if (!_isValid) return;
-    // TODO: Send OTP
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('📲 OTP Sent! (Connect backend here)'),
@@ -54,6 +54,13 @@ class _MobileLoginSectionState extends State<MobileLoginSection> {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 10,
+                offset: const Offset(0, 3),
+              ),
+            ],
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,6 +83,13 @@ class _MobileLoginSectionState extends State<MobileLoginSection> {
                     color: _isValid ? const Color(0xFF4CAF50) : Colors.grey.shade200,
                     width: 1.5,
                   ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.03),
+                      blurRadius: 6,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
                 ),
                 child: Row(
                   children: [
@@ -106,7 +120,15 @@ class _MobileLoginSectionState extends State<MobileLoginSection> {
                         ],
                         decoration: InputDecoration.collapsed(
                           hintText: '77 123 4567',
-                          hintStyle: TextStyle(color: Colors.grey.shade400),
+                          hintStyle: TextStyle(
+                            color: Colors.grey.shade400,
+                            fontSize: 15,
+                          ),
+                        ),
+                        style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xFF222222),
                         ),
                       ),
                     ),
@@ -119,7 +141,6 @@ class _MobileLoginSectionState extends State<MobileLoginSection> {
 
         const SizedBox(height: 16),
 
-        // Continue Button
         SizedBox(
           width: double.infinity,
           child: ElevatedButton(
@@ -128,6 +149,8 @@ class _MobileLoginSectionState extends State<MobileLoginSection> {
               backgroundColor: _isValid ? const Color(0xFF4CAF50) : const Color(0xFFE0E0E0),
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              elevation: _isValid ? 4 : 0,
+              shadowColor: const Color(0xFF4CAF50).withOpacity(0.4),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
