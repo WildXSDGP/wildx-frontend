@@ -1,5 +1,5 @@
 // ============================================================
-// Commit 7: Biometric Login Button - Success Handling
+// Commit 8: Biometric Login Button - Error Handling
 // Author: Savith29
 // ============================================================
 
@@ -19,6 +19,7 @@ class _BiometricLoginButtonState extends State<BiometricLoginButton>
   bool _isAuthenticating = false;
   bool _biometricAvailable = true;
   bool _isSuccess = false;
+  String? _errorMessage;
 
   @override
   void initState() {
@@ -40,13 +41,15 @@ class _BiometricLoginButtonState extends State<BiometricLoginButton>
   }
 
   Future<void> _authenticate() async {
-    setState(() => _isAuthenticating = true);
+    setState(() {
+      _isAuthenticating = true;
+      _errorMessage = null;
+    });
 
     try {
       await Future.delayed(const Duration(seconds: 1));
 
       if (mounted) {
-        // Success handling
         setState(() => _isSuccess = true);
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -54,9 +57,17 @@ class _BiometricLoginButtonState extends State<BiometricLoginButton>
             backgroundColor: Color(0xFF4CAF50),
           ),
         );
-
-        // TODO (MAMA): Navigate to home
-        // Navigator.pushReplacementNamed(context, '/home');
+      }
+    } catch (e) {
+      // Error handling
+      if (mounted) {
+        setState(() => _errorMessage = 'Authentication failed. Try again.');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('❌ $_errorMessage'),
+            backgroundColor: Colors.red,
+          ),
+        );
       }
     } finally {
       if (mounted) setState(() => _isAuthenticating = false);
@@ -73,69 +84,82 @@ class _BiometricLoginButtonState extends State<BiometricLoginButton>
   Widget build(BuildContext context) {
     if (!_biometricAvailable) return const SizedBox.shrink();
 
-    return AnimatedBuilder(
-      animation: _pulseAnimation,
-      builder: (context, child) {
-        return Transform.scale(
-          scale: _isAuthenticating ? _pulseAnimation.value : 1.0,
-          child: SizedBox(
-            width: double.infinity,
-            child: OutlinedButton(
-              onPressed: _isAuthenticating ? null : _authenticate,
-              style: OutlinedButton.styleFrom(
-                side: BorderSide(
-                  color: _isSuccess
-                      ? const Color(0xFF2E7D32)
-                      : const Color(0xFF4CAF50),
-                  width: 1.8,
-                ),
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                backgroundColor: _isSuccess
-                    ? const Color(0xFF4CAF50).withOpacity(0.1)
-                    : Colors.white,
-              ),
-              child: _isAuthenticating
-                  ? const SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: Color(0xFF4CAF50),
-                      ),
-                    )
-                  : Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(4),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF4CAF50).withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: Icon(
-                            _isSuccess ? Icons.check_circle : Icons.fingerprint,
-                            color: const Color(0xFF4CAF50),
-                            size: 22,
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        Text(
-                          _isSuccess ? 'Authenticated!' : 'Login with Biometrics',
-                          style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
+    return Column(
+      children: [
+        AnimatedBuilder(
+          animation: _pulseAnimation,
+          builder: (context, child) {
+            return Transform.scale(
+              scale: _isAuthenticating ? _pulseAnimation.value : 1.0,
+              child: SizedBox(
+                width: double.infinity,
+                child: OutlinedButton(
+                  onPressed: _isAuthenticating ? null : _authenticate,
+                  style: OutlinedButton.styleFrom(
+                    side: BorderSide(
+                      color: _errorMessage != null
+                          ? Colors.red
+                          : _isSuccess
+                              ? const Color(0xFF2E7D32)
+                              : const Color(0xFF4CAF50),
+                      width: 1.8,
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    backgroundColor: Colors.white,
+                  ),
+                  child: _isAuthenticating
+                      ? const SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
                             color: Color(0xFF4CAF50),
                           ),
+                        )
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(4),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF4CAF50).withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              child: Icon(
+                                _isSuccess ? Icons.check_circle : Icons.fingerprint,
+                                color: const Color(0xFF4CAF50),
+                                size: 22,
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Text(
+                              _isSuccess ? 'Authenticated!' : 'Login with Biometrics',
+                              style: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF4CAF50),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                ),
+              ),
+            );
+          },
+        ),
+        // Error message
+        if (_errorMessage != null)
+          Padding(
+            padding: const EdgeInsets.only(top: 6),
+            child: Text(
+              _errorMessage!,
+              style: const TextStyle(fontSize: 12, color: Colors.red),
             ),
           ),
-        );
-      },
+      ],
     );
   }
 }
