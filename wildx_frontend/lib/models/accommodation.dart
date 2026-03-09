@@ -1,27 +1,27 @@
 enum SortOption { topRated, closest, budget, familyFriendly }
 
 class Accommodation {
+  final String id;
   final String name;
-  final String type;
+  final String parkName;
   final double pricePerNight;
-  final double distanceKm;
+  final double distanceFromGate;
   final double rating;
-  final int reviewCount;
-  final bool isEco;
-  final bool isFamily;
+  final bool isEcoFriendly;
+  final bool isFamilyFriendly;
   final String imageUrl;
-  final String parkId;
+  final String description;
 
   const Accommodation({
+    required this.id,
     required this.name,
-    required this.type,
+    required this.parkName,
     required this.pricePerNight,
-    required this.distanceKm,
+    required this.distanceFromGate,
     required this.rating,
-    required this.reviewCount,
-    required this.isEco,
-    required this.isFamily,
+    required this.isEcoFriendly,
+    required this.isFamilyFriendly,
     required this.imageUrl,
-    required this.parkId,
+    required this.description,
   });
 }

@@ -51,9 +51,9 @@ class AccommodationCard extends StatelessWidget {
                 right: 12,
                 child: Row(
                   children: [
-                    if (item.isEco) AppBadge(label: '🌿 Eco', color: kGreen),
-                    if (item.isEco) const SizedBox(width: 6),
-                    if (item.isFamily)
+                    if (item.isEcoFriendly) AppBadge(label: '🌿 Eco', color: kGreen),
+                    if (item.isEcoFriendly) const SizedBox(width: 6),
+                    if (item.isFamilyFriendly)
                       AppBadge(label: '👨‍👩‍👧 Family', color: kGreenLight),
                   ],
                 ),
@@ -96,21 +96,21 @@ class AccommodationCard extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 4),
-                Text(item.type,
+                Text(item.parkName,
                     style: const TextStyle(color: Colors.grey, fontSize: 13)),
                 const SizedBox(height: 8),
                 Row(
                   children: [
                     const Icon(Icons.location_on, size: 14, color: kGreenLight),
                     Text(
-                      '  ${item.distanceKm} km from park',
+                      '  ${item.distanceFromGate} km from gate',
                       style:
                           const TextStyle(color: Colors.grey, fontSize: 13),
                     ),
                     const Spacer(),
                     const Icon(Icons.star, size: 14, color: Colors.amber),
                     Text(
-                      ' ${item.rating} (${item.reviewCount})',
+                      ' ${item.rating}',
                       style: const TextStyle(fontSize: 13),
                     ),
                   ],

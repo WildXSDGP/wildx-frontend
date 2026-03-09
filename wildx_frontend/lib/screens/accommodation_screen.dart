@@ -25,9 +25,9 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
   List<Accommodation> get _filtered {
     var list = dummyAccommodations.where((a) {
       if (a.pricePerNight > _maxPrice) return false;
-      if (a.distanceKm > _maxDistance) return false;
-      if (_ecoOnly && !a.isEco) return false;
-      if (_familyOnly && !a.isFamily) return false;
+      if (a.distanceFromGate > _maxDistance) return false;
+      if (_ecoOnly && !a.isEcoFriendly) return false;
+      if (_familyOnly && !a.isFamilyFriendly) return false;
       return true;
     }).toList();
 
@@ -36,13 +36,13 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
         list.sort((a, b) => b.rating.compareTo(a.rating));
         break;
       case SortOption.closest:
-        list.sort((a, b) => a.distanceKm.compareTo(b.distanceKm));
+        list.sort((a, b) => a.distanceFromGate.compareTo(b.distanceFromGate));
         break;
       case SortOption.budget:
         list.sort((a, b) => a.pricePerNight.compareTo(b.pricePerNight));
         break;
       case SortOption.familyFriendly:
-        list.sort((a, b) => (b.isFamily ? 1 : 0).compareTo(a.isFamily ? 1 : 0));
+        list.sort((a, b) => (b.isFamilyFriendly ? 1 : 0).compareTo(a.isFamilyFriendly ? 1 : 0));
         break;
     }
     return list;
