@@ -23,13 +23,12 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
   bool _familyOnly = false;
 
   List<Accommodation> get _filtered {
-    var list = dummyAccommodations.where((a) {
-      if (a.pricePerNight > _maxPrice) return false;
-      if (a.distanceFromGate > _maxDistance) return false;
-      if (_ecoOnly && !a.isEcoFriendly) return false;
-      if (_familyOnly && !a.isFamilyFriendly) return false;
-      return true;
-    }).toList();
+    var list = dummyAccommodations
+        .where(_matchesPrice)
+        .where(_matchesDistance)
+        .where(_matchesEco)
+        .where(_matchesFamily)
+        .toList();
 
     switch (_selectedSort) {
       case SortOption.topRated:
@@ -47,6 +46,14 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
     }
     return list;
   }
+
+  bool _matchesPrice(Accommodation a) => a.pricePerNight <= _maxPrice;
+
+  bool _matchesDistance(Accommodation a) => a.distanceFromGate <= _maxDistance;
+
+  bool _matchesEco(Accommodation a) => !_ecoOnly || a.isEcoFriendly;
+
+  bool _matchesFamily(Accommodation a) => !_familyOnly || a.isFamilyFriendly;
 
   @override
   Widget build(BuildContext context) {
