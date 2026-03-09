@@ -1,4 +1,4 @@
-# wildx_frontend
+# wildx_app
 
 A new Flutter project.
 

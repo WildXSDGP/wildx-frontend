@@ -1,6 +1,6 @@
 {
-    "name": "wildx_frontend",
-    "short_name": "wildx_frontend",
+    "name": "wildx_app",
+    "short_name": "wildx_app",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
