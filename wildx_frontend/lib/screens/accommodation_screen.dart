@@ -1,103 +1,12 @@
 import 'package:flutter/material.dart';
 
-// ─────────────────────────────────────────────
-// GREEN THEME COLORS
-// ─────────────────────────────────────────────
-const kGreen = Color(0xFF2E7D32);        // dark green - header, buttons
-const kGreenLight = Color(0xFF4CAF50);   // medium green - accents
-const kGreenSoft = Color(0xFFE8F5E9);    // very light green - background
+import '../app_colors.dart';
+import '../data/accommodation_data.dart';
+import '../models/accommodation.dart';
+import '../widgets/accommodation_card.dart';
+import '../widgets/bar_button.dart';
 
-// ─────────────────────────────────────────────
-// DATA MODEL
-// ─────────────────────────────────────────────
-class Accommodation {
-  final String name;
-  final String type;
-  final double pricePerNight;
-  final double distanceKm;
-  final double rating;
-  final int reviewCount;
-  final bool isEco;
-  final bool isFamily;
-  final String imageUrl;
-  final String parkId;
 
-  const Accommodation({
-    required this.name,
-    required this.type,
-    required this.pricePerNight,
-    required this.distanceKm,
-    required this.rating,
-    required this.reviewCount,
-    required this.isEco,
-    required this.isFamily,
-    required this.imageUrl,
-    required this.parkId,
-  });
-}
-
-// ─────────────────────────────────────────────
-// DUMMY DATA
-// ─────────────────────────────────────────────
-final List<Accommodation> dummyAccommodations = [
-  Accommodation(
-    name: 'Green Valley Eco-Lodge',
-    type: 'Eco-Lodge',
-    pricePerNight: 9500,
-    distanceKm: 4.0,
-    rating: 4.9,
-    reviewCount: 312,
-    isEco: true,
-    isFamily: true,
-    imageUrl: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800',
-    parkId: 'yala',
-  ),
-  Accommodation(
-    name: 'Yala Safari Lodge',
-    type: 'Safari Camp',
-    pricePerNight: 8500,
-    distanceKm: 2.5,
-    rating: 4.7,
-    reviewCount: 189,
-    isEco: true,
-    isFamily: false,
-    imageUrl: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800',
-    parkId: 'yala',
-  ),
-  Accommodation(
-    name: 'Wilpattu Forest Camp',
-    type: 'Tented Site',
-    pricePerNight: 6200,
-    distanceKm: 1.2,
-    rating: 4.5,
-    reviewCount: 94,
-    isEco: false,
-    isFamily: false,
-    imageUrl: 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=800',
-    parkId: 'wilpattu',
-  ),
-  Accommodation(
-    name: 'Udawalawe Family Resort',
-    type: 'Hotel',
-    pricePerNight: 12000,
-    distanceKm: 7.8,
-    rating: 4.6,
-    reviewCount: 421,
-    isEco: false,
-    isFamily: true,
-    imageUrl: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800',
-    parkId: 'udawalawe',
-  ),
-];
-
-// ─────────────────────────────────────────────
-// SORT OPTIONS
-// ─────────────────────────────────────────────
-enum SortOption { topRated, closest, budget, familyFriendly }
-
-// ─────────────────────────────────────────────
-// MAIN SCREEN
-// ─────────────────────────────────────────────
 class AccommodationScreen extends StatefulWidget {
   const AccommodationScreen({super.key});
 
@@ -157,7 +66,7 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
                     padding: const EdgeInsets.all(16),
                     itemCount: _filtered.length,
                     itemBuilder: (context, index) =>
-                        _AccommodationCard(item: _filtered[index]),
+                        AccommodationCard(item: _filtered[index]),
                   ),
           ),
         ],
@@ -222,9 +131,9 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       child: Row(
         children: [
-          _BarButton(icon: Icons.tune, label: 'Filters', onTap: _showFilterSheet),
+          BarButton(icon: Icons.tune, label: 'Filters', onTap: _showFilterSheet),
           const SizedBox(width: 12),
-          _BarButton(icon: Icons.sort, label: 'Sort', onTap: _showSortSheet),
+          BarButton(icon: Icons.sort, label: 'Sort', onTap: _showSortSheet),
         ],
       ),
     );
@@ -389,204 +298,4 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
       ),
     );
   }
-}
-
-// ─────────────────────────────────────────────
-// ACCOMMODATION CARD
-// ─────────────────────────────────────────────
-class _AccommodationCard extends StatelessWidget {
-  final Accommodation item;
-  const _AccommodationCard({required this.item});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: kGreen.withOpacity(0.10),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          )
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Image + badges
-          Stack(
-            children: [
-              ClipRRect(
-                borderRadius:
-                    const BorderRadius.vertical(top: Radius.circular(16)),
-                child: Image.network(
-                  item.imageUrl,
-                  height: 180,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => Container(
-                    height: 180,
-                    color: kGreenSoft,
-                    child: const Icon(Icons.image_not_supported,
-                        size: 50, color: kGreen),
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 12,
-                right: 12,
-                child: Row(
-                  children: [
-                    if (item.isEco) _Badge(label: '🌿 Eco', color: kGreen),
-                    if (item.isEco) const SizedBox(width: 6),
-                    if (item.isFamily)
-                      _Badge(label: '👨‍👩‍👧 Family', color: kGreenLight),
-                  ],
-                ),
-              ),
-            ],
-          ),
-
-          // Details
-          Padding(
-            padding: const EdgeInsets.all(14),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        item.name,
-                        style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          'LKR ${item.pricePerNight.toStringAsFixed(0)}',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                            color: kGreen,
-                          ),
-                        ),
-                        const Text('per night',
-                            style:
-                                TextStyle(fontSize: 11, color: Colors.grey)),
-                      ],
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 4),
-                Text(item.type,
-                    style: const TextStyle(color: Colors.grey, fontSize: 13)),
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    const Icon(Icons.location_on, size: 14, color: kGreenLight),
-                    Text(
-                      '  ${item.distanceKm} km from park',
-                      style:
-                          const TextStyle(color: Colors.grey, fontSize: 13),
-                    ),
-                    const Spacer(),
-                    const Icon(Icons.star, size: 14, color: Colors.amber),
-                    Text(
-                      ' ${item.rating} (${item.reviewCount})',
-                      style: const TextStyle(fontSize: 13),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: kGreen,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                    ),
-                    onPressed: () {
-                      // TODO: Navigate to AccommodationDetailScreen
-                    },
-                    child: const Text('View Details',
-                        style: TextStyle(color: Colors.white)),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ─────────────────────────────────────────────
-// HELPER WIDGETS
-// ─────────────────────────────────────────────
-class _Badge extends StatelessWidget {
-  final String label;
-  final Color color;
-  const _Badge({required this.label, required this.color});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-        color: color.withOpacity(0.85),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Text(label,
-          style: const TextStyle(color: Colors.white, fontSize: 11)),
-    );
-  }
-}
-
-class _BarButton extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final VoidCallback onTap;
-  const _BarButton(
-      {required this.icon, required this.label, required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          border: Border.all(color: kGreenLight.withOpacity(0.4)),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Row(
-          children: [
-            Icon(icon, size: 16, color: kGreen),
-            const SizedBox(width: 6),
-            Text(label, style: const TextStyle(color: kGreen)),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// ─────────────────────────────────────────────
-// ENTRY POINT
-// ─────────────────────────────────────────────
-void main() {
-  runApp(const MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: AccommodationScreen(),
-  ));
 }
