@@ -31,6 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
   http: ^1.1.0 #For API  calls dependancy
+  google_maps_flutter: ^2.5.0 #for google map dependancy
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
