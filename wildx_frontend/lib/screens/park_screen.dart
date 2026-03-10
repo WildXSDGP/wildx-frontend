@@ -51,7 +51,7 @@ class _ParkSearchScreenState extends State<ParkSearchScreen> {
     });
 
     try {
-      final parks = await _parkService.searchParkByAnumal(_selectedAnimal!);
+      final parks = await _parkService.searchParkByAnimal(_selectedAnimal!);
       setState(() {
         _parks = parks;
         _loadingParks = false;

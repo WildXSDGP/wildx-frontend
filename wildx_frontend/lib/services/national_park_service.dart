@@ -8,7 +8,7 @@ class NationalParkService {
   //static const String baseUrl = 'http://192.168.1.x:8080'; // Real Device
   static const String baseUrl = 'http://10.201.131.27:8080'; //my pc ip address
 
-  Future<List<NationalPark>> searchParkByAnumal(String animal) async {
+  Future<List<NationalPark>> searchParkByAnimal(String animal) async {
     try {
       final response = await http.get(
         Uri.parse(
