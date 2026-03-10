@@ -3,9 +3,10 @@ import 'dart:convert';
 import '../models/national_park_model.dart';
 
 class NationalParkService {
-  static const String baseUrl = 'http://10.0.2.2:8080'; // Android Emulator
+  // static const String baseUrl = 'http://10.0.2.2:8080'; // Android Emulator
   // static const String baseUrl = 'http://localhost:8080'; // iOS Simulator
-  // static const String baseUrl = 'http://192.168.1.x:8080'; // Real Device
+  //static const String baseUrl = 'http://192.168.1.x:8080'; // Real Device
+  static const String baseUrl = 'http://10.201.131.27:8080'; //my pc ip address
 
   Future<List<NationalPark>> searchParkByAnumal(String animal) async {
     try {
