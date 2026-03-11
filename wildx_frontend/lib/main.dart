@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'routes/app_routes.dart';
+import 'screens/accommodation_detail_screen.dart';
 import 'screens/accommodation_screen.dart';
 
 void main() {

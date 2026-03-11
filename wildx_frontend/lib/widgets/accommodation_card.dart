@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../app_colors.dart';
 import '../models/accommodation.dart';
+import '../routes/app_routes.dart';
 import 'app_badge.dart';
 
 class AccommodationCard extends StatelessWidget {
