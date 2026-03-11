@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       initialRoute: AppRoutes.accommodations,
       routes: {
         AppRoutes.accommodations: (_) => const AccommodationScreen(),
-        // AppRoutes.accommodationDetail: (_) => const AccommodationDetailScreen(),
+        AppRoutes.accommodationDetail: (_) => const AccommodationDetailScreen(),
       },
     );
   }

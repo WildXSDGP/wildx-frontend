@@ -127,7 +127,11 @@ class AccommodationCard extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 12),
                     ),
                     onPressed: () {
-                      // TODO: Navigate to AccommodationDetailScreen
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutes.accommodationDetail,
+                        arguments: item,
+                      );
                     },
                     child: const Text('View Details',
                         style: TextStyle(color: Colors.white)),
