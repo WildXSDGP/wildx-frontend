@@ -35,6 +35,7 @@ class _AccommodationDetailScreenState extends State<AccommodationDetailScreen> {
 
     return Scaffold(
       backgroundColor: kGreenSoft,
+      bottomNavigationBar: _buildStickyBookBar(context, item),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -187,8 +188,7 @@ class _AccommodationDetailScreenState extends State<AccommodationDetailScreen> {
           _buildParkRow(item),
           const Divider(height: 28),
           _buildDescriptionSection(item),
-          const SizedBox(height: 24),
-          _buildBookButton(),
+          const SizedBox(height: 8),
         ],
       ),
     );
@@ -293,29 +293,81 @@ class _AccommodationDetailScreenState extends State<AccommodationDetailScreen> {
     );
   }
 
-  // ── Book Now button ─────────────────────────
-  Widget _buildBookButton() {
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: kGreen,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(14)),
-          padding: const EdgeInsets.symmetric(vertical: 16),
-        ),
-        onPressed: () {
-          // TODO: Implement booking flow
-        },
-        child: const Text(
-          'Book Now',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
+  // ── Sticky bottom booking bar ───────────────
+  Widget _buildStickyBookBar(BuildContext context, Accommodation item) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.08),
+            blurRadius: 16,
+            offset: const Offset(0, -4),
+          ),
+        ],
+      ),
+      child: SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+          child: Row(
+            children: [
+              // Price summary
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'LKR ${item.pricePerNight.toStringAsFixed(0)}',
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: kGreen,
+                    ),
+                  ),
+                  const Text(
+                    'per night',
+                    style: TextStyle(fontSize: 11, color: Colors.grey),
+                  ),
+                ],
+              ),
+              const SizedBox(width: 16),
+              // Book Now button
+              Expanded(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: kGreen,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    elevation: 2,
+                  ),
+                  onPressed: () {
+                    // TODO: Navigate to booking flow
+                  },
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.calendar_month_outlined, size: 18),
+                      SizedBox(width: 8),
+                      Text(
+                        'Book Now',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
+
 }
