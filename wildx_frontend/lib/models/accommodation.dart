@@ -9,8 +9,10 @@ class Accommodation {
   final double rating;
   final bool isEcoFriendly;
   final bool isFamilyFriendly;
-  final String imageUrl;
+  final List<String> imageUrls;
   final String description;
+
+  String get imageUrl => imageUrls.first;
 
   const Accommodation({
     required this.id,
@@ -21,7 +23,7 @@ class Accommodation {
     required this.rating,
     required this.isEcoFriendly,
     required this.isFamilyFriendly,
-    required this.imageUrl,
+    required this.imageUrls,
     required this.description,
   });
 }

@@ -10,7 +10,11 @@ final List<Accommodation> dummyAccommodations = [
     rating: 4.9,
     isEcoFriendly: true,
     isFamilyFriendly: true,
-    imageUrl: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800',
+    imageUrls: [
+      'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800',
+      'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800',
+      'https://images.unsplash.com/photo-1587061949409-02df41d5e562?w=800',
+    ],
     description:
         'A serene eco-lodge nestled in the heart of Yala, offering sustainable luxury with panoramic views of the surrounding wilderness.',
   ),
@@ -23,7 +27,11 @@ final List<Accommodation> dummyAccommodations = [
     rating: 4.7,
     isEcoFriendly: true,
     isFamilyFriendly: false,
-    imageUrl: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800',
+    imageUrls: [
+      'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800',
+      'https://images.unsplash.com/photo-1544550581-5f7ceaf7f992?w=800',
+      'https://images.unsplash.com/photo-1551918120-9739cb430c6d?w=800',
+    ],
     description:
         'An intimate safari camp just minutes from the main gate, perfect for early morning game drives and spotting leopards.',
   ),
@@ -36,7 +44,11 @@ final List<Accommodation> dummyAccommodations = [
     rating: 4.5,
     isEcoFriendly: false,
     isFamilyFriendly: false,
-    imageUrl: 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=800',
+    imageUrls: [
+      'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=800',
+      'https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?w=800',
+      'https://images.unsplash.com/photo-1532339142463-fd0a8979791a?w=800',
+    ],
     description:
         'A rustic tented camp on the edge of Wilpattu, offering an authentic bush experience among ancient forest lakes.',
   ),
@@ -49,7 +61,11 @@ final List<Accommodation> dummyAccommodations = [
     rating: 4.6,
     isEcoFriendly: false,
     isFamilyFriendly: true,
-    imageUrl: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800',
+    imageUrls: [
+      'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800',
+      'https://images.unsplash.com/photo-1563911302283-d2bc129e7570?w=800',
+      'https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=800',
+    ],
     description:
         'A spacious family resort near Udawalawe, renowned for elephant sightings and child-friendly amenities.',
   ),

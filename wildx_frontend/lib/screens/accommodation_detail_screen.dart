@@ -4,8 +4,29 @@ import '../app_colors.dart';
 import '../models/accommodation.dart';
 import '../widgets/app_badge.dart';
 
-class AccommodationDetailScreen extends StatelessWidget {
+class AccommodationDetailScreen extends StatefulWidget {
   const AccommodationDetailScreen({super.key});
+
+  @override
+  State<AccommodationDetailScreen> createState() =>
+      _AccommodationDetailScreenState();
+}
+
+class _AccommodationDetailScreenState extends State<AccommodationDetailScreen> {
+  late final PageController _pageController;
+  int _currentPage = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +39,7 @@ class AccommodationDetailScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildHeroImage(context, item),
+            _buildImageGallery(context, item),
             _buildContentCard(item),
           ],
         ),
@@ -26,21 +47,26 @@ class AccommodationDetailScreen extends StatelessWidget {
     );
   }
 
-  // ── Hero image with back button and badges ──
-  Widget _buildHeroImage(BuildContext context, Accommodation item) {
+  // ── Image gallery with PageView, dots, back button, badges ──
+  Widget _buildImageGallery(BuildContext context, Accommodation item) {
     return Stack(
       children: [
-        // Image
+        // PageView slider
         SizedBox(
           height: 280,
-          width: double.infinity,
-          child: Image.network(
-            item.imageUrl,
-            fit: BoxFit.cover,
-            errorBuilder: (_, __, ___) => Container(
-              color: kGreenSoft,
-              child: const Icon(Icons.image_not_supported,
-                  size: 64, color: kGreen),
+          child: PageView.builder(
+            controller: _pageController,
+            itemCount: item.imageUrls.length,
+            onPageChanged: (index) => setState(() => _currentPage = index),
+            itemBuilder: (context, index) => Image.network(
+              item.imageUrls[index],
+              fit: BoxFit.cover,
+              width: double.infinity,
+              errorBuilder: (_, __, ___) => Container(
+                color: kGreenSoft,
+                child: const Icon(Icons.image_not_supported,
+                    size: 64, color: kGreen),
+              ),
             ),
           ),
         ),
@@ -54,9 +80,9 @@ class AccommodationDetailScreen extends StatelessWidget {
                 end: Alignment.bottomCenter,
                 colors: [
                   Colors.transparent,
-                  Colors.black.withOpacity(0.55),
+                  Colors.black.withOpacity(0.60),
                 ],
-                stops: const [0.5, 1.0],
+                stops: const [0.45, 1.0],
               ),
             ),
           ),
@@ -92,9 +118,9 @@ class AccommodationDetailScreen extends StatelessWidget {
           ),
         ),
 
-        // Name overlay at bottom of image
+        // Name overlay above dots
         Positioned(
-          bottom: 16,
+          bottom: 32,
           left: 16,
           right: 16,
           child: Text(
@@ -103,10 +129,33 @@ class AccommodationDetailScreen extends StatelessWidget {
               color: Colors.white,
               fontSize: 22,
               fontWeight: FontWeight.bold,
-              shadows: [
-                Shadow(color: Colors.black54, blurRadius: 6),
-              ],
+              shadows: [Shadow(color: Colors.black54, blurRadius: 6)],
             ),
+          ),
+        ),
+
+        // Dot indicators
+        Positioned(
+          bottom: 10,
+          left: 0,
+          right: 0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(item.imageUrls.length, (index) {
+              final isActive = index == _currentPage;
+              return AnimatedContainer(
+                duration: const Duration(milliseconds: 250),
+                margin: const EdgeInsets.symmetric(horizontal: 3),
+                width: isActive ? 20 : 6,
+                height: 6,
+                decoration: BoxDecoration(
+                  color: isActive
+                      ? Colors.white
+                      : Colors.white.withOpacity(0.50),
+                  borderRadius: BorderRadius.circular(3),
+                ),
+              );
+            }),
           ),
         ),
       ],
@@ -150,7 +199,6 @@ class AccommodationDetailScreen extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Price
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -169,10 +217,8 @@ class AccommodationDetailScreen extends StatelessWidget {
           ],
         ),
         const Spacer(),
-        // Rating badge
         Container(
-          padding:
-              const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
             color: Colors.amber.shade50,
             borderRadius: BorderRadius.circular(12),
@@ -180,8 +226,7 @@ class AccommodationDetailScreen extends StatelessWidget {
           ),
           child: Row(
             children: [
-              const Icon(Icons.star_rounded,
-                  color: Colors.amber, size: 18),
+              const Icon(Icons.star_rounded, color: Colors.amber, size: 18),
               const SizedBox(width: 4),
               Text(
                 item.rating.toStringAsFixed(1),
@@ -212,8 +257,7 @@ class AccommodationDetailScreen extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 16),
-        const Icon(Icons.location_on_outlined,
-            size: 16, color: kGreenLight),
+        const Icon(Icons.location_on_outlined, size: 16, color: kGreenLight),
         const SizedBox(width: 4),
         Text(
           '${item.distanceFromGate} km from gate',
