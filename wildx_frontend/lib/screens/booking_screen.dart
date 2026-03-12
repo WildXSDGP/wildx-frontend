@@ -354,13 +354,13 @@ class _AccommodationHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
+        color: kCardBackground,
+        borderRadius: BorderRadius.circular(kRadiusLG),
+        boxShadow: const [
           BoxShadow(
-            color: kGreen.withValues(alpha: 0.10),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
+            color: kShadowColor,
+            blurRadius: 12,
+            offset: Offset(0, 4),
           ),
         ],
       ),
@@ -369,7 +369,7 @@ class _AccommodationHeader extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius:
-                const BorderRadius.vertical(top: Radius.circular(16)),
+                const BorderRadius.vertical(top: Radius.circular(kRadiusLG)),
             child: Image.network(
               accommodation.imageUrl,
               height: 160,
@@ -384,7 +384,7 @@ class _AccommodationHeader extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(14),
+            padding: const EdgeInsets.all(kSpaceLG),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -392,31 +392,35 @@ class _AccommodationHeader extends StatelessWidget {
                   accommodation.name,
                   style: const TextStyle(
                     fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w700,
+                    color: kTextPrimary,
+                    letterSpacing: -0.2,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: kSpaceXS),
                 Row(
                   children: [
-                    const Icon(Icons.location_on,
+                    const Icon(Icons.park_outlined,
                         size: 14, color: kGreenLight),
-                    const SizedBox(width: 4),
+                    const SizedBox(width: kSpaceXS),
                     Text(
                       accommodation.parkName,
                       style: const TextStyle(
-                          fontSize: 13, color: Colors.grey),
+                          fontSize: 13, color: kTextSecondary),
                     ),
                     const Spacer(),
-                    const Icon(Icons.star, size: 14, color: Colors.amber),
+                    const Icon(Icons.star_rounded, size: 14, color: kAmber),
                     const SizedBox(width: 2),
                     Text(
                       '${accommodation.rating}',
                       style: const TextStyle(
-                          fontSize: 13, fontWeight: FontWeight.w500),
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          color: kTextPrimary),
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: kSpaceSM),
                 Row(
                   children: [
                     Text(
@@ -429,7 +433,7 @@ class _AccommodationHeader extends StatelessWidget {
                     ),
                     const Text(
                       ' / night',
-                      style: TextStyle(fontSize: 13, color: Colors.grey),
+                      style: TextStyle(fontSize: 13, color: kTextHint),
                     ),
                   ],
                 ),
@@ -461,15 +465,15 @@ class _SectionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(kSpaceLG),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
+        color: kCardBackground,
+        borderRadius: BorderRadius.circular(kRadiusLG),
+        boxShadow: const [
           BoxShadow(
-            color: kGreen.withValues(alpha: 0.08),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
+            color: kShadowColor,
+            blurRadius: 12,
+            offset: Offset(0, 4),
           ),
         ],
       ),
@@ -479,12 +483,13 @@ class _SectionCard extends StatelessWidget {
           Row(
             children: [
               Icon(icon, size: 18, color: kGreen),
-              const SizedBox(width: 8),
+              const SizedBox(width: kSpaceSM),
               Text(
                 title,
                 style: const TextStyle(
                   fontSize: 15,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w700,
+                  color: kTextPrimary,
                 ),
               ),
               if (trailing != null) ...[
@@ -493,7 +498,7 @@ class _SectionCard extends StatelessWidget {
               ],
             ],
           ),
-          const SizedBox(height: 14),
+          const SizedBox(height: kSpaceLG),
           child,
         ],
       ),
@@ -530,14 +535,14 @@ class _DateField extends StatelessWidget {
         padding:
             const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         decoration: BoxDecoration(
-          color: enabled ? kGreenSoft : Colors.grey.shade100,
-          borderRadius: BorderRadius.circular(12),
+          color: enabled ? kGreenSoft : kSand,
+          borderRadius: BorderRadius.circular(kRadiusMD),
           border: Border.all(
             color: hasDate
                 ? kGreen
                 : enabled
                     ? kGreenLight.withValues(alpha: 0.4)
-                    : Colors.grey.shade300,
+                    : kDividerColor,
             width: hasDate ? 1.5 : 1,
           ),
         ),
@@ -545,7 +550,7 @@ class _DateField extends StatelessWidget {
           children: [
             Icon(icon,
                 size: 18,
-                color: enabled ? kGreen : Colors.grey.shade400),
+                color: enabled ? kGreen : kTextHint),
             const SizedBox(width: 10),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -554,7 +559,7 @@ class _DateField extends StatelessWidget {
                   label,
                   style: TextStyle(
                     fontSize: 11,
-                    color: enabled ? Colors.grey : Colors.grey.shade400,
+                    color: enabled ? kTextHint : kTextHint,
                   ),
                 ),
                 const SizedBox(height: 2),
@@ -564,10 +569,10 @@ class _DateField extends StatelessWidget {
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                     color: hasDate
-                        ? Colors.black87
+                        ? kTextPrimary
                         : enabled
-                            ? Colors.grey
-                            : Colors.grey.shade400,
+                            ? kTextHint
+                            : kTextHint,
                   ),
                 ),
               ],
@@ -578,7 +583,7 @@ class _DateField extends StatelessWidget {
               size: 16,
               color: enabled
                   ? kGreen.withValues(alpha: 0.6)
-                  : Colors.grey.shade300,
+                  : kDividerColor,
             ),
           ],
         ),
