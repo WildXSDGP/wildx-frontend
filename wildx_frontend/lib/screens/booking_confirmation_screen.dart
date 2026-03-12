@@ -12,10 +12,10 @@ class BookingConfirmationScreen extends StatelessWidget {
         ModalRoute.of(context)!.settings.arguments as Booking;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: kBackground,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
+          padding: const EdgeInsets.symmetric(horizontal: kSpaceXXL),
           child: Column(
             children: [
               const Spacer(flex: 2),
@@ -35,7 +35,7 @@ class BookingConfirmationScreen extends StatelessWidget {
                   color: kGreen,
                 ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: kSpaceXXL),
 
               // ── Title ──
               const Text(
@@ -44,15 +44,16 @@ class BookingConfirmationScreen extends StatelessWidget {
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                   color: kGreen,
+                  letterSpacing: -0.3,
                 ),
               ),
-              const SizedBox(height: 8),
-              Text(
+              const SizedBox(height: kSpaceSM),
+              const Text(
                 'Your reservation has been placed successfully.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 14,
-                  color: Colors.grey.shade600,
+                  color: kTextSecondary,
                 ),
               ),
 
@@ -61,10 +62,10 @@ class BookingConfirmationScreen extends StatelessWidget {
               // ── Booking details card ──
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(kSpaceXL),
                 decoration: BoxDecoration(
                   color: kGreenSoft,
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(kRadiusLG),
                 ),
                 child: Column(
                   children: [
@@ -72,41 +73,42 @@ class BookingConfirmationScreen extends StatelessWidget {
                       'Booking Details',
                       style: TextStyle(
                         fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w700,
+                        color: kTextPrimary,
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: kSpaceLG),
                     _DetailRow(
                       icon: Icons.confirmation_number_outlined,
                       label: 'Booking ID',
                       value: booking.bookingId,
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: kSpaceMD),
                     _DetailRow(
                       icon: Icons.calendar_today_rounded,
                       label: 'Check-in',
                       value: _formatDate(booking.checkInDate),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: kSpaceMD),
                     _DetailRow(
                       icon: Icons.calendar_today_rounded,
                       label: 'Check-out',
                       value: _formatDate(booking.checkOutDate),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: kSpaceMD),
                     _DetailRow(
                       icon: Icons.nightlight_round,
                       label: 'Nights',
                       value: '${booking.nights}',
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: kSpaceMD),
                     _DetailRow(
                       icon: Icons.people_outline_rounded,
                       label: 'Guests',
                       value: '${booking.guests}',
                     ),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 14),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: kSpaceLG),
                       child: Divider(height: 1, color: kGreenLight),
                     ),
                     _DetailRow(
@@ -125,49 +127,20 @@ class BookingConfirmationScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: kGreen,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    elevation: 2,
-                  ),
                   onPressed: () =>
                       Navigator.of(context).popUntil((r) => r.isFirst),
-                  child: const Text(
-                    'Back to Home',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  child: const Text('Back to Home'),
                 ),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: kSpaceMD),
               SizedBox(
                 width: double.infinity,
                 child: OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: kGreen,
-                    side: const BorderSide(color: kGreenLight),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                  ),
                   onPressed: () => Navigator.of(context).pop(),
-                  child: const Text(
-                    'View Booking',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+                  child: const Text('View Booking'),
                 ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: kSpaceXXL),
             ],
           ),
         ),
@@ -210,7 +183,7 @@ class _DetailRow extends StatelessWidget {
             label,
             style: TextStyle(
               fontSize: 13,
-              color: isBold ? Colors.black87 : Colors.grey.shade600,
+              color: isBold ? kTextPrimary : kTextSecondary,
               fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
             ),
           ),
@@ -222,7 +195,7 @@ class _DetailRow extends StatelessWidget {
             style: TextStyle(
               fontSize: isBold ? 16 : 13,
               fontWeight: isBold ? FontWeight.bold : FontWeight.w600,
-              color: isBold ? kGreen : Colors.black87,
+              color: isBold ? kGreen : kTextPrimary,
             ),
           ),
         ),

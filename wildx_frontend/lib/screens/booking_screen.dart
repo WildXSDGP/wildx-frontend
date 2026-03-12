@@ -188,8 +188,9 @@ class _BookingScreenState extends State<BookingScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  const SizedBox(height: kSpaceXL),
                   _AccommodationHeader(accommodation: accommodation),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: kSpaceXL),
                   _SectionCard(
                     title: 'Select Dates',
                     icon: Icons.date_range_outlined,
@@ -200,11 +201,11 @@ class _BookingScreenState extends State<BookingScreen> {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Icon(Icons.clear_rounded,
-                                    size: 14, color: Colors.grey),
+                                    size: 14, color: kTextHint),
                                 SizedBox(width: 2),
                                 Text('Clear',
                                     style: TextStyle(
-                                        fontSize: 12, color: Colors.grey)),
+                                        fontSize: 12, color: kTextHint)),
                               ],
                             ),
                           )
@@ -287,7 +288,7 @@ class _BookingScreenState extends State<BookingScreen> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: kSpaceLG),
                   _SectionCard(
                     title: 'Guests',
                     icon: Icons.people_outline_rounded,
@@ -316,7 +317,7 @@ class _BookingScreenState extends State<BookingScreen> {
                       onChildrenChanged: (v) => setState(() => _children = v),
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: kSpaceLG),
                   _PriceSummary(
                     pricePerNight: accommodation.pricePerNight,
                     nights: _nights,
@@ -635,7 +636,7 @@ class _GuestSelector extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
-          child: Divider(height: 1, color: kGreenSoft),
+          child: Divider(height: 1, color: kDividerColor),
         ),
         _GuestRow(
           icon: Icons.child_care_rounded,
@@ -653,11 +654,11 @@ class _GuestSelector extends StatelessWidget {
             padding: EdgeInsets.only(top: 10),
             child: Row(
               children: [
-                Icon(Icons.info_outline_rounded, size: 14, color: Colors.grey),
+                Icon(Icons.info_outline_rounded, size: 14, color: kTextHint),
                 SizedBox(width: 6),
                 Text(
                   'Maximum of 20 guests reached',
-                  style: TextStyle(fontSize: 12, color: Colors.grey),
+                  style: TextStyle(fontSize: 12, color: kTextHint),
                 ),
               ],
             ),
@@ -698,12 +699,12 @@ class _GuestRow extends StatelessWidget {
               style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
-                color: Colors.black87,
+                color: kTextPrimary,
               ),
             ),
             Text(
               subtitle,
-              style: const TextStyle(fontSize: 11, color: Colors.grey),
+              style: const TextStyle(fontSize: 11, color: kTextHint),
             ),
           ],
         ),
@@ -752,12 +753,12 @@ class _CounterButton extends StatelessWidget {
         height: 36,
         decoration: BoxDecoration(
           color: enabled ? kGreen : kGreenSoft,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(kRadiusSM),
         ),
         child: Icon(
           icon,
           size: 18,
-          color: enabled ? Colors.white : Colors.grey,
+          color: enabled ? Colors.white : kTextHint,
         ),
       ),
     );
@@ -803,15 +804,15 @@ class _PriceSummary extends StatelessWidget {
       alignment: Alignment.topCenter,
       child: Container(
         width: double.infinity,
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(kSpaceLG),
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
+          color: kCardBackground,
+          borderRadius: BorderRadius.circular(kRadiusLG),
+          boxShadow: const [
             BoxShadow(
-              color: kGreen.withValues(alpha: 0.08),
-              blurRadius: 10,
-              offset: const Offset(0, 4),
+              color: kShadowColor,
+              blurRadius: 12,
+              offset: Offset(0, 4),
             ),
           ],
         ),
@@ -826,7 +827,8 @@ class _PriceSummary extends StatelessWidget {
                   'Price Summary',
                   style: TextStyle(
                     fontSize: 15,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w700,
+                    color: kTextPrimary,
                   ),
                 ),
               ],
@@ -881,7 +883,7 @@ class _PriceSummary extends StatelessWidget {
             // ── Divider ───────────────────────────
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 12),
-              child: Divider(height: 1, color: kGreenSoft),
+              child: Divider(height: 1, color: kDividerColor),
             ),
 
             // ── Total ─────────────────────────────
@@ -893,6 +895,7 @@ class _PriceSummary extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
+                    color: kTextPrimary,
                   ),
                 ),
                 AnimatedSwitcher(
@@ -914,7 +917,7 @@ class _PriceSummary extends StatelessWidget {
               const SizedBox(height: 8),
               const Text(
                 'Select check-in and check-out dates to see the total price.',
-                style: TextStyle(fontSize: 12, color: Colors.grey),
+                style: TextStyle(fontSize: 12, color: kTextHint),
               ),
             ],
           ],
@@ -944,13 +947,13 @@ class _PriceRow extends StatelessWidget {
           label,
           style: TextStyle(
             fontSize: 13,
-            color: isSubtle ? Colors.grey : Colors.black87,
+            color: isSubtle ? kTextHint : kTextSecondary,
           ),
         ),
         if (value.isNotEmpty)
           Text(
             value,
-            style: const TextStyle(fontSize: 13, color: Colors.black87),
+            style: const TextStyle(fontSize: 13, color: kTextPrimary),
           ),
       ],
     );
@@ -973,13 +976,13 @@ class _BookingFooter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
+      decoration: const BoxDecoration(
+        color: kCardBackground,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.08),
+            color: kShadowColor,
             blurRadius: 16,
-            offset: const Offset(0, -4),
+            offset: Offset(0, -4),
           ),
         ],
       ),
@@ -987,7 +990,7 @@ class _BookingFooter extends StatelessWidget {
         top: false,
         child: Padding(
           padding:
-              const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+              const EdgeInsets.symmetric(horizontal: kSpaceXL, vertical: kSpaceLG),
           child: Row(
             children: [
               Column(
@@ -1001,35 +1004,24 @@ class _BookingFooter extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: isEnabled ? kGreen : Colors.grey,
+                      color: isEnabled ? kGreen : kTextHint,
                     ),
                   ),
                   const Text(
                     'total',
-                    style: TextStyle(fontSize: 11, color: Colors.grey),
+                    style: TextStyle(fontSize: 11, color: kTextHint),
                   ),
                 ],
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: kSpaceLG),
               Expanded(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: isEnabled ? kGreen : Colors.grey,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    backgroundColor: isEnabled ? kGreen : kTextHint,
                     elevation: isEnabled ? 2 : 0,
                   ),
                   onPressed: isEnabled ? onConfirm : null,
-                  child: const Text(
-                    'Confirm Booking',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  child: const Text('Confirm Booking'),
                 ),
               ),
             ],
@@ -1084,10 +1076,10 @@ class _BookingSummarySheet extends StatelessWidget {
 
     return Container(
       decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        color: kCardBackground,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(kRadiusXL)),
       ),
-      padding: const EdgeInsets.fromLTRB(24, 12, 24, 24),
+      padding: const EdgeInsets.fromLTRB(kSpaceXXL, kSpaceMD, kSpaceXXL, kSpaceXXL),
       child: SafeArea(
         top: false,
         child: Column(
@@ -1098,27 +1090,28 @@ class _BookingSummarySheet extends StatelessWidget {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: Colors.grey.shade300,
+                color: kDividerColor,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: kSpaceXL),
 
             // ── Title ──
             const Row(
               children: [
                 Icon(Icons.receipt_long_rounded, color: kGreen, size: 22),
-                SizedBox(width: 8),
+                SizedBox(width: kSpaceSM),
                 Text(
                   'Booking Summary',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
+                    color: kTextPrimary,
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: kSpaceXL),
 
             // ── Accommodation ──
             _SummaryRow(
@@ -1158,15 +1151,15 @@ class _BookingSummarySheet extends StatelessWidget {
                   ? '$adults ${adults == 1 ? 'adult' : 'adults'}, $children ${children == 1 ? 'child' : 'children'} ($totalGuests total)'
                   : '$adults ${adults == 1 ? 'adult' : 'adults'}',
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: kSpaceXL),
 
             // ── Price breakdown ──
             Container(
               width: double.infinity,
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(kSpaceLG),
               decoration: BoxDecoration(
                 color: kGreenSoft,
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(kRadiusMD),
               ),
               child: Column(
                 children: [
@@ -1191,6 +1184,7 @@ class _BookingSummarySheet extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
+                          color: kTextPrimary,
                         ),
                       ),
                       Text(
@@ -1206,7 +1200,7 @@ class _BookingSummarySheet extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: kSpaceXXL),
 
             // ── Action buttons ──
             Row(
@@ -1214,39 +1208,20 @@ class _BookingSummarySheet extends StatelessWidget {
                 Expanded(
                   child: OutlinedButton(
                     style: OutlinedButton.styleFrom(
-                      foregroundColor: Colors.grey.shade700,
-                      side: BorderSide(color: Colors.grey.shade300),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      foregroundColor: kTextSecondary,
+                      side: const BorderSide(color: kDividerColor),
                     ),
                     onPressed: () => Navigator.pop(context, false),
                     child: const Text('Go Back',
                         style: TextStyle(fontWeight: FontWeight.w600)),
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: kSpaceMD),
                 Expanded(
                   flex: 2,
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: kGreen,
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      elevation: 2,
-                    ),
                     onPressed: () => Navigator.pop(context, true),
-                    child: const Text(
-                      'Confirm Booking',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    child: const Text('Confirm Booking'),
                   ),
                 ),
               ],
@@ -1280,7 +1255,7 @@ class _SummaryRow extends StatelessWidget {
           width: 90,
           child: Text(
             label,
-            style: const TextStyle(fontSize: 13, color: Colors.grey),
+            style: const TextStyle(fontSize: 13, color: kTextHint),
           ),
         ),
         Expanded(
@@ -1289,6 +1264,7 @@ class _SummaryRow extends StatelessWidget {
             style: const TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w600,
+              color: kTextPrimary,
             ),
           ),
         ),
@@ -1308,8 +1284,8 @@ class _SummaryPriceRow extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label, style: const TextStyle(fontSize: 13, color: Colors.black87)),
-        Text(value, style: const TextStyle(fontSize: 13, color: Colors.black87)),
+        Text(label, style: const TextStyle(fontSize: 13, color: kTextSecondary)),
+        Text(value, style: const TextStyle(fontSize: 13, color: kTextPrimary)),
       ],
     );
   }

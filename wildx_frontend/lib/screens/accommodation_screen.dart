@@ -274,14 +274,18 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
                 title: const Text('Eco-Friendly Only',
                     style: TextStyle(fontSize: 14)),
                 value: _ecoOnly,
-                activeColor: kGreen,
+                activeTrackColor: kGreenLight,
+                thumbColor: WidgetStateProperty.resolveWith((states) =>
+                    states.contains(WidgetState.selected) ? kGreen : null),
                 onChanged: (v) => setModal(() => _ecoOnly = v),
               ),
               SwitchListTile(
                 title: const Text('Family Friendly Only',
                     style: TextStyle(fontSize: 14)),
                 value: _familyOnly,
-                activeColor: kGreen,
+                activeTrackColor: kGreenLight,
+                thumbColor: WidgetStateProperty.resolveWith((states) =>
+                    states.contains(WidgetState.selected) ? kGreen : null),
                 onChanged: (v) => setModal(() => _familyOnly = v),
               ),
               const SizedBox(height: kSpaceLG),

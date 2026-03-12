@@ -64,7 +64,7 @@ class _AccommodationDetailScreenState extends State<AccommodationDetailScreen> {
               item.imageUrls[index],
               fit: BoxFit.cover,
               width: double.infinity,
-              errorBuilder: (_, __, ___) => Container(
+              errorBuilder: (context, e, st) => Container(
                 color: kGreenSoft,
                 child: const Icon(Icons.image_not_supported,
                     size: 64, color: kGreen),
