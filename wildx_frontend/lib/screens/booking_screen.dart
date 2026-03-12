@@ -135,6 +135,34 @@ class _BookingScreenState extends State<BookingScreen> {
         _checkOut = null;
       });
 
+  void _showBookingSummary(Accommodation accommodation) {
+    showModalBottomSheet<bool>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => _BookingSummarySheet(
+        accommodation: accommodation,
+        checkIn: _checkIn!,
+        checkOut: _checkOut!,
+        nights: _nights,
+        adults: _adults,
+        children: _children,
+        accommodationCost: _accommodationCost,
+        serviceFee: _serviceFee,
+        total: _totalPrice,
+      ),
+    ).then((confirmed) {
+      if (confirmed == true && mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Booking confirmed!'),
+            backgroundColor: kGreen,
+          ),
+        );
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final accommodation =
@@ -307,15 +335,7 @@ class _BookingScreenState extends State<BookingScreen> {
           _BookingFooter(
             isEnabled: _nights > 0,
             total: _totalPrice,
-            onConfirm: () {
-              // TODO: Submit booking to backend
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Booking confirmed! (placeholder)'),
-                  backgroundColor: kGreen,
-                ),
-              );
-            },
+            onConfirm: () => _showBookingSummary(accommodation),
           ),
         ],
       ),
@@ -1011,6 +1031,281 @@ class _BookingFooter extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+// ── Helpers ─────────────────────────────────────────────────────────────────
+
+String _formatDateShort(DateTime d) {
+  const months = [
+    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+  ];
+  const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  return '${weekdays[d.weekday - 1]}, ${d.day} ${months[d.month - 1]} ${d.year}';
+}
+
+String _lkr(double v) => 'LKR ${v.toStringAsFixed(0)}';
+
+// ── Booking summary bottom sheet ────────────────────────────────────────────
+
+class _BookingSummarySheet extends StatelessWidget {
+  final Accommodation accommodation;
+  final DateTime checkIn;
+  final DateTime checkOut;
+  final int nights;
+  final int adults;
+  final int children;
+  final double accommodationCost;
+  final double serviceFee;
+  final double total;
+
+  const _BookingSummarySheet({
+    required this.accommodation,
+    required this.checkIn,
+    required this.checkOut,
+    required this.nights,
+    required this.adults,
+    required this.children,
+    required this.accommodationCost,
+    required this.serviceFee,
+    required this.total,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final totalGuests = adults + children;
+
+    return Container(
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      padding: const EdgeInsets.fromLTRB(24, 12, 24, 24),
+      child: SafeArea(
+        top: false,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // ── Drag handle ──
+            Container(
+              width: 40,
+              height: 4,
+              decoration: BoxDecoration(
+                color: Colors.grey.shade300,
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            const SizedBox(height: 20),
+
+            // ── Title ──
+            const Row(
+              children: [
+                Icon(Icons.receipt_long_rounded, color: kGreen, size: 22),
+                SizedBox(width: 8),
+                Text(
+                  'Booking Summary',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+
+            // ── Accommodation ──
+            _SummaryRow(
+              icon: Icons.hotel_rounded,
+              label: 'Accommodation',
+              value: accommodation.name,
+            ),
+            const SizedBox(height: 14),
+
+            // ── Location ──
+            _SummaryRow(
+              icon: Icons.location_on_outlined,
+              label: 'Location',
+              value: accommodation.parkName,
+            ),
+            const SizedBox(height: 14),
+
+            // ── Check-in / Check-out ──
+            _SummaryRow(
+              icon: Icons.calendar_today_rounded,
+              label: 'Check-in',
+              value: _formatDateShort(checkIn),
+            ),
+            const SizedBox(height: 8),
+            _SummaryRow(
+              icon: Icons.calendar_today_rounded,
+              label: 'Check-out',
+              value: '${_formatDateShort(checkOut)}  ($nights ${nights == 1 ? 'night' : 'nights'})',
+            ),
+            const SizedBox(height: 14),
+
+            // ── Guests ──
+            _SummaryRow(
+              icon: Icons.people_outline_rounded,
+              label: 'Guests',
+              value: children > 0
+                  ? '$adults ${adults == 1 ? 'adult' : 'adults'}, $children ${children == 1 ? 'child' : 'children'} ($totalGuests total)'
+                  : '$adults ${adults == 1 ? 'adult' : 'adults'}',
+            ),
+            const SizedBox(height: 20),
+
+            // ── Price breakdown ──
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: kGreenSoft,
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: Column(
+                children: [
+                  _SummaryPriceRow(
+                    label: 'Accommodation ($nights ${nights == 1 ? 'night' : 'nights'})',
+                    value: _lkr(accommodationCost),
+                  ),
+                  const SizedBox(height: 6),
+                  _SummaryPriceRow(
+                    label: 'Service fee',
+                    value: _lkr(serviceFee),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    child: Divider(height: 1, color: kGreenLight),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Total',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        _lkr(total),
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: kGreen,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 24),
+
+            // ── Action buttons ──
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: Colors.grey.shade700,
+                      side: BorderSide(color: Colors.grey.shade300),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                    ),
+                    onPressed: () => Navigator.pop(context, false),
+                    child: const Text('Go Back',
+                        style: TextStyle(fontWeight: FontWeight.w600)),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  flex: 2,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: kGreen,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      elevation: 2,
+                    ),
+                    onPressed: () => Navigator.pop(context, true),
+                    child: const Text(
+                      'Confirm Booking',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _SummaryRow extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final String value;
+
+  const _SummaryRow({
+    required this.icon,
+    required this.label,
+    required this.value,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(icon, size: 18, color: kGreen),
+        const SizedBox(width: 10),
+        SizedBox(
+          width: 90,
+          child: Text(
+            label,
+            style: const TextStyle(fontSize: 13, color: Colors.grey),
+          ),
+        ),
+        Expanded(
+          child: Text(
+            value,
+            style: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _SummaryPriceRow extends StatelessWidget {
+  final String label;
+  final String value;
+
+  const _SummaryPriceRow({required this.label, required this.value});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(label, style: const TextStyle(fontSize: 13, color: Colors.black87)),
+        Text(value, style: const TextStyle(fontSize: 13, color: Colors.black87)),
+      ],
     );
   }
 }
