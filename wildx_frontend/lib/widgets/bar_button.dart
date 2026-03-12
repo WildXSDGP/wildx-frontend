@@ -12,20 +12,29 @@ class BarButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          border: Border.all(color: kGreenLight.withOpacity(0.4)),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Row(
-          children: [
-            Icon(icon, size: 16, color: kGreen),
-            const SizedBox(width: 6),
-            Text(label, style: const TextStyle(color: kGreen)),
-          ],
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(kRadiusMD),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+          decoration: BoxDecoration(
+            border: Border.all(color: kDividerColor),
+            borderRadius: BorderRadius.circular(kRadiusMD),
+          ),
+          child: Row(
+            children: [
+              Icon(icon, size: 16, color: kGreen),
+              const SizedBox(width: 8),
+              Text(label,
+                  style: const TextStyle(
+                    color: kTextPrimary,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                  )),
+            ],
+          ),
         ),
       ),
     );

@@ -35,7 +35,7 @@ class _AccommodationDetailScreenState extends State<AccommodationDetailScreen> {
         ModalRoute.of(context)!.settings.arguments as Accommodation;
 
     return Scaffold(
-      backgroundColor: kGreenSoft,
+      backgroundColor: kBackground,
       bottomNavigationBar: _buildStickyBookBar(context, item),
       body: SingleChildScrollView(
         child: Column(
@@ -55,7 +55,7 @@ class _AccommodationDetailScreenState extends State<AccommodationDetailScreen> {
       children: [
         // PageView slider
         SizedBox(
-          height: 280,
+          height: 300,
           child: PageView.builder(
             controller: _pageController,
             itemCount: item.imageUrls.length,
@@ -82,9 +82,9 @@ class _AccommodationDetailScreenState extends State<AccommodationDetailScreen> {
                 end: Alignment.bottomCenter,
                 colors: [
                   Colors.transparent,
-                  Colors.black.withOpacity(0.60),
+                  Colors.black.withValues(alpha: 0.65),
                 ],
-                stops: const [0.45, 1.0],
+                stops: const [0.4, 1.0],
               ),
             ),
           ),
@@ -92,14 +92,18 @@ class _AccommodationDetailScreenState extends State<AccommodationDetailScreen> {
 
         // Back button (top-left)
         Positioned(
-          top: MediaQuery.of(context).padding.top + 8,
-          left: 16,
+          top: MediaQuery.of(context).padding.top + kSpaceSM,
+          left: kSpaceLG,
           child: GestureDetector(
             onTap: () => Navigator.pop(context),
-            child: const CircleAvatar(
-              radius: 18,
-              backgroundColor: Colors.black38,
-              child: Icon(Icons.arrow_back_ios_new,
+            child: Container(
+              width: 38,
+              height: 38,
+              decoration: BoxDecoration(
+                color: Colors.black.withValues(alpha: 0.3),
+                borderRadius: BorderRadius.circular(kRadiusMD),
+              ),
+              child: const Icon(Icons.arrow_back_ios_new,
                   size: 14, color: Colors.white),
             ),
           ),
@@ -107,8 +111,8 @@ class _AccommodationDetailScreenState extends State<AccommodationDetailScreen> {
 
         // Eco / Family badges (top-right)
         Positioned(
-          top: MediaQuery.of(context).padding.top + 8,
-          right: 16,
+          top: MediaQuery.of(context).padding.top + kSpaceSM,
+          right: kSpaceLG,
           child: Row(
             children: [
               if (item.isEcoFriendly) AppBadge(label: '🌿 Eco', color: kGreen),
@@ -122,23 +126,24 @@ class _AccommodationDetailScreenState extends State<AccommodationDetailScreen> {
 
         // Name overlay above dots
         Positioned(
-          bottom: 32,
-          left: 16,
-          right: 16,
+          bottom: kSpaceHuge,
+          left: kSpaceXL,
+          right: kSpaceXL,
           child: Text(
             item.name,
             style: const TextStyle(
               color: Colors.white,
-              fontSize: 22,
+              fontSize: 24,
               fontWeight: FontWeight.bold,
-              shadows: [Shadow(color: Colors.black54, blurRadius: 6)],
+              letterSpacing: -0.3,
+              shadows: [Shadow(color: Colors.black54, blurRadius: 8)],
             ),
           ),
         ),
 
         // Dot indicators
         Positioned(
-          bottom: 10,
+          bottom: kSpaceMD,
           left: 0,
           right: 0,
           child: Row(
@@ -148,12 +153,12 @@ class _AccommodationDetailScreenState extends State<AccommodationDetailScreen> {
               return AnimatedContainer(
                 duration: const Duration(milliseconds: 250),
                 margin: const EdgeInsets.symmetric(horizontal: 3),
-                width: isActive ? 20 : 6,
+                width: isActive ? 22 : 6,
                 height: 6,
                 decoration: BoxDecoration(
                   color: isActive
                       ? Colors.white
-                      : Colors.white.withOpacity(0.50),
+                      : Colors.white.withValues(alpha: 0.45),
                   borderRadius: BorderRadius.circular(3),
                 ),
               );
@@ -168,16 +173,16 @@ class _AccommodationDetailScreenState extends State<AccommodationDetailScreen> {
   Widget _buildContentCard(Accommodation item) {
     return Container(
       width: double.infinity,
-      margin: const EdgeInsets.all(16),
-      padding: const EdgeInsets.all(20),
+      margin: const EdgeInsets.all(kSpaceLG),
+      padding: const EdgeInsets.all(kSpaceXL),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
+        color: kCardBackground,
+        borderRadius: BorderRadius.circular(kRadiusXL),
+        boxShadow: const [
           BoxShadow(
-            color: kGreen.withOpacity(0.10),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
+            color: kShadowColor,
+            blurRadius: 16,
+            offset: Offset(0, 6),
           ),
         ],
       ),
@@ -185,11 +190,14 @@ class _AccommodationDetailScreenState extends State<AccommodationDetailScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildPriceRatingRow(item),
-          const SizedBox(height: 12),
+          const SizedBox(height: kSpaceLG),
           _buildParkRow(item),
-          const Divider(height: 28),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: kSpaceXL),
+            child: Divider(color: kDividerColor),
+          ),
           _buildDescriptionSection(item),
-          const SizedBox(height: 8),
+          const SizedBox(height: kSpaceSM),
         ],
       ),
     );
@@ -206,34 +214,36 @@ class _AccommodationDetailScreenState extends State<AccommodationDetailScreen> {
             Text(
               'LKR ${item.pricePerNight.toStringAsFixed(0)}',
               style: const TextStyle(
-                fontSize: 22,
+                fontSize: 24,
                 fontWeight: FontWeight.bold,
                 color: kGreen,
+                letterSpacing: -0.3,
               ),
             ),
             const Text(
               'per night',
-              style: TextStyle(fontSize: 12, color: Colors.grey),
+              style: TextStyle(fontSize: 12, color: kTextHint),
             ),
           ],
         ),
         const Spacer(),
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
           decoration: BoxDecoration(
-            color: Colors.amber.shade50,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.amber.shade200),
+            color: kAmberSoft,
+            borderRadius: BorderRadius.circular(kRadiusMD),
+            border: Border.all(color: kAmber.withValues(alpha: 0.3)),
           ),
           child: Row(
             children: [
-              const Icon(Icons.star_rounded, color: Colors.amber, size: 18),
-              const SizedBox(width: 4),
+              const Icon(Icons.star_rounded, color: kAmber, size: 18),
+              const SizedBox(width: kSpaceXS),
               Text(
                 item.rating.toStringAsFixed(1),
                 style: const TextStyle(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w700,
                   fontSize: 15,
+                  color: kTextPrimary,
                 ),
               ),
             ],
@@ -248,21 +258,21 @@ class _AccommodationDetailScreenState extends State<AccommodationDetailScreen> {
     return Row(
       children: [
         const Icon(Icons.park_outlined, size: 16, color: kGreenLight),
-        const SizedBox(width: 6),
+        const SizedBox(width: kSpaceSM),
         Text(
           item.parkName,
           style: const TextStyle(
             fontSize: 14,
-            color: Colors.grey,
+            color: kTextSecondary,
             fontWeight: FontWeight.w500,
           ),
         ),
-        const SizedBox(width: 16),
-        const Icon(Icons.location_on_outlined, size: 16, color: kGreenLight),
-        const SizedBox(width: 4),
+        const SizedBox(width: kSpaceLG),
+        const Icon(Icons.location_on_outlined, size: 16, color: kEarthLight),
+        const SizedBox(width: kSpaceXS),
         Text(
           '${item.distanceFromGate} km from gate',
-          style: const TextStyle(fontSize: 14, color: Colors.grey),
+          style: const TextStyle(fontSize: 14, color: kTextSecondary),
         ),
       ],
     );
@@ -276,18 +286,19 @@ class _AccommodationDetailScreenState extends State<AccommodationDetailScreen> {
         const Text(
           'About',
           style: TextStyle(
-            fontSize: 16,
+            fontSize: 17,
             fontWeight: FontWeight.bold,
             color: kGreen,
+            letterSpacing: -0.2,
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: kSpaceMD),
         Text(
           item.description,
           style: const TextStyle(
             fontSize: 14,
-            color: Colors.black87,
-            height: 1.6,
+            color: kTextSecondary,
+            height: 1.7,
           ),
         ),
       ],
@@ -297,20 +308,21 @@ class _AccommodationDetailScreenState extends State<AccommodationDetailScreen> {
   // ── Sticky bottom booking bar ───────────────
   Widget _buildStickyBookBar(BuildContext context, Accommodation item) {
     return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
+      decoration: const BoxDecoration(
+        color: kCardBackground,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.08),
+            color: kShadowColor,
             blurRadius: 16,
-            offset: const Offset(0, -4),
+            offset: Offset(0, -4),
           ),
         ],
       ),
       child: SafeArea(
         top: false,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+          padding: const EdgeInsets.symmetric(
+              horizontal: kSpaceXL, vertical: kSpaceLG),
           child: Row(
             children: [
               // Price summary
@@ -328,23 +340,14 @@ class _AccommodationDetailScreenState extends State<AccommodationDetailScreen> {
                   ),
                   const Text(
                     'per night',
-                    style: TextStyle(fontSize: 11, color: Colors.grey),
+                    style: TextStyle(fontSize: 11, color: kTextHint),
                   ),
                 ],
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: kSpaceLG),
               // Book Now button
               Expanded(
                 child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: kGreen,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    elevation: 2,
-                  ),
                   onPressed: () {
                     Navigator.pushNamed(
                       context,
@@ -356,14 +359,8 @@ class _AccommodationDetailScreenState extends State<AccommodationDetailScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(Icons.calendar_month_outlined, size: 18),
-                      SizedBox(width: 8),
-                      Text(
-                        'Book Now',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      SizedBox(width: kSpaceSM),
+                      Text('Book Now'),
                     ],
                   ),
                 ),

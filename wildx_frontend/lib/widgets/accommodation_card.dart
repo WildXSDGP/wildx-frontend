@@ -13,16 +13,16 @@ class AccommodationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+      margin: const EdgeInsets.only(bottom: kSpaceLG),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
+        color: kCardBackground,
+        borderRadius: BorderRadius.circular(kRadiusLG),
+        boxShadow: const [
           BoxShadow(
-            color: kGreen.withOpacity(0.10),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          )
+            color: kShadowColor,
+            blurRadius: 12,
+            offset: Offset(0, 4),
+          ),
         ],
       ),
       child: Column(
@@ -33,7 +33,7 @@ class AccommodationCard extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius:
-                    const BorderRadius.vertical(top: Radius.circular(16)),
+                    const BorderRadius.vertical(top: Radius.circular(kRadiusLG)),
                 child: Image.network(
                   item.imageUrl,
                   height: 180,
@@ -47,9 +47,30 @@ class AccommodationCard extends StatelessWidget {
                   ),
                 ),
               ),
+              // Gradient overlay at bottom of image
               Positioned(
-                top: 12,
-                right: 12,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                height: 60,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.vertical(
+                        top: Radius.circular(kRadiusLG)),
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.transparent,
+                        Colors.black.withValues(alpha: 0.3),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                top: kSpaceMD,
+                right: kSpaceMD,
                 child: Row(
                   children: [
                     if (item.isEcoFriendly) AppBadge(label: '🌿 Eco', color: kGreen),
@@ -59,23 +80,78 @@ class AccommodationCard extends StatelessWidget {
                   ],
                 ),
               ),
+              // Rating chip on image
+              Positioned(
+                bottom: kSpaceMD,
+                left: kSpaceMD,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 10, vertical: 5),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(kRadiusSM),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: kShadowColor,
+                        blurRadius: 6,
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.star_rounded,
+                          size: 14, color: kAmber),
+                      const SizedBox(width: 3),
+                      Text(
+                        '${item.rating}',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          color: kTextPrimary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
 
           // Details
           Padding(
-            padding: const EdgeInsets.all(14),
+            padding: const EdgeInsets.all(kSpaceLG),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
-                      child: Text(
-                        item.name,
-                        style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            item.name,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                              color: kTextPrimary,
+                              letterSpacing: -0.2,
+                            ),
+                          ),
+                          const SizedBox(height: kSpaceXS),
+                          Row(
+                            children: [
+                              const Icon(Icons.park_outlined,
+                                  size: 13, color: kGreenLight),
+                              const SizedBox(width: kSpaceXS),
+                              Text(item.parkName,
+                                  style: const TextStyle(
+                                      color: kTextSecondary, fontSize: 13)),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
                     Column(
@@ -84,48 +160,35 @@ class AccommodationCard extends StatelessWidget {
                         Text(
                           'LKR ${item.pricePerNight.toStringAsFixed(0)}',
                           style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 16,
                             color: kGreen,
                           ),
                         ),
                         const Text('per night',
-                            style:
-                                TextStyle(fontSize: 11, color: Colors.grey)),
+                            style: TextStyle(
+                                fontSize: 11, color: kTextHint)),
                       ],
                     ),
                   ],
                 ),
-                const SizedBox(height: 4),
-                Text(item.parkName,
-                    style: const TextStyle(color: Colors.grey, fontSize: 13)),
-                const SizedBox(height: 8),
+                const SizedBox(height: kSpaceMD),
                 Row(
                   children: [
-                    const Icon(Icons.location_on, size: 14, color: kGreenLight),
+                    const Icon(Icons.location_on_outlined,
+                        size: 14, color: kEarthLight),
+                    const SizedBox(width: kSpaceXS),
                     Text(
-                      '  ${item.distanceFromGate} km from gate',
+                      '${item.distanceFromGate} km from gate',
                       style:
-                          const TextStyle(color: Colors.grey, fontSize: 13),
-                    ),
-                    const Spacer(),
-                    const Icon(Icons.star, size: 14, color: Colors.amber),
-                    Text(
-                      ' ${item.rating}',
-                      style: const TextStyle(fontSize: 13),
+                          const TextStyle(color: kTextSecondary, fontSize: 13),
                     ),
                   ],
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: kSpaceLG),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: kGreen,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                    ),
                     onPressed: () {
                       Navigator.pushNamed(
                         context,
@@ -133,8 +196,7 @@ class AccommodationCard extends StatelessWidget {
                         arguments: item,
                       );
                     },
-                    child: const Text('View Details',
-                        style: TextStyle(color: Colors.white)),
+                    child: const Text('View Details'),
                   ),
                 ),
               ],

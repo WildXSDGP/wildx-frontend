@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'app_theme.dart';
 import 'routes/app_routes.dart';
 import 'screens/accommodation_detail_screen.dart';
 import 'screens/accommodation_screen.dart';
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: buildAppTheme(),
       initialRoute: AppRoutes.accommodations,
       routes: {
         AppRoutes.accommodations: (_) => const AccommodationScreen(),
