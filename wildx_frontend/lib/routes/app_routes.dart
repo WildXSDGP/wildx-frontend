@@ -3,4 +3,5 @@ class AppRoutes {
 
   static const String accommodations = '/accommodations';
   static const String accommodationDetail = '/accommodation-detail';
+  static const String booking = '/booking';
 }

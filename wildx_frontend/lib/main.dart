@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'routes/app_routes.dart';
 import 'screens/accommodation_detail_screen.dart';
 import 'screens/accommodation_screen.dart';
+import 'screens/booking_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
       routes: {
         AppRoutes.accommodations: (_) => const AccommodationScreen(),
         AppRoutes.accommodationDetail: (_) => const AccommodationDetailScreen(),
+        AppRoutes.booking: (_) => const BookingScreen(),
       },
     );
   }

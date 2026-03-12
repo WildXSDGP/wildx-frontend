@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../app_colors.dart';
 import '../models/accommodation.dart';
+import '../routes/app_routes.dart';
 import '../widgets/app_badge.dart';
 
 class AccommodationDetailScreen extends StatefulWidget {
@@ -345,7 +346,11 @@ class _AccommodationDetailScreenState extends State<AccommodationDetailScreen> {
                     elevation: 2,
                   ),
                   onPressed: () {
-                    // TODO: Navigate to booking flow
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutes.booking,
+                      arguments: item,
+                    );
                   },
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
