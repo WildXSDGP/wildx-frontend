@@ -170,13 +170,13 @@ class _BookingScreenState extends State<BookingScreen> {
     _pricePerNight = accommodation.pricePerNight;
 
     return Scaffold(
-      backgroundColor: kGreenSoft,
+      backgroundColor: kBackground,
       appBar: AppBar(
         backgroundColor: kGreen,
         foregroundColor: Colors.white,
         title: const Text(
           'Book Accommodation',
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: -0.3),
         ),
         elevation: 0,
       ),
@@ -184,7 +184,7 @@ class _BookingScreenState extends State<BookingScreen> {
         children: [
           Expanded(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(kSpaceXL),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
