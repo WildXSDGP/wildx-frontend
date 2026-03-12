@@ -13,7 +13,10 @@ class BookingScreen extends StatefulWidget {
 class _BookingScreenState extends State<BookingScreen> {
   DateTime? _checkIn;
   DateTime? _checkOut;
-  int _guests = 1;
+  int _adults = 1;
+  int _children = 0;
+
+  int get _totalGuests => _adults + _children;
 
   int get _nights {
     if (_checkIn == null || _checkOut == null) return 0;
@@ -243,20 +246,37 @@ class _BookingScreenState extends State<BookingScreen> {
                   _SectionCard(
                     title: 'Guests',
                     icon: Icons.people_outline_rounded,
-                    child: _GuestCounter(
-                      value: _guests,
-                      onDecrement:
-                          _guests > 1 ? () => setState(() => _guests--) : null,
-                      onIncrement: _guests < 20
-                          ? () => setState(() => _guests++)
-                          : null,
+                    trailing: _totalGuests > 0
+                        ? Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 3),
+                            decoration: BoxDecoration(
+                              color: kGreenSoft,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Text(
+                              '$_totalGuests total',
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: kGreen,
+                              ),
+                            ),
+                          )
+                        : null,
+                    child: _GuestSelector(
+                      adults: _adults,
+                      children: _children,
+                      onAdultsChanged: (v) => setState(() => _adults = v),
+                      onChildrenChanged: (v) => setState(() => _children = v),
                     ),
                   ),
                   const SizedBox(height: 16),
                   _PriceSummary(
                     pricePerNight: accommodation.pricePerNight,
                     nights: _nights,
-                    guests: _guests,
+                    adults: _adults,
+                    children: _children,
                     total: _totalPrice(accommodation.pricePerNight),
                   ),
                 ],
@@ -535,14 +555,84 @@ class _DateField extends StatelessWidget {
   }
 }
 
-// ── Guest counter ───────────────────────────────────────────────────────────
+// ── Guest selector (adults + children) ──────────────────────────────────────
 
-class _GuestCounter extends StatelessWidget {
+class _GuestSelector extends StatelessWidget {
+  final int adults;
+  final int children;
+  final ValueChanged<int> onAdultsChanged;
+  final ValueChanged<int> onChildrenChanged;
+
+  static const int _maxGuests = 20;
+
+  const _GuestSelector({
+    required this.adults,
+    required this.children,
+    required this.onAdultsChanged,
+    required this.onChildrenChanged,
+  });
+
+  int get _total => adults + children;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        _GuestRow(
+          icon: Icons.person_outline_rounded,
+          label: 'Adults',
+          subtitle: 'Age 13+',
+          value: adults,
+          onDecrement: adults > 1 ? () => onAdultsChanged(adults - 1) : null,
+          onIncrement:
+              _total < _maxGuests ? () => onAdultsChanged(adults + 1) : null,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          child: Divider(height: 1, color: kGreenSoft),
+        ),
+        _GuestRow(
+          icon: Icons.child_care_rounded,
+          label: 'Children',
+          subtitle: 'Age 0 – 12',
+          value: children,
+          onDecrement:
+              children > 0 ? () => onChildrenChanged(children - 1) : null,
+          onIncrement: _total < _maxGuests
+              ? () => onChildrenChanged(children + 1)
+              : null,
+        ),
+        if (_total >= _maxGuests)
+          const Padding(
+            padding: EdgeInsets.only(top: 10),
+            child: Row(
+              children: [
+                Icon(Icons.info_outline_rounded, size: 14, color: Colors.grey),
+                SizedBox(width: 6),
+                Text(
+                  'Maximum of 20 guests reached',
+                  style: TextStyle(fontSize: 12, color: Colors.grey),
+                ),
+              ],
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+class _GuestRow extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final String subtitle;
   final int value;
   final VoidCallback? onDecrement;
   final VoidCallback? onIncrement;
 
-  const _GuestCounter({
+  const _GuestRow({
+    required this.icon,
+    required this.label,
+    required this.subtitle,
     required this.value,
     required this.onDecrement,
     required this.onIncrement,
@@ -552,11 +642,24 @@ class _GuestCounter extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const Icon(Icons.person_outline_rounded, size: 18, color: Colors.grey),
-        const SizedBox(width: 8),
-        Text(
-          value == 1 ? '1 Guest' : '$value Guests',
-          style: const TextStyle(fontSize: 14, color: Colors.black87),
+        Icon(icon, size: 20, color: kGreen),
+        const SizedBox(width: 10),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              label,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: Colors.black87,
+              ),
+            ),
+            Text(
+              subtitle,
+              style: const TextStyle(fontSize: 11, color: Colors.grey),
+            ),
+          ],
         ),
         const Spacer(),
         _CounterButton(
@@ -564,13 +667,17 @@ class _GuestCounter extends StatelessWidget {
           onTap: onDecrement,
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Text(
-            '$value',
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: kGreen,
+          padding: const EdgeInsets.symmetric(horizontal: 14),
+          child: SizedBox(
+            width: 24,
+            child: Text(
+              '$value',
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: kGreen,
+              ),
             ),
           ),
         ),
@@ -616,13 +723,15 @@ class _CounterButton extends StatelessWidget {
 class _PriceSummary extends StatelessWidget {
   final double pricePerNight;
   final int nights;
-  final int guests;
+  final int adults;
+  final int children;
   final double total;
 
   const _PriceSummary({
     required this.pricePerNight,
     required this.nights,
-    required this.guests,
+    required this.adults,
+    required this.children,
     required this.total,
   });
 
@@ -668,7 +777,8 @@ class _PriceSummary extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           _PriceRow(
-            label: '$guests ${guests == 1 ? 'guest' : 'guests'}',
+            label: '$adults ${adults == 1 ? 'adult' : 'adults'}'
+                '${children > 0 ? ', $children ${children == 1 ? 'child' : 'children'}' : ''}',
             value: '',
             isSubtle: true,
           ),
