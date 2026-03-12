@@ -23,7 +23,23 @@ class _BookingScreenState extends State<BookingScreen> {
     return _checkOut!.difference(_checkIn!).inDays;
   }
 
-  double _totalPrice(double pricePerNight) => pricePerNight * _nights;
+  // Children are charged at half rate
+  static const double _childRate = 0.5;
+  static const double _serviceFeePercent = 0.05;
+
+  double get _accommodationCost {
+    if (_nights <= 0) return 0;
+    final adultCost = _pricePerNight * _adults * _nights;
+    final childCost = _pricePerNight * _childRate * _children * _nights;
+    return adultCost + childCost;
+  }
+
+  double get _serviceFee => _accommodationCost * _serviceFeePercent;
+
+  double get _totalPrice => _accommodationCost + _serviceFee;
+
+  // Cached from build; set once per frame via the build method.
+  double _pricePerNight = 0;
 
   /// Opens a date-range picker so the user selects both check-in and
   /// check-out in a single interaction.
@@ -123,6 +139,7 @@ class _BookingScreenState extends State<BookingScreen> {
   Widget build(BuildContext context) {
     final accommodation =
         ModalRoute.of(context)!.settings.arguments as Accommodation;
+    _pricePerNight = accommodation.pricePerNight;
 
     return Scaffold(
       backgroundColor: kGreenSoft,
@@ -277,7 +294,11 @@ class _BookingScreenState extends State<BookingScreen> {
                     nights: _nights,
                     adults: _adults,
                     children: _children,
-                    total: _totalPrice(accommodation.pricePerNight),
+                    childRate: _childRate,
+                    accommodationCost: _accommodationCost,
+                    serviceFeePercent: _serviceFeePercent,
+                    serviceFee: _serviceFee,
+                    total: _totalPrice,
                   ),
                 ],
               ),
@@ -285,7 +306,7 @@ class _BookingScreenState extends State<BookingScreen> {
           ),
           _BookingFooter(
             isEnabled: _nights > 0,
-            total: _totalPrice(accommodation.pricePerNight),
+            total: _totalPrice,
             onConfirm: () {
               // TODO: Submit booking to backend
               ScaffoldMessenger.of(context).showSnackBar(
@@ -725,6 +746,10 @@ class _PriceSummary extends StatelessWidget {
   final int nights;
   final int adults;
   final int children;
+  final double childRate;
+  final double accommodationCost;
+  final double serviceFeePercent;
+  final double serviceFee;
   final double total;
 
   const _PriceSummary({
@@ -732,88 +757,143 @@ class _PriceSummary extends StatelessWidget {
     required this.nights,
     required this.adults,
     required this.children,
+    required this.childRate,
+    required this.accommodationCost,
+    required this.serviceFeePercent,
+    required this.serviceFee,
     required this.total,
   });
 
+  bool get _hasDates => nights > 0;
+  String _lkr(double v) => 'LKR ${v.toStringAsFixed(0)}';
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: kGreen.withValues(alpha: 0.08),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Row(
-            children: [
-              Icon(Icons.receipt_long_outlined, size: 18, color: kGreen),
-              SizedBox(width: 8),
-              Text(
-                'Price Summary',
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 14),
-          _PriceRow(
-            label:
-                'LKR ${pricePerNight.toStringAsFixed(0)} × $nights ${nights == 1 ? 'night' : 'nights'}',
-            value: nights > 0
-                ? 'LKR ${(pricePerNight * nights).toStringAsFixed(0)}'
-                : '—',
-          ),
-          const SizedBox(height: 8),
-          _PriceRow(
-            label: '$adults ${adults == 1 ? 'adult' : 'adults'}'
-                '${children > 0 ? ', $children ${children == 1 ? 'child' : 'children'}' : ''}',
-            value: '',
-            isSubtle: true,
-          ),
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 12),
-            child: Divider(height: 1, color: kGreenSoft),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                'Total',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text(
-                nights > 0 ? 'LKR ${total.toStringAsFixed(0)}' : '—',
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: kGreen,
-                ),
-              ),
-            ],
-          ),
-          if (nights == 0) ...[
-            const SizedBox(height: 8),
-            const Text(
-              'Select check-in and check-out dates to see the total price.',
-              style: TextStyle(fontSize: 12, color: Colors.grey),
+    final adultSubtotal = pricePerNight * adults * nights;
+    final childSubtotal = pricePerNight * childRate * children * nights;
+
+    return AnimatedSize(
+      duration: const Duration(milliseconds: 250),
+      curve: Curves.easeInOut,
+      alignment: Alignment.topCenter,
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: kGreen.withValues(alpha: 0.08),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
             ),
           ],
-        ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Row(
+              children: [
+                Icon(Icons.receipt_long_outlined, size: 18, color: kGreen),
+                SizedBox(width: 8),
+                Text(
+                  'Price Summary',
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 14),
+
+            // ── Line items ────────────────────────
+            if (_hasDates) ...[
+              // Adults
+              _PriceRow(
+                label: '${_lkr(pricePerNight)} × $adults '
+                    '${adults == 1 ? 'adult' : 'adults'} × $nights '
+                    '${nights == 1 ? 'night' : 'nights'}',
+                value: _lkr(adultSubtotal),
+              ),
+              // Children (shown only when present)
+              if (children > 0) ...[
+                const SizedBox(height: 6),
+                _PriceRow(
+                  label: '${_lkr(pricePerNight * childRate)} × $children '
+                      '${children == 1 ? 'child' : 'children'} × $nights '
+                      '${nights == 1 ? 'night' : 'nights'}',
+                  value: _lkr(childSubtotal),
+                ),
+                const SizedBox(height: 2),
+                const _PriceRow(
+                  label: 'Children charged at 50% rate',
+                  value: '',
+                  isSubtle: true,
+                ),
+              ],
+              const SizedBox(height: 6),
+              // Service fee
+              _PriceRow(
+                label: 'Service fee (${(serviceFeePercent * 100).toStringAsFixed(0)}%)',
+                value: _lkr(serviceFee),
+              ),
+            ] else ...[
+              _PriceRow(
+                label: '${_lkr(pricePerNight)} / night',
+                value: '—',
+              ),
+              const SizedBox(height: 6),
+              _PriceRow(
+                label: '$adults ${adults == 1 ? 'adult' : 'adults'}'
+                    '${children > 0 ? ', $children ${children == 1 ? 'child' : 'children'}' : ''}',
+                value: '',
+                isSubtle: true,
+              ),
+            ],
+
+            // ── Divider ───────────────────────────
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 12),
+              child: Divider(height: 1, color: kGreenSoft),
+            ),
+
+            // ── Total ─────────────────────────────
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Total',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 200),
+                  child: Text(
+                    _hasDates ? _lkr(total) : '—',
+                    key: ValueKey<String>(
+                        _hasDates ? total.toStringAsFixed(0) : 'empty'),
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: kGreen,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            if (!_hasDates) ...[
+              const SizedBox(height: 8),
+              const Text(
+                'Select check-in and check-out dates to see the total price.',
+                style: TextStyle(fontSize: 12, color: Colors.grey),
+              ),
+            ],
+          ],
+        ),
       ),
     );
   }
