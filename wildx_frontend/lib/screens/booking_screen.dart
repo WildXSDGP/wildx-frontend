@@ -22,20 +22,69 @@ class _BookingScreenState extends State<BookingScreen> {
 
   double _totalPrice(double pricePerNight) => pricePerNight * _nights;
 
-  Future<void> _pickDate({
-    required bool isCheckIn,
-    required DateTime? other,
-  }) async {
+  /// Opens a date-range picker so the user selects both check-in and
+  /// check-out in a single interaction.
+  Future<void> _pickDateRange() async {
     final now = DateTime.now();
-    final firstDate = isCheckIn
-        ? DateTime(now.year, now.month, now.day)
-        : (other ?? now).add(const Duration(days: 1));
+    final today = DateTime(now.year, now.month, now.day);
+    final lastDate = today.add(const Duration(days: 365));
+
+    final range = await showDateRangePicker(
+      context: context,
+      firstDate: today,
+      lastDate: lastDate,
+      initialDateRange: (_checkIn != null && _checkOut != null)
+          ? DateTimeRange(start: _checkIn!, end: _checkOut!)
+          : null,
+      currentDate: today,
+      saveText: 'CONFIRM',
+      builder: (context, child) => Theme(
+        data: Theme.of(context).copyWith(
+          colorScheme: const ColorScheme.light(
+            primary: kGreen,
+            onPrimary: Colors.white,
+            secondary: kGreenLight,
+            onSecondary: Colors.white,
+            surface: Colors.white,
+            onSurface: Colors.black87,
+          ),
+          textButtonTheme: TextButtonThemeData(
+            style: TextButton.styleFrom(foregroundColor: kGreen),
+          ),
+        ),
+        child: child!,
+      ),
+    );
+
+    if (range == null) return;
+    setState(() {
+      _checkIn = range.start;
+      _checkOut = range.end;
+    });
+  }
+
+  /// Opens a single-date picker for adjusting only check-in or check-out.
+  Future<void> _pickSingleDate({required bool isCheckIn}) async {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final lastDate = today.add(const Duration(days: 365));
+
+    final DateTime firstAllowed;
+    final DateTime initial;
+
+    if (isCheckIn) {
+      firstAllowed = today;
+      initial = _checkIn ?? today;
+    } else {
+      firstAllowed = (_checkIn ?? today).add(const Duration(days: 1));
+      initial = _checkOut ?? firstAllowed;
+    }
 
     final picked = await showDatePicker(
       context: context,
-      initialDate: firstDate,
-      firstDate: firstDate,
-      lastDate: now.add(const Duration(days: 365)),
+      initialDate: initial.isBefore(firstAllowed) ? firstAllowed : initial,
+      firstDate: firstAllowed,
+      lastDate: lastDate,
       builder: (context, child) => Theme(
         data: Theme.of(context).copyWith(
           colorScheme: const ColorScheme.light(
@@ -61,6 +110,11 @@ class _BookingScreenState extends State<BookingScreen> {
       }
     });
   }
+
+  void _clearDates() => setState(() {
+        _checkIn = null;
+        _checkOut = null;
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -91,22 +145,96 @@ class _BookingScreenState extends State<BookingScreen> {
                   _SectionCard(
                     title: 'Select Dates',
                     icon: Icons.date_range_outlined,
+                    trailing: _checkIn != null || _checkOut != null
+                        ? GestureDetector(
+                            onTap: _clearDates,
+                            child: const Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(Icons.clear_rounded,
+                                    size: 14, color: Colors.grey),
+                                SizedBox(width: 2),
+                                Text('Clear',
+                                    style: TextStyle(
+                                        fontSize: 12, color: Colors.grey)),
+                              ],
+                            ),
+                          )
+                        : null,
                     child: Column(
                       children: [
+                        // Tap either field to adjust individually
                         _DateField(
                           label: 'Check-in',
                           icon: Icons.login_rounded,
                           date: _checkIn,
-                          onTap: () =>
-                              _pickDate(isCheckIn: true, other: _checkOut),
+                          hint: 'Select check-in date',
+                          onTap: () => _pickSingleDate(isCheckIn: true),
                         ),
-                        const SizedBox(height: 12),
+                        // Nights indicator
+                        if (_nights > 0)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            child: Row(
+                              children: [
+                                const Expanded(child: Divider(color: kGreenSoft)),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 4),
+                                  decoration: BoxDecoration(
+                                    color: kGreenSoft,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Text(
+                                    '$_nights ${_nights == 1 ? 'night' : 'nights'}',
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      color: kGreen,
+                                    ),
+                                  ),
+                                ),
+                                const Expanded(child: Divider(color: kGreenSoft)),
+                              ],
+                            ),
+                          )
+                        else
+                          const SizedBox(height: 12),
                         _DateField(
                           label: 'Check-out',
                           icon: Icons.logout_rounded,
                           date: _checkOut,
-                          onTap: () =>
-                              _pickDate(isCheckIn: false, other: _checkIn),
+                          hint: _checkIn == null
+                              ? 'Pick check-in first'
+                              : 'Select check-out date',
+                          enabled: _checkIn != null,
+                          onTap: _checkIn != null
+                              ? () => _pickSingleDate(isCheckIn: false)
+                              : () {},
+                        ),
+                        const SizedBox(height: 12),
+                        // Full range picker shortcut
+                        SizedBox(
+                          width: double.infinity,
+                          child: OutlinedButton.icon(
+                            style: OutlinedButton.styleFrom(
+                              foregroundColor: kGreen,
+                              side: const BorderSide(color: kGreenLight),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                            ),
+                            onPressed: _pickDateRange,
+                            icon: const Icon(
+                                Icons.calendar_month_outlined, size: 18),
+                            label: Text(
+                              _checkIn != null && _checkOut != null
+                                  ? 'Change date range'
+                                  : 'Pick date range',
+                              style: const TextStyle(fontSize: 13),
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -259,11 +387,13 @@ class _SectionCard extends StatelessWidget {
   final String title;
   final IconData icon;
   final Widget child;
+  final Widget? trailing;
 
   const _SectionCard({
     required this.title,
     required this.icon,
     required this.child,
+    this.trailing,
   });
 
   @override
@@ -296,6 +426,10 @@ class _SectionCard extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
+              if (trailing != null) ...[
+                const Spacer(),
+                trailing!,
+              ],
             ],
           ),
           const SizedBox(height: 14),
@@ -312,6 +446,8 @@ class _DateField extends StatelessWidget {
   final String label;
   final IconData icon;
   final DateTime? date;
+  final String hint;
+  final bool enabled;
   final VoidCallback onTap;
 
   const _DateField({
@@ -319,62 +455,83 @@ class _DateField extends StatelessWidget {
     required this.icon,
     required this.date,
     required this.onTap,
+    this.hint = 'Select date',
+    this.enabled = true,
   });
 
   @override
   Widget build(BuildContext context) {
     final hasDate = date != null;
     return GestureDetector(
-      onTap: onTap,
-      child: Container(
+      onTap: enabled ? onTap : null,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
         padding:
             const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         decoration: BoxDecoration(
-          color: kGreenSoft,
+          color: enabled ? kGreenSoft : Colors.grey.shade100,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: hasDate ? kGreen : kGreenLight.withValues(alpha: 0.4),
+            color: hasDate
+                ? kGreen
+                : enabled
+                    ? kGreenLight.withValues(alpha: 0.4)
+                    : Colors.grey.shade300,
             width: hasDate ? 1.5 : 1,
           ),
         ),
         child: Row(
           children: [
-            Icon(icon, size: 18, color: kGreen),
+            Icon(icon,
+                size: 18,
+                color: enabled ? kGreen : Colors.grey.shade400),
             const SizedBox(width: 10),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   label,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 11,
-                    color: Colors.grey,
+                    color: enabled ? Colors.grey : Colors.grey.shade400,
                   ),
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  hasDate
-                      ? '${date!.day.toString().padLeft(2, '0')} / '
-                          '${date!.month.toString().padLeft(2, '0')} / '
-                          '${date!.year}'
-                      : 'Select date',
+                  hasDate ? _formatDate(date!) : hint,
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: hasDate ? Colors.black87 : Colors.grey,
+                    color: hasDate
+                        ? Colors.black87
+                        : enabled
+                            ? Colors.grey
+                            : Colors.grey.shade400,
                   ),
                 ),
               ],
             ),
             const Spacer(),
             Icon(
-              Icons.keyboard_arrow_down_rounded,
-              color: kGreen.withValues(alpha: 0.6),
+              Icons.calendar_today_rounded,
+              size: 16,
+              color: enabled
+                  ? kGreen.withValues(alpha: 0.6)
+                  : Colors.grey.shade300,
             ),
           ],
         ),
       ),
     );
+  }
+
+  static String _formatDate(DateTime d) {
+    const months = [
+      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+    ];
+    final weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    return '${weekdays[d.weekday - 1]}, ${d.day} ${months[d.month - 1]} ${d.year}';
   }
 }
 
