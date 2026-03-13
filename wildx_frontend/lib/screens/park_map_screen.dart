@@ -67,6 +67,23 @@ class _ParkMapScreenState extends State<ParkMapScreen> {
         compassEnabled: true,
         mapToolbarEnabled: true,
       ),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            heroTag: 'recenter',
+            onPressed: () {
+              _mapController.animateCamera(
+                CameraUpdate.newCameraPosition(
+                  CameraPosition(target: _parkCenter, zoom: _zoomLevel),
+                ),
+              );
+            },
+            backgroundColor: Colors.green[700],
+            child: const Icon(Icons.center_focus_strong),
+          ),
+        ],
+      ),
     );
   }
 }
