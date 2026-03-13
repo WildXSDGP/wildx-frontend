@@ -47,7 +47,26 @@ class _ParkMapScreenState extends State<ParkMapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('${widget.park.name} - Map View'),
+        backgroundColor: Colors.green[700],
+      ),
+      body: GoogleMap(
+        initialCameraPosition: CameraPosition(
+          target: _parkCenter,
+          zoom: _zoomLevel,
+        ),
+        onMapCreated: (GoogleMapController controller) {
+          _mapController = controller;
+        },
+        mapType: MapType.hybrid, // Shows satellite + labels
+        myLocationEnabled: true,
+        myLocationButtonEnabled: true,
+        zoomControlsEnabled: true,
+        compassEnabled: true,
+        mapToolbarEnabled: true,
+      ),
+    );
   }
 }
