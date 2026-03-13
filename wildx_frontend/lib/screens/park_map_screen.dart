@@ -15,6 +15,22 @@ class ParkMapScreen extends StatefulWidget {
 }
 
 class _ParkMapScreenState extends State<ParkMapScreen> {
+  late GoogleMapController _mapController;
+
+  // create real cordination of the  national parks.
+  LatLng get _parkCenter {
+    switch (widget.park.name) {
+      case 'Yala National Park':
+        return const LatLng(6.3724, 81.5185);
+      case 'Udawalawe National Park':
+        return const LatLng(6.4825, 80.8986);
+      case 'Wilpattu National Park':
+        return const LatLng(8.4878, 80.0252);
+      default:
+        return const LatLng(7.8731, 80.7718); // Center of Sri Lanka
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
