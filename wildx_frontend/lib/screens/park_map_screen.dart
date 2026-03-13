@@ -82,6 +82,18 @@ class _ParkMapScreenState extends State<ParkMapScreen> {
             backgroundColor: Colors.green[700],
             child: const Icon(Icons.center_focus_strong),
           ),
+          const SizedBox(height: 10),
+          // Change map type button
+          FloatingActionButton(
+            heroTag: 'maptype',
+            onPressed: () {
+              setState(() {
+                // Toggle between satellite and normal view
+              });
+            },
+            backgroundColor: Colors.green[700],
+            child: const Icon(Icons.layers),
+          ),
         ],
       ),
     );
