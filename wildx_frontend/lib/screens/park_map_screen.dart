@@ -31,6 +31,20 @@ class _ParkMapScreenState extends State<ParkMapScreen> {
     }
   }
 
+  double get _zoomLevel {
+    // Larger parks need less zoom to fit on screen
+    switch (widget.park.name) {
+      case 'Yala National Park':
+        return 11.5;
+      case 'Udawalawe National Park':
+        return 12.0;
+      case 'Wilpattu National Park':
+        return 11.0;
+      default:
+        return 12.0;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
