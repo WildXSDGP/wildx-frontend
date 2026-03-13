@@ -8,10 +8,7 @@ class ParkMapScreen extends StatefulWidget {
   const ParkMapScreen({Key? key, required this.park}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    throw UnimplementedError();
-  }
+  State<ParkMapScreen> createState() => _ParkMapScreenState();
 }
 
 class _ParkMapScreenState extends State<ParkMapScreen> {
