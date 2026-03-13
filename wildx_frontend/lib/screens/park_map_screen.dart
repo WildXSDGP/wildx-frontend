@@ -13,3 +13,11 @@ class ParkMapScreen extends StatefulWidget {
     throw UnimplementedError();
   }
 }
+
+class _ParkMapScreenState extends State<ParkMapScreen> {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
+  }
+}
