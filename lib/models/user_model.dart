@@ -1,0 +1,1 @@
+enum AuthType { phone, email, biometric }
