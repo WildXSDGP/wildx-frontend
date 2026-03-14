@@ -9,6 +9,17 @@ const List<String> galleryCategories = [
   'Amphibians',
 ];
 
+const List<String> galleryParks = [
+  'All',
+  'Yala National Park',
+  'Minneriya National Park',
+  'Wilpattu National Park',
+  'Udawalawe National Park',
+  'Sinharaja Forest',
+  'Horton Plains',
+  'Bundala National Park',
+];
+
 const List<WildlifeAnimal> wildlifeAnimals = [
   WildlifeAnimal(
     id: '1',
