@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/wildlife_photo.dart';
+import '../../models/wildlife_photo.dart';
 
 class PhotoGridTile extends StatelessWidget {
   final WildlifePhoto photo;
