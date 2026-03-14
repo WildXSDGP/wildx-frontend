@@ -42,4 +42,28 @@ abstract class AppTextStyles {
     fontSize: 12,
     color: AppColors.textHint,
   );
+
+// Styles for dashboard counters, small badges, and action links.
+static const TextStyle statValue = TextStyle(
+    fontSize: 22,
+    fontWeight: FontWeight.w800,
+  );
+
+  static const TextStyle statLabel = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+    color: AppColors.textHint,
+  );
+
+  static const TextStyle badge = TextStyle(
+    fontSize: 11,
+    fontWeight: FontWeight.w600,
+    color: AppColors.primary,
+  );
+
+  static const TextStyle actionLink = TextStyle(
+    color: AppColors.primary,
+    fontSize: 13,
+    fontWeight: FontWeight.w600,
+  );
 }
