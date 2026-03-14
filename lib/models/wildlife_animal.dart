@@ -2,7 +2,7 @@ class WildlifeAnimal {
   final String id;
   final String name;
   final String scientificName;
-  final String category;            // Mammal, Bird, etc.
+  final String category;            // Mammal, Bird, etc
   final String parkLocation;
   final String status;
   final String emoji;               // Image path or Emoji
