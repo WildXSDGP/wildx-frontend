@@ -64,4 +64,83 @@ class WildXDataService {
           animalCount: 140,
         ),
       ];
+      // ── Recent Sightings ───────────────────────────────────────────
+  List<Sighting> get recentSightings => [
+        Sighting(
+          id: 's1',
+          animalName: 'Leopard',
+          parkName: 'Yala National Park',
+          date: DateTime(2025, 11, 15),
+          imageUrl:
+              'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Leopard_sitting_2.jpg/300px-Leopard_sitting_2.jpg',
+          category: 'Big Cats',
+        ),
+        Sighting(
+          id: 's2',
+          animalName: 'Elephant',
+          parkName: 'Yala National Park',
+          date: DateTime(2025, 11, 16),
+          imageUrl:
+              'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Sri_Lankan_elephant_%28Elephas_maximus_maximus%29.jpg/300px-Sri_Lankan_elephant_%28Elephas_maximus_maximus%29.jpg',
+          category: 'Mammals',
+        ),
+        Sighting(
+          id: 's3',
+          animalName: 'Sloth Bear',
+          parkName: 'Yala National Park',
+          date: DateTime(2025, 11, 17),
+          imageUrl:
+              'https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Sloth_bear_guwahati.jpg/300px-Sloth_bear_guwahati.jpg',
+          category: 'Bears',
+        ),
+        Sighting(
+          id: 's4',
+          animalName: 'Peacock',
+          parkName: 'Minneriya NP',
+          date: DateTime(2025, 11, 18),
+          imageUrl:
+              'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Peacock_Plumage.jpg/300px-Peacock_Plumage.jpg',
+          category: 'Birds',
+        ),
+      ];
+
+  // ── Quick Access Items ─────────────────────────────────────────
+  List<QuickAccessItem> get quickAccessItems => const [
+        QuickAccessItem(
+          label: AppStrings.map,
+          icon: Icons.map_rounded,
+          color: AppColors.blue,
+          route: AppRoutes.map,
+        ),
+        QuickAccessItem(
+          label: AppStrings.parks,
+          icon: Icons.park_rounded,
+          color: AppColors.green,
+          route: AppRoutes.parks,
+        ),
+        QuickAccessItem(
+          label: AppStrings.report,
+          icon: Icons.visibility_rounded,
+          color: AppColors.red,
+          route: AppRoutes.report,
+        ),
+        QuickAccessItem(
+          label: AppStrings.gallery,
+          icon: Icons.camera_alt_rounded,
+          color: AppColors.purple,
+          route: AppRoutes.gallery,
+        ),
+        QuickAccessItem(
+          label: AppStrings.sos,
+          icon: Icons.warning_amber_rounded,
+          color: AppColors.red,
+          route: AppRoutes.sos,
+        ),
+        QuickAccessItem(
+          label: AppStrings.profile,
+          icon: Icons.person_rounded,
+          color: AppColors.cyan,
+          route: AppRoutes.profile,
+        ),
+      ];
 }
