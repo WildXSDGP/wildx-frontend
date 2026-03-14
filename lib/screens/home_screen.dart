@@ -55,8 +55,25 @@ class HomeScreen extends StatelessWidget {
                             color: item.color),
                   ),
                   const SizedBox(height: 20),
-                ],
-              ),
+                 // Recent Sightings: List of latest wildlife reports
+                  SectionHeader(
+                    title: AppStrings.recentSightings,
+                    actionLabel: AppStrings.viewAll,
+                    onAction: () =>
+                        _snack(context, 'Viewing all sightings…'),
+                  ),
+                  const SizedBox(height: 12),
+
+                  // Generating the list of sighting cards dynamically
+                  ...service.recentSightings.map(
+                    (s) => SightingCard(
+                      sighting: s,
+                      onTap: () =>
+                          _snack(context, '${s.animalName} tapped'),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                ]
             ),
           ),
         ],
