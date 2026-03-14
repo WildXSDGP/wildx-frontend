@@ -1,15 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'screens/home_screen.dart';
+import 'theme/app_theme.dart';
 
 void main() {
-  // Ensure Flutter bindings are initialized
-  WidgetsFlutterBinding.ensureInitialized();
   
-  // Making status bar transparent for a better UI experience
+  WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.light,
     ),
   );
+runApp(const WildXApp());
+}
+
+class WildXApp extends StatelessWidget {
+  const WildXApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'WildX',
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.light,
+      home: const HomeScreen(),
+    );
+  }
 }
