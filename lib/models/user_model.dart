@@ -18,3 +18,29 @@ class ParkVisit {
 
   const ParkVisit({required this.parkName, required this.visitCount});
 }
+
+class UserModel {
+  final String name;
+  final String? profileImageUrl;
+  final DateTime memberSince;
+  final int sightingsCount;
+  final int parksVisited;
+  final int photosCount;
+  final int xp;
+  final WildXLevel currentLevel;
+  final List<BadgeModel> badges;
+  final List<ParkVisit> topParks;
+
+  const UserModel({
+    required this.name,
+    this.profileImageUrl,
+    required this.memberSince,
+    required this.sightingsCount,
+    required this.parksVisited,
+    required this.photosCount,
+    required this.xp,
+    required this.currentLevel,
+    required this.badges,
+    required this.topParks,
+  });
+}
