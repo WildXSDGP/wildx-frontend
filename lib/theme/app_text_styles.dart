@@ -20,4 +20,26 @@ abstract class AppTextStyles {
     fontWeight: FontWeight.w700,
     color: AppColors.textPrimary,
   );
+
+  static const TextStyle cardTitle = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+    color: Colors.white,
+  );
+
+  static const TextStyle label = TextStyle(
+    fontSize: 13,
+    fontWeight: FontWeight.w600,
+    color: AppColors.textPrimary,
+  );
+
+  static const TextStyle caption = TextStyle(
+    fontSize: 12,
+    color: AppColors.textSecondary,
+  );
+
+  static const TextStyle hint = TextStyle(
+    fontSize: 12,
+    color: AppColors.textHint,
+  );
 }
