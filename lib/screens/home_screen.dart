@@ -32,6 +32,29 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  FeaturedParkCard(
+                    park: service.featuredPark,
+                    onExplore: () => _snack(
+                      context,
+                      'Exploring ${service.featuredPark.name}…',
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+
+                  // User Statistics Section: Visual row of user activity data
+                  StatsRow(stats: service.userStats),
+                  const SizedBox(height: 20),
+
+                  // Navigation Grid: Quick access to core app features
+                  const SectionHeader(title: AppStrings.quickAccess),
+                  const SizedBox(height: 12),
+                  QuickAccessGrid(
+                    items: service.quickAccessItems,
+                    onItemTap: (item) =>
+                        _snack(context, '${item.label} opened',
+                            color: item.color),
+                  ),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),
