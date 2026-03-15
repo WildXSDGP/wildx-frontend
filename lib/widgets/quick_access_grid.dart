@@ -98,3 +98,20 @@ class _QuickAccessCardState extends State<QuickAccessCard>
     );
   }
 }
+class _IconBox extends StatelessWidget {
+  final QuickAccessItem item;
+  const _IconBox({required this.item});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 48,
+      height: 48,
+      decoration: BoxDecoration(
+        color: item.color,
+        borderRadius: BorderRadius.circular(13),
+      ),
+      child: Icon(item.icon, color: Colors.white, size: 24),
+    );
+  }
+}
