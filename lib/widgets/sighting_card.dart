@@ -97,3 +97,16 @@ class _SightingInfo extends StatelessWidget {
     );
   }
 }
+class _CategoryBadge extends StatelessWidget {
+  final String category;
+  const _CategoryBadge({required this.category});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: AppDecorations.primaryBadge,
+      child: Text(category, style: AppTextStyles.badge),
+    );
+  }
+}
