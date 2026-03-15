@@ -38,3 +38,31 @@ class StatsRow extends StatelessWidget {
     );
   }
 }
+class StatItem extends StatelessWidget {
+  final String value;
+  final String label;
+  final Color color;
+
+  const StatItem({
+    super.key,
+    required this.value,
+    required this.label,
+    required this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Column(
+        children: [
+          Text(
+            value,
+            style: AppTextStyles.statValue.copyWith(color: color),
+          ),
+          const SizedBox(height: 3),
+          Text(label, style: AppTextStyles.statLabel),
+        ],
+      ),
+    );
+  }
+}
