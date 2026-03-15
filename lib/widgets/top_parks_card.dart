@@ -77,6 +77,22 @@ class TopParksCard extends StatelessWidget {
                     ),
                   ),
                   
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: WildXTheme.mintGreen,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      '${park.visitCount} visits',
+                      style: const TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w700,
+                        color: WildXTheme.forestGreen,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             );
