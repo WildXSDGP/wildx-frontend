@@ -33,6 +33,19 @@ class AchievementGrid extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
+
+          GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: badges.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              mainAxisSpacing: 12,
+              crossAxisSpacing: 12,
+              childAspectRatio: 0.90,
+            ),
+            itemBuilder: (_, i) => _BadgeTile(badge: badges[i]),
+          ),
           
         ],
       ),
