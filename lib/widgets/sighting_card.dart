@@ -30,3 +30,43 @@ class SightingCard extends StatelessWidget {
     );
   }
 }
+class _AnimalThumbnail extends StatelessWidget {
+  final String imageUrl;
+  const _AnimalThumbnail({required this.imageUrl});
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(10),
+      child: Image.network(
+        imageUrl,
+        width: 62,
+        height: 62,
+        fit: BoxFit.cover,
+        errorBuilder: (_, __, ___) => Container(
+          width: 62,
+          height: 62,
+          color: AppColors.primarySurface,
+          child: const Icon(Icons.cruelty_free,
+              color: AppColors.primary, size: 30),
+        ),
+        loadingBuilder: (_, child, progress) {
+          if (progress == null) return child;
+          return Container(
+            width: 62,
+            height: 62,
+            color: AppColors.primarySurface,
+            child: const Center(
+              child: SizedBox(
+                width: 20,
+                height: 20,
+                child: CircularProgressIndicator(
+                    strokeWidth: 2, color: AppColors.primary),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
