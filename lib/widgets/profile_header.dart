@@ -41,7 +41,35 @@ class ProfileHeader extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 24),
-              // User info row will be added here
+              Row(
+                children: [
+                  _ProfileAvatar(user: user, radius: 40),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          user.name,
+                          style: WildXTheme.displayFont.copyWith(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          'Member since ${user.memberSinceLabel}',
+                          style: const TextStyle(
+                            color: Color(0xCCFFFFFF),
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
