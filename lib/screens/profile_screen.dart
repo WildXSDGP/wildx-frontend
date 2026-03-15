@@ -62,6 +62,16 @@ class _ProfileScreenState extends State<ProfileScreen>
                 // Sightings · Parks · Photos
                 StatCardRow(user: widget.user),
                 const SizedBox(height: 20),
+
+                // XP progress
+                XPProgressCard(user: widget.user, animation: _xpAnim),
+                const SizedBox(height: 20),
+
+                // Badges
+                AchievementGrid(badges: widget.user.badges),
+                const SizedBox(height: 20),
+
+                
               ]),
             ),
           ),
