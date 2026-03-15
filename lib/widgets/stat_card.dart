@@ -58,3 +58,38 @@ class StatCard extends StatelessWidget {
     );
   }
 }
+
+/// Builds the 3-card stat row from a UserModel.
+class StatCardRow extends StatelessWidget {
+  final UserModel user;
+
+  const StatCardRow({super.key, required this.user});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        StatCard(
+          label: 'Sightings',
+          value: user.sightingsCount.toString(),
+          icon: Icons.visibility_rounded,
+          iconColor: WildXTheme.forestGreen,
+        ),
+        const SizedBox(width: 12),
+        StatCard(
+          label: 'Parks',
+          value: user.parksVisited.toString(),
+          icon: Icons.park_rounded,
+          iconColor: WildXTheme.sky,
+        ),
+        const SizedBox(width: 12),
+        StatCard(
+          label: 'Photos',
+          value: user.photosCount.toString(),
+          icon: Icons.camera_alt_rounded,
+          iconColor: WildXTheme.amber,
+        ),
+      ],
+    );
+  }
+}
