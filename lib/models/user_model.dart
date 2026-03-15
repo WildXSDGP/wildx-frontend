@@ -43,4 +43,6 @@ class UserModel {
     required this.badges,
     required this.topParks,
   });
+
+  
 }
