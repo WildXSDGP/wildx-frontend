@@ -70,3 +70,30 @@ class _AnimalThumbnail extends StatelessWidget {
     );
   }
 }
+class _SightingInfo extends StatelessWidget {
+  final Sighting sighting;
+  const _SightingInfo({required this.sighting});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            sighting.animalName,
+            style: const TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+              color: AppColors.textPrimary,
+            ),
+          ),
+          const SizedBox(height: 3),
+          Text(sighting.parkName, style: AppTextStyles.caption),
+          const SizedBox(height: 3),
+          Text(sighting.formattedDate, style: AppTextStyles.hint),
+        ],
+      ),
+    );
+  }
+}
