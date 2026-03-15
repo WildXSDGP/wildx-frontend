@@ -26,7 +26,7 @@ class HomeScreen extends StatelessWidget {
 
           // Main Scrollable Area
           Expanded(
-            child: SingleChildScrollView(
+            child: SingleChildScrollView (
               physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
               child: Column(
@@ -63,7 +63,7 @@ class HomeScreen extends StatelessWidget {
                         _snack(context, 'Viewing all sightings…'),
                   ),
                   const SizedBox(height: 12),
-
+                
                   // Generating the list of sighting cards dynamically
                   ...service.recentSightings.map(
                     (s) => SightingCard(
@@ -74,11 +74,12 @@ class HomeScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                 ]
-            ),
+            ),)
           ),
         ],
       ),
     );
+   
   }
 
   // Helper method to show customized SnackBar feedback
@@ -91,5 +92,6 @@ class HomeScreen extends StatelessWidget {
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
     ));
+    
   }
 }
