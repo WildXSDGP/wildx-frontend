@@ -67,3 +67,15 @@ class StatItem extends StatelessWidget {
     );
   }
 }
+class _VerticalDivider extends StatelessWidget {
+  const _VerticalDivider();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 36,
+      width: 1,
+      color: AppColors.divider,
+    );
+  }
+}
