@@ -66,3 +66,19 @@ class _ParkImage extends StatelessWidget {
     );
   }
 }
+class _DarkOverlay extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [Colors.transparent, Colors.black.withValues(alpha: 0.72)],
+          stops: const [0.3, 1.0],
+        ),
+      ),
+    );
+  }
+}
+
