@@ -128,3 +128,35 @@ class _ParkLabel extends StatelessWidget {
     );
   }
 }
+class _ExploreButton extends StatelessWidget {
+  final VoidCallback? onTap;
+  const _ExploreButton({this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: const Row(
+          children: [
+            Text(
+              AppStrings.explore,
+              style: TextStyle(
+                color: AppColors.primary,
+                fontWeight: FontWeight.w600,
+                fontSize: 13,
+              ),
+            ),
+            SizedBox(width: 4),
+            Icon(Icons.arrow_forward, size: 14, color: AppColors.primary),
+          ],
+        ),
+      ),
+    );
+  }
+}
