@@ -37,4 +37,10 @@ static const LinearGradient headerGradient = LinearGradient(
 
   static TextStyle get displayFont => const TextStyle(
         fontWeight: FontWeight.w800,
-      );    
+      ); 
+
+  static ThemeData get materialTheme => ThemeData(
+        scaffoldBackgroundColor: background,
+        colorScheme: ColorScheme.fromSeed(seedColor: forestGreen),
+        useMaterial3: true,
+      );   
