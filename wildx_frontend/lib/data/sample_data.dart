@@ -17,5 +17,34 @@ final kSampleUser = UserModel(
   ],
   
   
-  badges: const [], 
+  badges: const [BadgeModel(
+      title: 'First Sighting',
+      iconAsset: 'assets/icons/badge_first_sighting.png',
+      earned: true,
+    ),
+    BadgeModel(
+      title: '10 Sightings',
+      iconAsset: 'assets/icons/badge_trophy.png',
+      earned: true,
+    ),
+    BadgeModel(
+      title: 'Photo Master',
+      iconAsset: 'assets/icons/badge_photo.png',
+      earned: true,
+    ),
+    BadgeModel(
+      title: '5 Parks Visited',
+      iconAsset: 'assets/icons/badge_park.png',
+      earned: true,
+    ),
+    BadgeModel(
+      title: 'Night Safari',
+      iconAsset: 'assets/icons/badge_night.png',
+      earned: false,
+    ),
+    BadgeModel(
+      title: 'Leopard Spotter',
+      iconAsset: 'assets/icons/badge_leopard.png',
+      earned: false,
+    ),], 
 );
