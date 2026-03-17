@@ -15,3 +15,22 @@ class WildXTheme {
   static const Color textSecondary = Color(0xFF6B7280);
   static const Color cardBorder    = Color(0xFFE5E7EB);
 }
+
+static const LinearGradient headerGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFF1A6B2C), Color(0xFF2DA44E)],
+  );
+
+  static BoxDecoration get cardDecoration => BoxDecoration(
+        color: surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: cardBorder, width: 1),
+        boxShadow: [
+          BoxShadow(
+            color: Color(0x0D000000),
+            blurRadius: 12,
+            offset: Offset(0, 4),
+          ),
+        ],
+      );
