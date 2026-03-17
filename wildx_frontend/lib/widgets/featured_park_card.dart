@@ -39,3 +39,30 @@ class FeaturedParkCard extends StatelessWidget {
     );
   }
 }
+// ── Sub-widgets ─────────────────────────────────────────────────────────
+
+class _ParkImage extends StatelessWidget {
+  final String imageUrl;
+  const _ParkImage({required this.imageUrl});
+
+  @override
+  Widget build(BuildContext context) {
+    return Image.network(
+      imageUrl,
+      fit: BoxFit.cover,
+      errorBuilder: (_, __, ___) => Container(
+        color: AppColors.primaryDark,
+        child: const Icon(Icons.park, color: Colors.white54, size: 60),
+      ),
+      loadingBuilder: (_, child, progress) {
+        if (progress == null) return child;
+        return Container(
+          color: AppColors.primaryDark,
+          child: const Center(
+            child: CircularProgressIndicator(color: Colors.white54),
+          ),
+        );
+      },
+    );
+  }
+}
