@@ -72,3 +72,77 @@ class _CircleIconButton extends StatelessWidget {
     );
   }
 }
+
+class _ProfileAvatar extends StatelessWidget {
+  final UserModel user;
+  final double radius;
+
+  const _ProfileAvatar({required this.user, required this.radius});
+
+  @override
+  Widget build(BuildContext context) {
+    final initials = user.name
+        .split(' ')
+        .take(2)
+        .map((w) => w.isNotEmpty ? w[0] : '')
+        .join()
+        .toUpperCase();
+
+    return Stack(
+      children: [
+        Container(
+          width: radius * 2,
+          height: radius * 2,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.white,
+            border: Border.all(color: Colors.white, width: 3),
+            boxShadow: const [
+              BoxShadow(
+                color: Color(0x33000000),
+                blurRadius: 12,
+                offset: Offset(0, 4),
+              ),
+            ],
+            image: user.profileImageUrl != null
+                ? DecorationImage(
+                    image: NetworkImage(user.profileImageUrl!),
+                    fit: BoxFit.cover,
+                  )
+                : null,
+          ),
+          child: user.profileImageUrl == null
+              ? Center(
+                  child: Text(
+                    initials,
+                    style: TextStyle(
+                      color: WildXTheme.forestGreen,
+                      fontSize: radius * 0.6,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                )
+              : null,
+        ),
+        Positioned(
+          bottom: 0,
+          right: 0,
+          child: Container(
+            width: 26,
+            height: 26,
+            decoration: BoxDecoration(
+              color: WildXTheme.amber,
+              shape: BoxShape.circle,
+              border: Border.all(color: Colors.white, width: 2),
+            ),
+            child: const Icon(
+              Icons.camera_alt_rounded,
+              color: Colors.white,
+              size: 13,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
