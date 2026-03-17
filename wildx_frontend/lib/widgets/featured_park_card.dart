@@ -81,4 +81,20 @@ class _DarkOverlay extends StatelessWidget {
     );
   }
 }
+class _CardContent extends StatelessWidget {
+  final Park park;
+  final VoidCallback? onExplore;
+  const _CardContent({required this.park, this.onExplore});
 
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        _ParkLabel(name: park.name),
+        _ExploreButton(onTap: onExplore),
+      ],
+    );
+  }
+}
