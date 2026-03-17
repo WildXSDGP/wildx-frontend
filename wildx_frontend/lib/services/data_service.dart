@@ -65,3 +65,42 @@ class WildXDataService {
           animalCount: 140,
         ),
       ];
+      // ── Recent Sightings ───────────────────────────────────────────
+  List<Sighting> get recentSightings => [
+        Sighting(
+          id: 's1',
+          animalName: 'Leopard',
+          parkName: 'Yala National Park',
+          date: DateTime(2025, 11, 15),
+          imageUrl:
+              'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Leopard_sitting_2.jpg/300px-Leopard_sitting_2.jpg',
+          category: 'Big Cats',
+        ),
+        Sighting(
+          id: 's2',
+          animalName: 'Elephant',
+          parkName: 'Yala National Park',
+          date: DateTime(2025, 11, 16),
+          imageUrl:
+              'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Sri_Lankan_elephant_%28Elephas_maximus_maximus%29.jpg/300px-Sri_Lankan_elephant_%28Elephas_maximus_maximus%29.jpg',
+          category: 'Mammals',
+        ),
+        Sighting(
+          id: 's3',
+          animalName: 'Sloth Bear',
+          parkName: 'Yala National Park',
+          date: DateTime(2025, 11, 17),
+          imageUrl:
+              'https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Sloth_bear_guwahati.jpg/300px-Sloth_bear_guwahati.jpg',
+          category: 'Bears',
+        ),
+        Sighting(
+          id: 's4',
+          animalName: 'Peacock',
+          parkName: 'Minneriya NP',
+          date: DateTime(2025, 11, 18),
+          imageUrl:
+              'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Peacock_Plumage.jpg/300px-Peacock_Plumage.jpg',
+          category: 'Birds',
+        ),
+      ];
