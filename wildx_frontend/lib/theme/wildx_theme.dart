@@ -34,3 +34,7 @@ static const LinearGradient headerGradient = LinearGradient(
           ),
         ],
       );
+
+  static TextStyle get displayFont => const TextStyle(
+        fontWeight: FontWeight.w800,
+      );    
