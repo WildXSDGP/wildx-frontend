@@ -44,5 +44,36 @@ class UserModel {
     required this.topParks,
   });
 
+  // ── Derived helpers ──────────────────────────────────────
+
+  int get xpForCurrentLevel {
+    switch (currentLevel) {
+      case WildXLevel.explorer:  return 0;
+      case WildXLevel.ranger:    return 250;
+      case WildXLevel.guardian:  return 700;
+    }
+  }
+
+  int get xpForNextLevel {
+    switch (currentLevel) {
+      case WildXLevel.explorer:  return 250;
+      case WildXLevel.ranger:    return 700;
+      case WildXLevel.guardian:  return 1500;
+    }
+  }
+
+  double get levelProgress =>
+      ((xp - xpForCurrentLevel) / (xpForNextLevel - xpForCurrentLevel))
+          .clamp(0.0, 1.0);
+
+  String get levelLabel {
+    switch (currentLevel) {
+      case WildXLevel.explorer:  return 'Explorer';
+      case WildXLevel.ranger:    return 'Ranger';
+      case WildXLevel.guardian:  return 'Guardian';
+    }
+  }
+
   
 }
+
