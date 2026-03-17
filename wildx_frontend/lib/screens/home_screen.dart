@@ -83,3 +83,15 @@ class HomeScreen extends StatelessWidget {
       // ── No bottom navigation bar ──
     );
   }
+  void _snack(BuildContext context, String message,
+      {Color color = AppColors.primary}) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(message),
+      backgroundColor: color,
+      duration: const Duration(seconds: 1),
+      behavior: SnackBarBehavior.floating,
+      shape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+    ));
+  }
+}
