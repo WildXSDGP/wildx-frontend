@@ -98,3 +98,33 @@ class _CardContent extends StatelessWidget {
     );
   }
 }
+class _ParkLabel extends StatelessWidget {
+  final String name;
+  const _ParkLabel({required this.name});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.22),
+            borderRadius: BorderRadius.circular(6),
+          ),
+          child: const Text(
+            AppStrings.featuredPark,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 11,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+        const SizedBox(height: 5),
+        Text(name, style: AppTextStyles.cardTitle),
+      ],
+    );
+  }
+}
