@@ -104,3 +104,43 @@ class WildXDataService {
           category: 'Birds',
         ),
       ];
+      // ── Quick Access Items ─────────────────────────────────────────
+  List<QuickAccessItem> get quickAccessItems => const [
+        QuickAccessItem(
+          label: AppStrings.map,
+          icon: Icons.map_rounded,
+          color: AppColors.blue,
+          route: AppRoutes.map,
+        ),
+        QuickAccessItem(
+          label: AppStrings.parks,
+          icon: Icons.park_rounded,
+          color: AppColors.green,
+          route: AppRoutes.parks,
+        ),
+        QuickAccessItem(
+          label: AppStrings.report,
+          icon: Icons.visibility_rounded,
+          color: AppColors.red,
+          route: AppRoutes.report,
+        ),
+        QuickAccessItem(
+          label: AppStrings.gallery,
+          icon: Icons.camera_alt_rounded,
+          color: AppColors.purple,
+          route: AppRoutes.gallery,
+        ),
+        QuickAccessItem(
+          label: AppStrings.sos,
+          icon: Icons.warning_amber_rounded,
+          color: AppColors.red,
+          route: AppRoutes.sos,
+        ),
+        QuickAccessItem(
+          label: AppStrings.profile,
+          icon: Icons.person_rounded,
+          color: AppColors.cyan,
+          route: AppRoutes.profile,
+        ),
+      ];
+}
