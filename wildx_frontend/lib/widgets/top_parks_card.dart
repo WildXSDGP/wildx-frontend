@@ -39,7 +39,48 @@ class TopParksCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-          
+          ...parks.asMap().entries.map((entry) {
+            final idx  = entry.key;
+            final park = entry.value;
+            final medalColor = _medalColors[idx.clamp(0, 2)];
+            return Padding(
+              padding: EdgeInsets.only(bottom: idx < parks.length - 1 ? 14 : 0),
+              child: Row(
+                children: [
+                  Container(
+                    width: 32,
+                    height: 32,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: medalColor.withOpacity(0.15),
+                    ),
+                    child: Center(
+                      child: Text(
+                        '${idx + 1}',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 14,
+                          color: medalColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: Text(
+                      park.parkName,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: WildXTheme.textPrimary,
+                      ),
+                    ),
+                  ),
+                  
+                ],
+              ),
+            );
+          }),
         ],
       ),
     );
