@@ -62,7 +62,21 @@ class XPProgressCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-          // Progress bar will be added next
+          AnimatedBuilder(
+            animation: animation,
+            builder: (_, __) => ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: LinearProgressIndicator(
+                value: user.levelProgress * animation.value,
+                minHeight: 10,
+                backgroundColor: const Color(0xFFE5E7EB),
+                valueColor: const AlwaysStoppedAnimation<Color>(
+                  WildXTheme.leafGreen,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
         ],
       ),
     );
