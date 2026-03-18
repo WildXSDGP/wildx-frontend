@@ -18,11 +18,7 @@ class AccommodationCard extends StatelessWidget {
         color: kCardBackground,
         borderRadius: BorderRadius.circular(kRadiusLG),
         boxShadow: const [
-          BoxShadow(
-            color: kShadowColor,
-            blurRadius: 12,
-            offset: Offset(0, 4),
-          ),
+          BoxShadow(color: kShadowColor, blurRadius: 12, offset: Offset(0, 4)),
         ],
       ),
       child: Column(
@@ -32,8 +28,9 @@ class AccommodationCard extends StatelessWidget {
           Stack(
             children: [
               ClipRRect(
-                borderRadius:
-                    const BorderRadius.vertical(top: Radius.circular(kRadiusLG)),
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(kRadiusLG),
+                ),
                 child: Image.network(
                   item.imageUrl,
                   height: 180,
@@ -42,8 +39,11 @@ class AccommodationCard extends StatelessWidget {
                   errorBuilder: (context, e, st) => Container(
                     height: 180,
                     color: kGreenSoft,
-                    child: const Icon(Icons.image_not_supported,
-                        size: 50, color: kGreen),
+                    child: const Icon(
+                      Icons.image_not_supported,
+                      size: 50,
+                      color: kGreen,
+                    ),
                   ),
                 ),
               ),
@@ -56,7 +56,8 @@ class AccommodationCard extends StatelessWidget {
                 child: DecoratedBox(
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.vertical(
-                        top: Radius.circular(kRadiusLG)),
+                      top: Radius.circular(kRadiusLG),
+                    ),
                     gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
@@ -73,7 +74,8 @@ class AccommodationCard extends StatelessWidget {
                 right: kSpaceMD,
                 child: Row(
                   children: [
-                    if (item.isEcoFriendly) AppBadge(label: '🌿 Eco', color: kGreen),
+                    if (item.isEcoFriendly)
+                      AppBadge(label: '🌿 Eco', color: kGreen),
                     if (item.isEcoFriendly) const SizedBox(width: 6),
                     if (item.isFamilyFriendly)
                       AppBadge(label: '👨‍👩‍👧 Family', color: kGreenLight),
@@ -86,22 +88,20 @@ class AccommodationCard extends StatelessWidget {
                 left: kSpaceMD,
                 child: Container(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 10, vertical: 5),
+                    horizontal: 10,
+                    vertical: 5,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(kRadiusSM),
                     boxShadow: const [
-                      BoxShadow(
-                        color: kShadowColor,
-                        blurRadius: 6,
-                      ),
+                      BoxShadow(color: kShadowColor, blurRadius: 6),
                     ],
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(Icons.star_rounded,
-                          size: 14, color: kAmber),
+                      const Icon(Icons.star_rounded, size: 14, color: kGreen),
                       const SizedBox(width: 3),
                       Text(
                         '${item.rating}',
@@ -143,12 +143,19 @@ class AccommodationCard extends StatelessWidget {
                           const SizedBox(height: kSpaceXS),
                           Row(
                             children: [
-                              const Icon(Icons.park_outlined,
-                                  size: 13, color: kGreenLight),
+                              const Icon(
+                                Icons.park_outlined,
+                                size: 13,
+                                color: kGreen,
+                              ),
                               const SizedBox(width: kSpaceXS),
-                              Text(item.parkName,
-                                  style: const TextStyle(
-                                      color: kTextSecondary, fontSize: 13)),
+                              Text(
+                                item.parkName,
+                                style: const TextStyle(
+                                  color: kTextSecondary,
+                                  fontSize: 13,
+                                ),
+                              ),
                             ],
                           ),
                         ],
@@ -165,9 +172,10 @@ class AccommodationCard extends StatelessWidget {
                             color: kGreen,
                           ),
                         ),
-                        const Text('per night',
-                            style: TextStyle(
-                                fontSize: 11, color: kTextHint)),
+                        const Text(
+                          'per night',
+                          style: TextStyle(fontSize: 11, color: kTextHint),
+                        ),
                       ],
                     ),
                   ],
@@ -175,16 +183,77 @@ class AccommodationCard extends StatelessWidget {
                 const SizedBox(height: kSpaceMD),
                 Row(
                   children: [
-                    const Icon(Icons.location_on_outlined,
-                        size: 14, color: kEarthLight),
+                    const Icon(
+                      Icons.location_on_outlined,
+                      size: 14,
+                      color: kGreen,
+                    ),
                     const SizedBox(width: kSpaceXS),
                     Text(
                       '${item.distanceFromGate} km from gate',
-                      style:
-                          const TextStyle(color: kTextSecondary, fontSize: 13),
+                      style: const TextStyle(
+                        color: kTextSecondary,
+                        fontSize: 13,
+                      ),
                     ),
                   ],
                 ),
+                const SizedBox(height: kSpaceSM),
+                Row(
+                  children: [
+                    const Icon(Icons.access_time, size: 14, color: kGreen),
+                    const SizedBox(width: kSpaceXS),
+                    Text(
+                      item.travelTime,
+                      style: const TextStyle(
+                        color: kTextSecondary,
+                        fontSize: 13,
+                      ),
+                    ),
+                    const SizedBox(width: kSpaceMD),
+                    const Icon(
+                      Icons.local_gas_station,
+                      size: 14,
+                      color: Color(0xFFFF9800),
+                    ),
+                    const SizedBox(width: kSpaceXS),
+                    Text(
+                      '${item.fuelStops} ${item.fuelStops == 1 ? 'stop' : 'stops'}',
+                      style: const TextStyle(
+                        color: kTextSecondary,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ],
+                ),
+                if (item.hasJeepHire) ...[
+                  const SizedBox(height: kSpaceMD),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: kSpaceMD,
+                      vertical: 6,
+                    ),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFE3F2FD),
+                      borderRadius: BorderRadius.circular(kRadiusFull),
+                    ),
+                    child: const Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text('🚐', style: TextStyle(fontSize: 12)),
+                        SizedBox(width: 6),
+                        Text(
+                          'Jeep Hire Available',
+                          style: TextStyle(
+                            color: Color(0xFF1565C0),
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
                 const SizedBox(height: kSpaceLG),
                 SizedBox(
                   width: double.infinity,

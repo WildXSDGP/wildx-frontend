@@ -7,9 +7,12 @@ final List<Accommodation> dummyAccommodations = [
     parkName: 'Yala National Park',
     pricePerNight: 9500,
     distanceFromGate: 4.0,
+    travelTime: '20 mins',
+    fuelStops: 1,
     rating: 4.9,
     isEcoFriendly: true,
     isFamilyFriendly: true,
+    hasJeepHire: true,
     imageUrls: [
       'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800',
       'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800',
@@ -24,9 +27,12 @@ final List<Accommodation> dummyAccommodations = [
     parkName: 'Yala National Park',
     pricePerNight: 8500,
     distanceFromGate: 2.5,
+    travelTime: '12 mins',
+    fuelStops: 1,
     rating: 4.7,
     isEcoFriendly: true,
     isFamilyFriendly: false,
+    hasJeepHire: false,
     imageUrls: [
       'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800',
       'https://images.unsplash.com/photo-1544550581-5f7ceaf7f992?w=800',
@@ -41,9 +47,12 @@ final List<Accommodation> dummyAccommodations = [
     parkName: 'Wilpattu National Park',
     pricePerNight: 6200,
     distanceFromGate: 1.2,
+    travelTime: '10 mins',
+    fuelStops: 0,
     rating: 4.5,
     isEcoFriendly: false,
     isFamilyFriendly: false,
+    hasJeepHire: false,
     imageUrls: [
       'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=800',
       'https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?w=800',
@@ -58,9 +67,12 @@ final List<Accommodation> dummyAccommodations = [
     parkName: 'Udawalawe National Park',
     pricePerNight: 12000,
     distanceFromGate: 7.8,
+    travelTime: '25 mins',
+    fuelStops: 2,
     rating: 4.6,
     isEcoFriendly: false,
     isFamilyFriendly: true,
+    hasJeepHire: true,
     imageUrls: [
       'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800',
       'https://images.unsplash.com/photo-1563911302283-d2bc129e7570?w=800',
@@ -70,4 +82,3 @@ final List<Accommodation> dummyAccommodations = [
         'A spacious family resort near Udawalawe, renowned for elephant sightings and child-friendly amenities.',
   ),
 ];
-

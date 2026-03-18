@@ -6,9 +6,12 @@ class Accommodation {
   final String parkName;
   final double pricePerNight;
   final double distanceFromGate;
+  final String travelTime;
+  final int fuelStops;
   final double rating;
   final bool isEcoFriendly;
   final bool isFamilyFriendly;
+  final bool hasJeepHire;
   final List<String> imageUrls;
   final String description;
 
@@ -20,9 +23,12 @@ class Accommodation {
     required this.parkName,
     required this.pricePerNight,
     required this.distanceFromGate,
+    required this.travelTime,
+    required this.fuelStops,
     required this.rating,
     required this.isEcoFriendly,
     required this.isFamilyFriendly,
+    required this.hasJeepHire,
     required this.imageUrls,
     required this.description,
   });
