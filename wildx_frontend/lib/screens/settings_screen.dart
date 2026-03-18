@@ -17,6 +17,8 @@ class SettingsScreen extends StatelessWidget {
       body: const Center(
         child: Text('Settings Coming Soon...', style: TextStyle(color: WildXTheme.textSecondary, fontSize: 16)),
       ),
+
+      
     );
   }
 }

@@ -14,9 +14,8 @@ class WildXTheme {
   static const Color textPrimary   = Color(0xFF111827);
   static const Color textSecondary = Color(0xFF6B7280);
   static const Color cardBorder    = Color(0xFFE5E7EB);
-}
 
-static const LinearGradient headerGradient = LinearGradient(
+  static const LinearGradient headerGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [Color(0xFF1A6B2C), Color(0xFF2DA44E)],
@@ -37,10 +36,11 @@ static const LinearGradient headerGradient = LinearGradient(
 
   static TextStyle get displayFont => const TextStyle(
         fontWeight: FontWeight.w800,
-      ); 
+      );
 
   static ThemeData get materialTheme => ThemeData(
         scaffoldBackgroundColor: background,
         colorScheme: ColorScheme.fromSeed(seedColor: forestGreen),
         useMaterial3: true,
-      );   
+      );
+}

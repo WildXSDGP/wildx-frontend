@@ -76,6 +76,7 @@ class TopParksCard extends StatelessWidget {
                       ),
                     ),
                   ),
+                  
                   Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 10, vertical: 4),

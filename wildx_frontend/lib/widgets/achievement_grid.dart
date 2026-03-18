@@ -33,7 +33,7 @@ class AchievementGrid extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-          
+
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
@@ -46,13 +46,12 @@ class AchievementGrid extends StatelessWidget {
             ),
             itemBuilder: (_, i) => _BadgeTile(badge: badges[i]),
           ),
-      
+          
         ],
       ),
     );
   }
 }
-
 
 class _BadgeTile extends StatelessWidget {
   final BadgeModel badge;

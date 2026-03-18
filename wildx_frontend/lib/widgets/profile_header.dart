@@ -101,6 +101,7 @@ class _CircleIconButton extends StatelessWidget {
   }
 }
 
+
 class _ProfileAvatar extends StatelessWidget {
   final UserModel user;
   final double radius;

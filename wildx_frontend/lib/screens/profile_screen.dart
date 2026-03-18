@@ -74,12 +74,12 @@ class _ProfileScreenState extends State<ProfileScreen>
                 // Top parks
                 TopParksCard(parks: widget.user.topParks),
                 const SizedBox(height: 32),
+
+
               ]),
             ),
           ),
         ],
-          
-        
       ),
     );
   }
