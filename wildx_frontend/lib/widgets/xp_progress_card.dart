@@ -77,6 +77,22 @@ class XPProgressCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: List.generate(3, (i) {
+              final isActive = _levels[i].index <= user.currentLevel.index;
+              return Text(
+                _labels[i],
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: isActive ? FontWeight.w700 : FontWeight.w400,
+                  color: isActive
+                      ? WildXTheme.forestGreen
+                      : WildXTheme.textSecondary,
+                ),
+              );
+            }),
+          ),
         ],
       ),
     );
