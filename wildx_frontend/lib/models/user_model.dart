@@ -2,7 +2,7 @@ enum WildXLevel { explorer, ranger, guardian }
 
 class BadgeModel {
   final String title;
-  final String iconAsset; 
+  final String iconAsset;
   final bool earned;
 
   const BadgeModel({
@@ -84,4 +84,3 @@ class UserModel {
 
   
 }
-
