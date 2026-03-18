@@ -23,7 +23,7 @@ class AppLogoHeader extends StatelessWidget {
               ),
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFF4CAF50).withOpacity(0.3),
+                  color: const Color(0xFF4CAF50).withValues(alpha: 0.3),
                   blurRadius: 12,
                   offset: const Offset(0, 4),
                 ),
@@ -74,21 +74,20 @@ class AppLogoHeader extends StatelessWidget {
 /// This encapsulates the white background, border radius, and subtle shadow.
 class _SectionCard extends StatelessWidget {
   final Widget child;
-  final EdgeInsetsGeometry? padding;
 
-  const _SectionCard({required this.child, this.padding});
+  const _SectionCard({required this.child});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: padding ?? const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
+      padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withValues(alpha: 0.04),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
