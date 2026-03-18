@@ -1,7 +1,7 @@
 // lib/widgets/settings/profile_card.dart
 
 import 'package:flutter/material.dart';
-import '../../models/user_profile.dart';
+import '../../../models/user_profile.dart';
 
 /**
  * A custom widget that displays the user's profile summary at the top 
