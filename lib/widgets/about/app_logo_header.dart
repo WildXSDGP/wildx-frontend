@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../data/about_data.dart';
+import '../../data/about_data.dart';
 
 class AppLogoHeader extends StatelessWidget {
   const AppLogoHeader({super.key});

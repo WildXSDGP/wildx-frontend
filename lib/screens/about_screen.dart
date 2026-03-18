@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../widgets/about_app_bar.dart';
-import '../widgets/app_logo_header.dart';
-import '../widgets/mission_section.dart';
-import '../widgets/key_features_section.dart';
-import '../widgets/conservation_partner_section.dart';
-import '../widgets/contact_us_section.dart';
-import '../widgets/about_footer.dart';
+import '../widgets/about/about_app_bar.dart';
+import '../widgets/about/app_logo_header.dart';
+import '../widgets/about/mission_section.dart';
+import '../widgets/about/key_features_section.dart';
+import '../widgets/about/conservation_partner_section.dart';
+import '../widgets/about/contact_us_section.dart';
+import '../widgets/about/about_footer.dart';
 
 /// The main entry point for the "About Us" page.
 /// Orchestrates various sections to provide a comprehensive overview of WildX.

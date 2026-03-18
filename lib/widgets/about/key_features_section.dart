@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../data/about_data.dart';
-import '../models/key_feature_item.dart';
+import '../../data/about_data.dart';
+import '../../models/key_feature_item.dart';
 import 'section_card.dart';
 
 class KeyFeaturesSection extends StatelessWidget {
