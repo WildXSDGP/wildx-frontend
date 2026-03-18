@@ -1,15 +1,15 @@
 // lib/screens/settings/settings_screen.dart
 
 import 'package:flutter/material.dart';
-import '../../models/user_profile.dart';
-import '../../data/settings_data.dart';
-import '../../widgets/settings/profile_card.dart';
-import '../../widgets/settings/section_card.dart';
-import '../../widgets/settings/settings_tile.dart';
-import '../../widgets/settings/logout_button.dart';
-import '../../widgets/settings/settings_footer.dart';
-import '../../widgets/settings/help/help_sheet.dart';
-import '../../widgets/settings/feedback/feedback_sheet.dart';
+import 'package:wildx_gallery/widgets/setting/feedback_sheet.dart';
+import 'package:wildx_gallery/widgets/setting/logout_button.dart';
+import 'package:wildx_gallery/widgets/setting/settings_footer.dart';
+import 'package:wildx_gallery/widgets/setting/settings_tile.dart';
+import 'package:wildx_gallery/widgets/setting/profile_card.dart';
+import 'package:wildx_gallery/widgets/setting/section_card.dart';
+import 'package:wildx_gallery/widgets/setting/help_sheet.dart';
+import '../models/user_profile.dart';
+import '../data/settings_data.dart';
 
 /**
  * SettingsScreen acts as a central hub for user preferences and support.

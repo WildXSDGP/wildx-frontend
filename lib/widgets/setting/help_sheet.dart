@@ -1,49 +1,85 @@
-// lib/widgets/settings/feedback/star_rating.dart
-
 import 'package:flutter/material.dart';
+import '../../data/settings_data.dart';
+import 'faq_tile.dart';
 
 /**
- * A row of interactive star icons that allow users to select a rating.
- * It highlights stars up to the selected value and provides tactile feedback.
+ * A bottom sheet containing frequently asked questions (FAQs) to assist users.
+ * It's accessed from the Settings screen via the 'Help & Support' tile.
  */
-class StarRating extends StatelessWidget {
-  final int rating; // Current rating value (0 to 5)
-  final ValueChanged<int> onRatingChanged; // Callback to notify the parent of a change
+class HelpSheet extends StatelessWidget {
+  const HelpSheet({super.key});
 
-  const StarRating({
-    super.key,
-    required this.rating,
-    required this.onRatingChanged,
-  });
+  // Helper method to display the sheet from the parent Settings screen.
+  static void show(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent, // Let Container handle the look
+      builder: (_) => const HelpSheet(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: List.generate(5, (index) {
-        // Index starts at 0, so we add 1 to check against the rating
-        final starValue = index + 1;
-        final isFilled = starValue <= rating;
-
-        return GestureDetector(
-          onTap: () => onRatingChanged(starValue),
-          child: AnimatedScale(
-            // Adds a subtle "pop" animation when a star is selected
-            scale: isFilled ? 1.1 : 1.0,
-            duration: const Duration(milliseconds: 100),
-            child: Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: Icon(
-                isFilled ? Icons.star_rounded : Icons.star_outline_rounded,
-                size: 32,
-                color: isFilled 
-                    ? const Color(0xFFFFCC00) // Gold for filled stars
-                    : Colors.grey[300],        // Light grey for empty stars
+    return Container(
+      // Standard spacing for modern iOS-style bottom sheets
+      margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 60),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // ── Header Handle ──────────────────────────────────────────────
+          Center(
+            child: Container(
+              margin: const EdgeInsets.symmetric(vertical: 12),
+              width: 36,
+              height: 4,
+              decoration: BoxDecoration(
+                color: const Color(0xFFE5E5EA),
+                borderRadius: BorderRadius.circular(2),
               ),
             ),
           ),
-        );
-      }),
+
+          // ── Sheet Title ────────────────────────────────────────────────
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+            child: Row(
+              children: [
+                Icon(Icons.help_outline_rounded, color: Color(0xFF00C7BE), size: 24),
+                SizedBox(width: 12),
+                Text(
+                  'Help & Support',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Color(0xFF1A1A2E)),
+                ),
+              ],
+            ),
+          ),
+
+          const Divider(height: 1, thickness: 0.5, color: Color(0xFFE5E5EA)),
+
+          // ── FAQ List ──────────────────────────────────────────────────
+          Flexible(
+            child: ListView.builder(
+              shrinkWrap: true,
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              itemCount: faqItems.length,
+              itemBuilder: (context, index) {
+                final item = faqItems[index];
+                return FaqTile(
+                  question: item.question,
+                  answer: item.answer,
+                );
+              },
+            ),
+          ),
+          
+          const SizedBox(height: 16),
+        ],
+      ),
     );
   }
 }
