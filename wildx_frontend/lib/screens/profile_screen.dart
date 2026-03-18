@@ -70,6 +70,10 @@ class _ProfileScreenState extends State<ProfileScreen>
                 // Badges
                 AchievementGrid(badges: widget.user.badges),
                 const SizedBox(height: 20),
+
+                // Top parks
+                TopParksCard(parks: widget.user.topParks),
+                const SizedBox(height: 32),
               ]),
             ),
           ),
