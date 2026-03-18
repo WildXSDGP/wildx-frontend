@@ -47,8 +47,27 @@ class _ProfileScreenState extends State<ProfileScreen>
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: [
-          
+          // ── Header ──────────────────────────────────────
+          SliverToBoxAdapter(
+            child: ProfileHeader(user: widget.user),
+          ),
+
+          // ── Body content ────────────────────────────────
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate([
+                const SizedBox(height: 20),
+
+                // Sightings · Parks · Photos
+                StatCardRow(user: widget.user),
+                const SizedBox(height: 20),
+              ]),
+            ),
+          ),
         ],
+          
+        
       ),
     );
   }
