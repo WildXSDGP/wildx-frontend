@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import '../data/gallery_data.dart';
 import '../models/wildlife_animal.dart';
-import '../widgets/gallery_app_bar.dart';
+import '../widgets/gallery/gallery_app_bar.dart';
 import '../widgets/gallery_search_bar.dart';
-import '../widgets/category_filter_chips.dart';
-import '../widgets/animal_grid_card.dart';
-import '../widgets/animal_detail_sheet.dart';
-import '../widgets/gallery_empty_state.dart';
+import '../widgets/gallery/category_filter_chips.dart';
+import '../widgets/gallery/animal_grid_card.dart';
+import '../widgets/gallery/animal_detail_sheet.dart';
+import '../widgets/gallery/gallery_empty_state.dart';
 
 class WildlifeGalleryScreen extends StatefulWidget {
   const WildlifeGalleryScreen({super.key});
