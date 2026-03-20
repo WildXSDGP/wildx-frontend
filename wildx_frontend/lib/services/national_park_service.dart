@@ -6,7 +6,10 @@ class NationalParkService {
   // static const String baseUrl = 'http://10.0.2.2:8080'; // Android Emulator
   // static const String baseUrl = 'http://localhost:8080'; // iOS Simulator
   //static const String baseUrl = 'http://192.168.1.x:8080'; // Real Device
-  static const String baseUrl = 'http://10.106.230.185:8080'; //my pc ip address
+
+  //static const String baseUrl = 'http://10.106.230.185:8080'; //my pc ip address
+
+  static const String baseUrl = 'http://10.107.92.27:8080'; //my pc ip address
 
   Future<List<NationalPark>> searchParkByAnimal(String animal) async {
     try {
