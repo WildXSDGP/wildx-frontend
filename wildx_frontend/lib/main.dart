@@ -5,9 +5,9 @@
 
 import 'package:flutter/material.dart';
 
-import 'data/sample_user.dart';
-import 'screens/profile_screen.dart';
-import 'theme/wildx_theme.dart';
+import 'data/ranger_data.dart';
+import 'screens/explorer_screen.dart';
+import 'theme/safari_theme.dart';
 
 void main() => runApp(const WildXApp());
 
@@ -19,9 +19,9 @@ class WildXApp extends StatelessWidget {
     return MaterialApp(
       title: 'WildX',
       debugShowCheckedModeBanner: false,
-      theme: WildXTheme.materialTheme,
-      // Swap kSampleUser with your real logged-in UserModel
-      home: ProfileScreen(user: kSampleUser),
+      theme: SafariTheme.materialTheme,
+      // Swap kSampleRanger with your real logged-in RangerModel
+      home: ExplorerScreen(ranger: kSampleRanger),
     );
   }
 }
