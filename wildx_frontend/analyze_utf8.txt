@@ -1,0 +1,55 @@
+﻿Resolving dependencies...
+Downloading packages...
+  matcher 0.12.18 (0.12.19 available)
+  meta 1.17.0 (1.18.2 available)
+  test_api 0.7.9 (0.7.11 available)
+  vector_math 2.2.0 (2.3.0 available)
+Got dependencies!
+4 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
+Analyzing wildx_frontend...                                     
+
+   info - The imported package 'firebase_core' isn't a dependency of the importing package - lib\main.dart:3:8 - depend_on_referenced_packages
+  error - Target of URI doesn't exist: 'package:firebase_core/firebase_core.dart' - lib\main.dart:3:8 - uri_does_not_exist
+  error - Target of URI doesn't exist: 'firebase_options.dart' - lib\main.dart:4:8 - uri_does_not_exist
+  error - Undefined name 'Firebase' - lib\main.dart:9:9 - undefined_identifier
+  error - Undefined name 'DefaultFirebaseOptions' - lib\main.dart:10:14 - undefined_identifier
+   info - The imported package 'firebase_auth' isn't a dependency of the importing package - lib\screens\login_tab.dart:1:8 - depend_on_referenced_packages
+  error - Target of URI doesn't exist: 'package:firebase_auth/firebase_auth.dart' - lib\screens\login_tab.dart:1:8 - uri_does_not_exist
+  error - Undefined class 'PhoneAuthCredential' - lib\screens\login_tab.dart:82:24 - undefined_class
+  error - Undefined name 'FirebaseAuth' - lib\screens\login_tab.dart:83:15 - undefined_identifier
+   info - The imported package 'firebase_auth' isn't a dependency of the importing package - lib\services\auth_service.dart:1:8 - depend_on_referenced_packages
+  error - Target of URI doesn't exist: 'package:firebase_auth/firebase_auth.dart' - lib\services\auth_service.dart:1:8 - uri_does_not_exist
+   info - The imported package 'google_sign_in' isn't a dependency of the importing package - lib\services\auth_service.dart:2:8 - depend_on_referenced_packages
+  error - Target of URI doesn't exist: 'package:google_sign_in/google_sign_in.dart' - lib\services\auth_service.dart:2:8 - uri_does_not_exist
+  error - Undefined class 'FirebaseAuth' - lib\services\auth_service.dart:11:9 - undefined_class
+  error - Undefined name 'FirebaseAuth' - lib\services\auth_service.dart:11:30 - undefined_identifier
+  error - Undefined class 'GoogleSignIn' - lib\services\auth_service.dart:12:9 - undefined_class
+  error - The method 'GoogleSignIn' isn't defined for the type 'AuthService' - lib\services\auth_service.dart:12:38 - undefined_method
+  error - The name 'FirebaseAuthException' isn't a type and can't be used in an on-catch clause - lib\services\auth_service.dart:38:10 - non_type_in_catch_clause
+  error - The name 'FirebaseAuthException' isn't a type and can't be used in an on-catch clause - lib\services\auth_service.dart:56:10 - non_type_in_catch_clause
+  error - The method 'ActionCodeSettings' isn't defined for the type 'AuthService' - lib\services\auth_service.dart:64:24 - undefined_method
+  error - The name 'FirebaseAuthException' isn't a type and can't be used in an on-catch clause - lib\services\auth_service.dart:77:10 - non_type_in_catch_clause
+  error - Undefined class 'PhoneAuthCredential' - lib\services\auth_service.dart:87:28 - undefined_class
+  error - Undefined name 'PhoneAuthProvider' - lib\services\auth_service.dart:105:26 - undefined_identifier
+  error - The name 'FirebaseAuthException' isn't a type and can't be used in an on-catch clause - lib\services\auth_service.dart:116:10 - non_type_in_catch_clause
+  error - Undefined name 'GoogleAuthProvider' - lib\services\auth_service.dart:127:26 - undefined_identifier
+  error - The name 'FirebaseAuthException' isn't a type and can't be used in an on-catch clause - lib\services\auth_service.dart:140:10 - non_type_in_catch_clause
+   info - The imported package 'http' isn't a dependency of the importing package - lib\services\backend_service.dart:2:8 - depend_on_referenced_packages
+  error - Target of URI doesn't exist: 'package:http/http.dart' - lib\services\backend_service.dart:2:8 - uri_does_not_exist
+   info - The imported package 'firebase_auth' isn't a dependency of the importing package - lib\services\backend_service.dart:3:8 - depend_on_referenced_packages
+  error - Target of URI doesn't exist: 'package:firebase_auth/firebase_auth.dart' - lib\services\backend_service.dart:3:8 - uri_does_not_exist
+  error - Undefined class 'User' - lib\services\backend_service.dart:16:13 - undefined_class
+  error - Undefined name 'FirebaseAuth' - lib\services\backend_service.dart:16:26 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\auth_tab_bar.dart:14:29 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\auth_tab_bar.dart:16:51 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\auth_tab_bar.dart:47:61 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\email_sent_card.dart:15:51 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\email_sent_card.dart:23:46 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\google_button.dart:17:51 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\input_card.dart:15:51 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\login_header.dart:22:48 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\otp_card.dart:29:55 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\primary_button.dart:27:57 - deprecated_member_use
+  error - The name 'MyApp' isn't a class - test\widget_test.dart:16:35 - creation_with_non_type
+
