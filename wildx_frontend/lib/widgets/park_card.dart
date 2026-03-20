@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wildx_frontend/screens/park_map_screen.dart';
 import '../models/national_park_model.dart';
 import '../screens/park_details_screen.dart';
 
@@ -91,6 +92,32 @@ class _ParkInfo extends StatelessWidget {
           _IconRow(
             icon: Icons.monetization_on,
             text: 'LKR ${park.entryFee.toStringAsFixed(2)}',
+          ),
+
+          const SizedBox(height: 12),
+          // View map Button
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton.icon(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ParkMapScreen(park: park),
+                  ),
+                );
+              },
+              icon: const Icon(Icons.map),
+              label: const Text('View Map'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green[700],
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+            ),
           ),
         ],
       ),
