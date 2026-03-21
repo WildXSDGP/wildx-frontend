@@ -2,8 +2,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class ApiService {
-  static const String baseUrl = 'http://10.0.2.2:3000/api/v1';
-  // Android emulator නම් 10.0.2.2 — real device නම් ඔයාගේ PC IP address
+  static const String baseUrl = 'http://localhost:3000/api/v1';
 
   static String? _token;
 

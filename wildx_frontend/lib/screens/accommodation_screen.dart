@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
 import '../app_colors.dart';
-import '../data/accommodation_data.dart';
+import '../services/accommodation_service.dart';
 import '../models/accommodation.dart';
 import '../widgets/accommodation_card.dart';
 import '../widgets/bar_button.dart';
-
 
 class AccommodationScreen extends StatefulWidget {
   const AccommodationScreen({super.key});
@@ -22,8 +21,34 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
   bool _ecoOnly = false;
   bool _familyOnly = false;
 
+  List<Accommodation> _accommodations = [];
+  bool _isLoading = true;
+  String? _errorMessage;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAccommodations();
+  }
+
+  Future<void> _loadAccommodations() async {
+    try {
+      setState(() => _isLoading = true);
+      final data = await AccommodationService.getAccommodations();
+      setState(() {
+        _accommodations = data.map((e) => Accommodation.fromJson(e)).toList();
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _errorMessage = 'Failed to load accommodations';
+        _isLoading = false;
+      });
+    }
+  }
+
   List<Accommodation> get _filtered {
-    var list = dummyAccommodations
+    var list = _accommodations
         .where(_matchesPrice)
         .where(_matchesDistance)
         .where(_matchesEco)
@@ -41,18 +66,19 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
         list.sort((a, b) => a.pricePerNight.compareTo(b.pricePerNight));
         break;
       case SortOption.familyFriendly:
-        list.sort((a, b) => (b.isFamilyFriendly ? 1 : 0).compareTo(a.isFamilyFriendly ? 1 : 0));
+        list.sort(
+          (a, b) => (b.isFamilyFriendly ? 1 : 0).compareTo(
+            a.isFamilyFriendly ? 1 : 0,
+          ),
+        );
         break;
     }
     return list;
   }
 
   bool _matchesPrice(Accommodation a) => a.pricePerNight <= _maxPrice;
-
   bool _matchesDistance(Accommodation a) => a.distanceFromGate <= _maxDistance;
-
   bool _matchesEco(Accommodation a) => !_ecoOnly || a.isEcoFriendly;
-
   bool _matchesFamily(Accommodation a) => !_familyOnly || a.isFamilyFriendly;
 
   @override
@@ -65,23 +91,56 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
           _buildFilterSortBar(),
           _buildSortTabs(),
           Expanded(
-            child: _filtered.isEmpty
+            child: _isLoading
+                ? const Center(child: CircularProgressIndicator(color: kGreen))
+                : _errorMessage != null
                 ? Center(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.search_off_rounded,
-                            size: 48, color: kGreen.withValues(alpha: 0.4)),
+                        const Icon(
+                          Icons.error_outline,
+                          size: 48,
+                          color: Colors.red,
+                        ),
+                        const SizedBox(height: 12),
+                        Text(
+                          _errorMessage!,
+                          style: const TextStyle(color: Colors.red),
+                        ),
+                        const SizedBox(height: 12),
+                        ElevatedButton(
+                          onPressed: _loadAccommodations,
+                          child: const Text('Retry'),
+                        ),
+                      ],
+                    ),
+                  )
+                : _filtered.isEmpty
+                ? Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.search_off_rounded,
+                          size: 48,
+                          color: kGreen.withValues(alpha: 0.4),
+                        ),
                         const SizedBox(height: kSpaceMD),
-                        const Text('No accommodations found',
-                            style: TextStyle(
-                                color: kTextSecondary, fontSize: 15)),
+                        const Text(
+                          'No accommodations found',
+                          style: TextStyle(color: kTextSecondary, fontSize: 15),
+                        ),
                       ],
                     ),
                   )
                 : ListView.builder(
                     padding: const EdgeInsets.fromLTRB(
-                        kSpaceLG, kSpaceSM, kSpaceLG, kSpaceXXL),
+                      kSpaceLG,
+                      kSpaceSM,
+                      kSpaceLG,
+                      kSpaceXXL,
+                    ),
                     itemCount: _filtered.length,
                     itemBuilder: (context, index) =>
                         AccommodationCard(item: _filtered[index]),
@@ -119,8 +178,11 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
                 color: Colors.white.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(kRadiusMD),
               ),
-              child: const Icon(Icons.arrow_back_ios_new,
-                  size: 14, color: Colors.white),
+              child: const Icon(
+                Icons.arrow_back_ios_new,
+                size: 14,
+                color: Colors.white,
+              ),
             ),
           ),
           const SizedBox(width: kSpaceLG),
@@ -157,10 +219,16 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
     return Container(
       color: kCardBackground,
       padding: const EdgeInsets.symmetric(
-          horizontal: kSpaceLG, vertical: kSpaceMD),
+        horizontal: kSpaceLG,
+        vertical: kSpaceMD,
+      ),
       child: Row(
         children: [
-          BarButton(icon: Icons.tune, label: 'Filters', onTap: _showFilterSheet),
+          BarButton(
+            icon: Icons.tune,
+            label: 'Filters',
+            onTap: _showFilterSheet,
+          ),
           const SizedBox(width: kSpaceMD),
           BarButton(icon: Icons.sort, label: 'Sort', onTap: _showSortSheet),
         ],
@@ -178,7 +246,10 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
     return Container(
       color: kCardBackground,
       padding: const EdgeInsets.only(
-          left: kSpaceLG, right: kSpaceLG, bottom: kSpaceLG),
+        left: kSpaceLG,
+        right: kSpaceLG,
+        bottom: kSpaceLG,
+      ),
       child: Row(
         children: tabs.map((t) {
           final selected = _selectedSort == t.$1;
@@ -188,21 +259,20 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
               onTap: () => setState(() => _selectedSort = t.$1),
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 200),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 10,
+                ),
                 decoration: BoxDecoration(
                   color: selected ? kGreen : kBackground,
                   borderRadius: BorderRadius.circular(kRadiusFull),
-                  border: selected
-                      ? null
-                      : Border.all(color: kDividerColor),
+                  border: selected ? null : Border.all(color: kDividerColor),
                 ),
                 child: Text(
                   t.$2,
                   style: TextStyle(
                     color: selected ? Colors.white : kTextSecondary,
-                    fontWeight:
-                        selected ? FontWeight.w700 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                     fontSize: 13,
                   ),
                 ),
@@ -219,7 +289,8 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(kRadiusXL))),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(kRadiusXL)),
+      ),
       builder: (ctx) => StatefulBuilder(
         builder: (ctx, setModal) => Padding(
           padding: const EdgeInsets.all(kSpaceXL),
@@ -238,15 +309,21 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
                 ),
               ),
               const SizedBox(height: kSpaceXL),
-              Text('Filters',
-                  style: Theme.of(ctx).textTheme.headlineSmall?.copyWith(
-                      color: kGreen)),
+              Text(
+                'Filters',
+                style: Theme.of(
+                  ctx,
+                ).textTheme.headlineSmall?.copyWith(color: kGreen),
+              ),
               const SizedBox(height: kSpaceXL),
-              Text('Max Price: LKR ${_maxPrice.toInt()}',
-                  style: const TextStyle(
-                      color: kTextSecondary,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500)),
+              Text(
+                'Max Price: LKR ${_maxPrice.toInt()}',
+                style: const TextStyle(
+                  color: kTextSecondary,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
               Slider(
                 value: _maxPrice,
                 min: 3000,
@@ -256,11 +333,14 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
                 inactiveColor: kGreenSoft,
                 onChanged: (v) => setModal(() => _maxPrice = v),
               ),
-              Text('Max Distance: ${_maxDistance.toInt()} km',
-                  style: const TextStyle(
-                      color: kTextSecondary,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500)),
+              Text(
+                'Max Distance: ${_maxDistance.toInt()} km',
+                style: const TextStyle(
+                  color: kTextSecondary,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
               Slider(
                 value: _maxDistance,
                 min: 1,
@@ -271,21 +351,29 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
                 onChanged: (v) => setModal(() => _maxDistance = v),
               ),
               SwitchListTile(
-                title: const Text('Eco-Friendly Only',
-                    style: TextStyle(fontSize: 14)),
+                title: const Text(
+                  'Eco-Friendly Only',
+                  style: TextStyle(fontSize: 14),
+                ),
                 value: _ecoOnly,
                 activeTrackColor: kGreenLight,
-                thumbColor: WidgetStateProperty.resolveWith((states) =>
-                    states.contains(WidgetState.selected) ? kGreen : null),
+                thumbColor: WidgetStateProperty.resolveWith(
+                  (states) =>
+                      states.contains(WidgetState.selected) ? kGreen : null,
+                ),
                 onChanged: (v) => setModal(() => _ecoOnly = v),
               ),
               SwitchListTile(
-                title: const Text('Family Friendly Only',
-                    style: TextStyle(fontSize: 14)),
+                title: const Text(
+                  'Family Friendly Only',
+                  style: TextStyle(fontSize: 14),
+                ),
                 value: _familyOnly,
                 activeTrackColor: kGreenLight,
-                thumbColor: WidgetStateProperty.resolveWith((states) =>
-                    states.contains(WidgetState.selected) ? kGreen : null),
+                thumbColor: WidgetStateProperty.resolveWith(
+                  (states) =>
+                      states.contains(WidgetState.selected) ? kGreen : null,
+                ),
                 onChanged: (v) => setModal(() => _familyOnly = v),
               ),
               const SizedBox(height: kSpaceLG),
@@ -312,12 +400,17 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
       (SortOption.topRated, Icons.star_rounded, 'Top Rated'),
       (SortOption.closest, Icons.near_me_rounded, 'Closest'),
       (SortOption.budget, Icons.savings_outlined, 'Budget Friendly'),
-      (SortOption.familyFriendly, Icons.family_restroom_rounded, 'Family Friendly'),
+      (
+        SortOption.familyFriendly,
+        Icons.family_restroom_rounded,
+        'Family Friendly',
+      ),
     ];
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(kRadiusXL))),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(kRadiusXL)),
+      ),
       builder: (ctx) => Padding(
         padding: const EdgeInsets.all(kSpaceXL),
         child: Column(
@@ -335,30 +428,39 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
               ),
             ),
             const SizedBox(height: kSpaceXL),
-            Text('Sort By',
-                style: Theme.of(ctx).textTheme.headlineSmall?.copyWith(
-                    color: kGreen)),
+            Text(
+              'Sort By',
+              style: Theme.of(
+                ctx,
+              ).textTheme.headlineSmall?.copyWith(color: kGreen),
+            ),
             const SizedBox(height: kSpaceMD),
-            ...options.map((o) => ListTile(
-                  leading: Icon(o.$2,
-                      color: _selectedSort == o.$1 ? kGreen : kTextHint),
-                  title: Text(o.$3,
-                      style: TextStyle(
-                        fontWeight: _selectedSort == o.$1
-                            ? FontWeight.w600
-                            : FontWeight.normal,
-                      )),
-                  trailing: _selectedSort == o.$1
-                      ? const Icon(Icons.check_circle_rounded, color: kGreen)
-                      : null,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(kRadiusMD),
+            ...options.map(
+              (o) => ListTile(
+                leading: Icon(
+                  o.$2,
+                  color: _selectedSort == o.$1 ? kGreen : kTextHint,
+                ),
+                title: Text(
+                  o.$3,
+                  style: TextStyle(
+                    fontWeight: _selectedSort == o.$1
+                        ? FontWeight.w600
+                        : FontWeight.normal,
                   ),
-                  onTap: () {
-                    setState(() => _selectedSort = o.$1);
-                    Navigator.pop(ctx);
-                  },
-                )),
+                ),
+                trailing: _selectedSort == o.$1
+                    ? const Icon(Icons.check_circle_rounded, color: kGreen)
+                    : null,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(kRadiusMD),
+                ),
+                onTap: () {
+                  setState(() => _selectedSort = o.$1);
+                  Navigator.pop(ctx);
+                },
+              ),
+            ),
           ],
         ),
       ),

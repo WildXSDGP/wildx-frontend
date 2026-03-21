@@ -32,4 +32,22 @@ class Accommodation {
     required this.imageUrls,
     required this.description,
   });
+
+  factory Accommodation.fromJson(Map<String, dynamic> json) {
+    return Accommodation(
+      id: json['id']?.toString() ?? '',
+      name: json['name'] ?? '',
+      parkName: json['parkName'] ?? '',
+      pricePerNight: (json['pricePerNight'] ?? 0).toDouble(),
+      distanceFromGate: (json['distanceFromGate'] ?? 0).toDouble(),
+      travelTime: json['travelTime'] ?? '',
+      fuelStops: json['fuelStops'] ?? 0,
+      rating: (json['rating'] ?? 0).toDouble(),
+      isEcoFriendly: json['isEcoFriendly'] ?? false,
+      isFamilyFriendly: json['isFamilyFriendly'] ?? false,
+      hasJeepHire: json['hasJeepHire'] ?? false,
+      imageUrls: List<String>.from(json['imageUrls'] ?? []),
+      description: json['description'] ?? '',
+    );
+  }
 }
