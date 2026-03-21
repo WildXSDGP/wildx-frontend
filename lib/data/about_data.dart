@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/key_feature_item.dart';
 
 // App Metadata - Centralized versioning and branding for easy updates
-const String appVersion = 'Version 1.0.0';
+const String appVersion = 'Version 1.0';
 const String appTagline = 'Wildlife Explorer';
 
 // Mission Statement - Reflects the core values and the "Why" behind WildX
@@ -20,8 +20,8 @@ const String conservationPartnerBody =
     'and anti-poaching initiatives across Sri Lankan national parks.';
 
 // Essential contact information for support and emergencies in the field
-const String contactEmail = 'support@wildx.com';
-const String contactWebsite = 'www.wildx.com';
+const String contactEmail = 'wildxsdgp@gmail.com';
+const String contactWebsite = 'www.wildx.online';
 const String contactEmergency = '119 (Wildlife Hotline)';
 
 const String madeWithLoveText =
