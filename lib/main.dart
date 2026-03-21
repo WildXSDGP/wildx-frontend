@@ -1,122 +1,136 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'screens/wildlife_gallery_screen.dart';
 
+/// APP STARTING POINT
+/// This is where the WildX adventure begins!
 void main() {
-  runApp(const MyApp());
+  // 1. Ensure Flutter framework is fully loaded before doing anything else
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // 2. DEVICE LOCK:
+  // We lock the app to Portrait mode only. 
+  // This ensures our UI cards and grids always look perfect and don't get messy on rotate.
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
+  // 3. STATUS BAR STYLING:
+  // Making the top status bar (where the clock is) transparent.
+  // This allows the WildX green theme to bleed through smoothly to the very top.
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor:            Colors.transparent,
+      statusBarIconBrightness:   Brightness.light, // White icons for battery/clock
+      statusBarBrightness:       Brightness.dark,
+    ),
+  );
+
+  runApp(const WildXApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class WildXApp extends StatelessWidget {
+  const WildXApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      // ── IDENTITY ───────────────────────────────────────────────────────────
+      title:                      'WildX',
+      debugShowCheckedModeBanner: false, // Hides that red "Debug" ribbon on the top corner
+
+      // ── DESIGN SYSTEM (Theme) ──────────────────────────────────────────────
+      /**
+       * We define a GLOBAL theme here. 
+       * This means every button and card in the app will automatically 
+       * look consistent without us styling them manually every time.
+       */
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: .center,
-          children: [
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+        useMaterial3:       true, // Enables the latest Android 13+ design features
+        colorScheme:        ColorScheme.fromSeed(
+          seedColor:        const Color(0xFF2ECC71), // Our Signature WildX Green
+          brightness:       Brightness.light,
         ),
+        scaffoldBackgroundColor: const Color(0xFFF0F7F4), // A very light minty background
+
+        // APP BAR: Customizing the top header across all screens
+        appBarTheme: const AppBarTheme(
+          backgroundColor:  Color(0xFF2ECC71),
+          foregroundColor:  Colors.white,
+          elevation:        0, // No shadow for a modern, flat look
+          centerTitle:      false,
+          titleTextStyle:   TextStyle(
+            fontSize:       18,
+            fontWeight:     FontWeight.w600,
+            letterSpacing:  -0.2,
+            color:          Colors.white,
+          ),
+        ),
+
+        // BUTTONS: Designing the green buttons used for SOS and Sharing
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor:  const Color(0xFF2ECC71),
+            foregroundColor:  Colors.white,
+            elevation:        0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(14), // Rounded corners for a friendly feel
+            ),
+            textStyle: const TextStyle(
+              fontSize:     15,
+              fontWeight:   FontWeight.w600,
+            ),
+          ),
+        ),
+
+        // CARDS: Styling the animal grid items
+        cardTheme: CardThemeData(
+          color:        Colors.white,
+          elevation:    0, // Clean, shadowless white cards
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+        ),
+
+        // SEARCH BAR: Removing borders for a cleaner, modern look
+        inputDecorationTheme: InputDecorationTheme(
+          filled:          true,
+          fillColor:       Colors.white,
+          border:          InputBorder.none,
+          enabledBorder:   InputBorder.none,
+          focusedBorder:   InputBorder.none,
+          contentPadding:  const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          hintStyle: TextStyle(
+            color:         Colors.grey[400],
+            fontSize:      14,
+          ),
+        ),
+
+        // DETAIL SHEET: Styling the bottom popup when an animal is clicked
+        bottomSheetTheme: const BottomSheetThemeData(
+          backgroundColor:    Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(24),
+            ),
+          ),
+        ),
+
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+
+      // ── NAVIGATION ─────────────────────────────────────────────────────────
+      
+      // Setting the Home Screen as the first thing the user sees
+      home: const WildlifeGalleryScreen(),
+
+      // Defining Routes so we can jump between screens easily later on
+      routes: {
+        '/gallery':  (_) => const WildlifeGalleryScreen(),
+        // TIP: Uncomment these as you create the new screen files:
+        // '/notifications': (_) => const NotificationScreen(),
+      },
     );
   }
 }
